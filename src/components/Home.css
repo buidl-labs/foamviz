@@ -1,0 +1,19 @@
+  control-panel {
+    /* position: absolute; */
+    /* top: 0; */
+    /* left: 0; */
+    margin: 12px;
+    padding: 20px;
+    font-size: 12px;
+    line-height: 1.5;
+    z-index: 10000;
+    background-color: #fff;
+    font-family: Helvetica, Arial, sans-serif;
+    /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); */
+  }
+  
+  label {
+    display: inline-block;
+    width: 140px;
+    color: #fff;
+  }
