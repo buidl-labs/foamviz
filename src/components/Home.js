@@ -1,168 +1,186 @@
-/// app.js
-import React from 'react';
-import DeckGL from '@deck.gl/react';
-import StaticMap, { NavigationControl } from 'react-map-gl';
+/* global window */
+import React, { Component } from 'react';
+import { StaticMap } from 'react-map-gl';
+import {
+    LayerControls,
+    MapStylePicker,
+    HEXAGON_CONTROLS
+} from './controls';
+import { tooltipStyle } from './style';
+import DeckGL from 'deck.gl';
+import taxiData from '../data/taxi';
+import { renderLayers } from './deckgl-layers';
 import Geohash from 'latlon-geohash';
-import { HexagonLayer } from '@deck.gl/aggregation-layers';
-import './Home.css';
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg';
 
+// const INITIAL_VIEW_STATE = {
+//     longitude: -74,
+//     latitude: 40.7,
+//     zoom: 11,
+//     minZoom: 5,
+//     maxZoom: 16,
+//     pitch: 45,
+//     bearing: 0
+// };
+
 const BOUNDING_BOX = [
-    [-5.96, 49.83],
-    [1.87, 55.24]
-];
-const INITIAL_ZOOM = 6;
-const MIN_ZOOM = 5;
-const MAX_ZOOM = 15;
-
-let data = [];
-
-const OPTIONS = ['radius', 'coverage', 'upperPercentile'];
-
-const COLOR_RANGE = [
-    [1, 152, 189],
-    [73, 227, 206],
-    [216, 254, 181],
-    [254, 237, 177],
-    [254, 173, 84],
-    [209, 55, 78]
+    [-9.667969, 56.704506],
+    [2.988281, 49.382373],
 ];
 
-class Home extends React.Component {
+export default class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             viewport: {
-                width: 400,
-                height: 400,
-                longitude: this.getCenterPoint(BOUNDING_BOX)[0],
-                latitude: this.getCenterPoint(BOUNDING_BOX)[1],
-                zoom: INITIAL_ZOOM,
-                minZoom: MIN_ZOOM,
-                maxZoom: MAX_ZOOM,
-                pitch: 42.5
+                // longitude: this._getCenterPoint(BOUNDING_BOX)[0],
+                // latitude: this._getCenterPoint(BOUNDING_BOX)[1],
+                longitude: -74,
+                latitude: 40.7,
+                zoom: 11,
+                minZoom: 5,
+                maxZoom: 16,
+                pitch: 45,
+                bearing: 0
             },
-            renderLayer: new HexagonLayer({})
+            hover: {
+                x: 0,
+                y: 0,
+                hoveredObject: null
+            },
+            points: [],
+            settings: Object.keys(HEXAGON_CONTROLS).reduce(
+                (accu, key) => ({
+                    ...accu,
+                    [key]: HEXAGON_CONTROLS[key].value
+                }),
+                {}
+            ),
+            style: 'mapbox://styles/mapbox/dark-v9'
         };
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-        // OPTIONS.forEach(key => {
-        //     document.getElementById(key).oninput = this.renderLayer;
-        // });
-        this.fetchPoints(100, 0);
-    }
+    // _getCenterPoint(bounding_box) {
+    //     return [(bounding_box[0][0] + bounding_box[1][0]) / 2, (bounding_box[0][1] + bounding_box[1][1]) / 2];
+    // }
 
-    getCenterPoint(bounding_box) {
-        return [(bounding_box[0][0] + bounding_box[1][0]) / 2, (bounding_box[0][1] + bounding_box[1][1]) / 2];
-    }
-
-    getPointCoords(geohash) {
+    _getPointCoords(geohash) {
         let coords = Geohash.decode(geohash);
         return [coords['lon'], coords['lat'], 0];
     }
 
-    renderLayer() {
-        const options = {};
-        // OPTIONS.forEach(key => {
-        //     const value = document.getElementById(key).value;
-        //     document.getElementById(key + '-value').innerHTML = value;
-        //     options[key] = Number(value);
-        // });
-
-        const hexagonLayer = new HexagonLayer({
-            id: 'heatmap',
-            colorRange: COLOR_RANGE,
-            data,
-            elevationRange: [0, 1000],
-            elevationScale: 250,
-            extruded: true,
-            getPosition: d => d,
-            opacity: 1,
-            ...options
-        });
-
-        this.setState({
-            renderLayer: hexagonLayer
-        })
-
+    componentDidMount() {
+        this._fetchData();
+        // await console.log('This is the format of data: ')
     }
 
-    fetchPoints = (limit, offset) => {
-        fetch('https://map-api-direct.foam.space/poi/filtered?swLng=' + BOUNDING_BOX[0][0] + '&swLat=' + BOUNDING_BOX[0][1] + '&neLng=' + BOUNDING_BOX[1][0] + '&neLat=' + BOUNDING_BOX[1][1] + '&status=application&status=listing&sort=most_value&limit=' + limit + '&offset=' + offset)
+    _fetchData = (limit, offset) => {
+        fetch('https://map-api-direct.foam.space/poi/filtered?swLng=-74.028969&swLat=40.636102&neLng=-73.878593&neLat=40.790939&limit=100&offset=0')
             .then(result => result.json())
             .then(json => {
-                console.log('data is fetched: ', json)
-                json.forEach((record) => {
-                    data.push(this.getPointCoords(record.geohash));
+                // console.log('staked points data is: ', this._hexToDecimal(json[4].state.deposit))
+                let points = [];
+                json.forEach((item, index) => {
+                    let temp = this._hexToDecimal(item.state.deposit);
+                    item = this._getPointCoords(item.geohash);
+                    points[index] = {
+                        'position': [item[0], item[1]],
+                        'pickup': item[2],
+                        'stakedvalue': temp
+                    };
                 });
+                this.setState({
+                    points
+                });
+                // console.log('fetched data after processing: ', this.state.points)
+                // let points = [];
+                // json.forEach((item, i) => {
 
-                offset += json.length
-                if (json.length === limit) {
-                    this.fetchPoints(limit, offset)
-                } else {
-                    this.renderLayer();
-                }
+                // })
             });
     }
 
-    handleChange = () => {
-        console.log('working !!!')
+    _hexToDecimal(hex) {
+       return parseInt(hex, 16) * Math.pow(10,-18)
     }
 
-    _renderInfoBox() {
-        return (
-            <div>
-                <button onClick={this.handleChange}>click me</button>
-            </div>
-        )
+    _processData = () => {
+        const points = taxiData.reduce((accu, curr) => {
+            accu.push({
+                position: [Number(curr.pickup_longitude), Number(curr.pickup_latitude)],
+                pickup: true
+            });
+
+            accu.push({
+                position: [
+                    Number(curr.dropoff_longitude),
+                    Number(curr.dropoff_latitude)
+                ],
+                pickup: false
+            });
+            return accu;
+        }, []);
+        this.setState({
+            points
+        });
+    };
+
+    _onHover({ x, y, object }) {
+        const label = object ? (object.pickup ? 'Pickup' : 'Dropoff') : null;
+
+        this.setState({ hover: { x, y, hoveredObject: object, label } });
+    }
+
+    onStyleChange = style => {
+        this.setState({ style });
+    };
+
+    _updateLayerSettings(settings) {
+        this.setState({ settings });
     }
 
     render() {
+        const data = this.state.points;
+        if (!data.length) {
+            return null;
+        }
+        const { hover, settings } = this.state;
         return (
             <div>
+                {hover.hoveredObject && (
+                    <div
+                        style={{
+                            ...tooltipStyle,
+                            transform: `translate(${hover.x}px, ${hover.y}px)`
+                        }}
+                    >
+                        <div>{hover.label}</div>
+                    </div>
+                )}
+                <MapStylePicker
+                    onStyleChange={this.onStyleChange}
+                    currentStyle={this.state.style}
+                />
+                <LayerControls
+                    settings={settings}
+                    propTypes={HEXAGON_CONTROLS}
+                    onChange={settings => this._updateLayerSettings(settings)}
+                />
                 <DeckGL
+                    layers={renderLayers({
+                        data: this.state.points,
+                        onHover: hover => this._onHover(hover),
+                        settings: settings
+                    })}
                     initialViewState={{ ...this.state.viewport }}
-                    controller={true}
-                    layers={[this.state.renderLayer]}
-                    onClick={(info, event) => {
-                        console.log("info", info);
-                        console.log("event", event);
-                    }}
+                    controller
                 >
-                    <StaticMap
-                        mapStyle="mapbox://styles/mapbox/dark-v9"
-                        mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} >
-                        {/* <div className="control-panel">
-                        <div>
-                            <label>Radius</label>
-                            <input id="radius" type="range" min="1000" max="20000" step="1000" value="4000" onChange={this.handleChange}></input>
-                            <span id="radius-value"></span>
-                        </div>
-                        <div>
-                            <label>Coverage</label>
-                            <input id="coverage" type="range" min="0" max="1" step="0.1" value="1" onChange={this.handleChange}></input>
-                            <span id="coverage-value"></span>
-                        </div>
-                        <div>
-                            <label>Upper Percentile</label>
-                            <input id="upperPercentile" type="range" min="90" max="100" step="1" value="100" onChange={this.handleChange}></input>
-                            <span id="upperPercentile-value"></span>
-                        </div>
-                    </div> */}
-                        {/* {this._renderInfoBox()} */}
-                        <button onClick={event => {
-                            console.log("hey", event);
-                        }}>click me</button>
-                    </StaticMap>
+                    <StaticMap mapStyle={this.state.style} mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
                 </DeckGL>
             </div>
         );
     }
 }
-
-export default Home;
