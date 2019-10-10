@@ -24,13 +24,13 @@ export const tooltipStyle = {
       'ff-clan-web-pro, "Helvetica Neue", Helvetica, sans-serif !important',
     fontSize: '12px',
     lineHeight: 1.833,
-    width: 200,
+    width: 250,
     position: 'absolute',
-    top: '20px',
-    right: '20px',
-    padding: '20px',
+    top: '20vh',
+    left: '20px',
     zIndex: 100,
-    background: 'white'
+    background: 'black',
+    color: 'white'
   };
   
   export const charts = {

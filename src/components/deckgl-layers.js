@@ -1,4 +1,4 @@
-import { HexagonLayer } from 'deck.gl';
+import { HexagonLayer } from "deck.gl";
 
 const HEATMAP_COLORS = [
   [255, 255, 204],
@@ -20,18 +20,33 @@ const LIGHT_SETTINGS = {
 
 const elevationRange = [0, 1000];
 
-
 export function renderLayers(props) {
   const { data, onHover, settings } = props;
-  console.log('i am data deckgl layer', data[0].stakedvalue.toFixed(2));
+  console.log("i am data deckgl layer", data[0].stakedvalue.toFixed(2));
   return [
-    settings.showHexagon &&
+    settings.showDensityOfPoints &&
       new HexagonLayer({
-        id: 'heatmap',
+        id: "heatmap",
         colorRange: HEATMAP_COLORS,
         elevationRange,
         elevationScale: 5,
         extruded: true,
+        getPosition: d => d.position,
+        lightSettings: LIGHT_SETTINGS,
+        opacity: 0.8,
+        pickable: true,
+        autoHighlight: true,
+        data,
+        onHover,
+        ...settings
+      }),
+    settings.showStakedTokens &&
+      new HexagonLayer({
+        id: "stakedTokens",
+        colorRange: HEATMAP_COLORS,
+        elevationRange,
+        elevationScale: 5,
+        extruded: false,
         getPosition: d => d.position,
         lightSettings: LIGHT_SETTINGS,
         opacity: 0.8,
