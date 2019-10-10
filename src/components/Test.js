@@ -6,6 +6,12 @@ import Geohash from 'latlon-geohash';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import './Home.css';
 
+// north america
+// https://map-api-direct.foam.space/poi/filtered?swLng=-126.035156&swLat=23.563987&neLng=-61.875000&neLat=49.610710&limit=10000&offset=0
+
+// nyc
+// https://map-api-direct.foam.space/poi/filtered?swLng=-74.028969&swLat=40.636102&neLng=-73.878593&neLat=40.790939&limit=10000&offset=0
+
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg';
 
