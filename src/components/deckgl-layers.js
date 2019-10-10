@@ -22,7 +22,6 @@ const elevationRange = [0, 1000];
 
 export function renderLayers(props) {
   const { data, onHover, settings } = props;
-  console.log("i am data deckgl layer", data[0].stakedvalue.toFixed(2));
   return [
     settings.showDensityOfPoints &&
       new HexagonLayer({

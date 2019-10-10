@@ -88,6 +88,7 @@ export class LayerControls extends Component {
   _onValueChange(settingName, newValue) {
     const { settings } = this.props;
     // Only update if we have a confirmed change
+    console.log("new value: ", settingName, newValue);
     if (settings[settingName] !== newValue) {
       // Create a new object so that shallow-equal detects a change
       const newSettings = {
@@ -111,7 +112,7 @@ export class LayerControls extends Component {
           {title && <h4>{title}</h4>}
           {Object.keys(settings).map(
             key =>
-              propTypes[key].type == "boolean" && (
+              propTypes[key].type === "boolean" && (
                 <div
                   key={key}
                   style={{
@@ -139,7 +140,7 @@ export class LayerControls extends Component {
           <p>CONTROL PANEL</p>
           {Object.keys(settings).map(
             key =>
-              propTypes[key].type == "range" && (
+              propTypes[key].type === "range" && (
                 <div
                   key={key}
                   style={{
@@ -188,16 +189,29 @@ const Checkbox = ({ settingName, value, onChange }) => {
       <div className="input-group">
         {/* <button
           id={settingName}
-          value={value}
-          onClick={e => onClick}
+          type="submit"
+          value={settingName}
+          onClick={async e => {
+            if (e.target.value != null && e.target.value === "showDensityOfPoints") {
+              await onChange("showStakedTokens", false);
+              await onChange("showDensityOfPoints", true);
+            }
+            if (e.target.value != null && e.target.value === "showStakedTokens") {
+              await onChange("showDensityOfPoints", false);
+              await onChange("showStakedTokens", true);
+            }
+          }}
         >
-          {settingName}
+          {" "}
+          {settingName}{" "}
         </button> */}
         <input
           type="checkbox"
           id={settingName}
           checked={value}
-          onChange={e => onChange(settingName, e.target.checked)}
+          onChange={e => {
+            onChange(settingName, e.target.checked);
+          }}
         />
       </div>
       {console.log("settingname and value: ", settingName, value)}
