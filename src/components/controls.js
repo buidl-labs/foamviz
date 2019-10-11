@@ -120,7 +120,9 @@ export class LayerControls extends Component {
         <div style={{ margin: "20px 20px 0 20px" }}>
           <p>SELECTED</p>
           <h2 style={{ marginTop: "-10px" }}>
-            {settings.showDensityOfPoints === true ? 'Density of Points' : 'Staked Tokens'}
+            {settings.showDensityOfPoints === true
+              ? "Density of Points"
+              : "Staked Tokens"}
           </h2>
           <p>OPTIONS</p>
           {Object.keys(settings).map(
@@ -175,6 +177,36 @@ export class LayerControls extends Component {
                 </div>
               )
           )}
+          <div className="layout">
+            <div
+              className="legend"
+              style={{ background: "rgb(1, 152, 189)", width: "16.6667%" }}
+            ></div>
+            <div
+              className="legend"
+              style={{ background: "rgb(73, 227, 206)", width: "16.6667%" }}
+            ></div>
+            <div
+              className="legend"
+              style={{ background: "rgb(216, 254, 181)", width: "16.6667%" }}
+            ></div>
+            <div
+              className="legend"
+              style={{ background: "rgb(254, 237, 177)", width: "16.6667%" }}
+            ></div>
+            <div
+              className="legend"
+              style={{ background: "rgb(254, 173, 84)", width: "16.6667%" }}
+            ></div>
+            <div
+              className="legend"
+              style={{ background: "rgb(209, 55, 78)", width: "16.6667%" }}
+            ></div>
+          </div>
+          <p className="legend-text">
+            <span className="">Low</span>
+            <span class="">High</span>
+          </p>
           <div style={{ marginBottom: "250px" }}></div>
         </div>
       </div>
