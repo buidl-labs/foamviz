@@ -149,11 +149,15 @@ export default class App extends Component {
 
   _onHover({ x, y, object }) {
     const label = object ? (object.pickup ? "Pickup" : "Dropoff") : null;
-
-    this.setState({ hover: { x, y, hoveredObject: object, label } });
+    console.log("i am hovered: ", x, y, object);
+    let details = {
+      latitude: "qwe",
+      longitude: "asd"
+    };
+    this.setState({ hover: { x, y, hoveredObject: object, label, details } });
   }
 
-  onStyleChange = style => {
+  _onStyleChange = style => {
     this.setState({ style });
   };
 
@@ -177,10 +181,11 @@ export default class App extends Component {
             }}
           >
             <div>{hover.label}</div>
+            <div>{hover.details.latitude}</div>
           </div>
         )}
         <MapStylePicker
-          onStyleChange={this.onStyleChange}
+          _onStyleChange={this.__onStyleChange}
           currentStyle={this.state.style}
         />
         <LayerControls
