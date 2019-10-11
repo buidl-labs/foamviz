@@ -204,8 +204,8 @@ export class LayerControls extends Component {
             ></div>
           </div>
           <p className="legend-text">
-            <span className="">Low</span>
-            <span class="">High</span>
+            <span>Low</span>
+            <span>High</span>
           </p>
           <div style={{ marginBottom: "250px" }}></div>
         </div>
