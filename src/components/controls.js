@@ -88,28 +88,41 @@ export class LayerControls extends Component {
   _onValueChange(settingName, newValue) {
     const { settings } = this.props;
     // Only update if we have a confirmed change
-    console.log("new value: ", settingName, newValue);
+
     if (settings[settingName] !== newValue) {
       // Create a new object so that shallow-equal detects a change
+      const altsettingName =
+        settingName === "showDensityOfPoints"
+          ? "showStakedTokens"
+          : "showDensityOfPoints";
+
       const newSettings = {
         ...this.props.settings,
         [settingName]: newValue
       };
+
+      if (
+        settingName === "showDensityOfPoints" ||
+        settingName === "showStakedTokens"
+      ) {
+        newSettings[altsettingName] = !newValue;
+      }
 
       this.props.onChange(newSettings);
     }
   }
 
   render() {
-    const { title, settings, propTypes = {} } = this.props;
+    const { settings, propTypes = {} } = this.props;
 
     return (
       <div className="layer-controls" style={layerControl}>
         <div style={{ margin: "20px 20px 0 20px" }}>
           <p>SELECTED</p>
-          <h2 style={{ marginTop: "-10px" }}>Density of Points</h2>
+          <h2 style={{ marginTop: "-10px" }}>
+            {settings.showDensityOfPoints === true ? 'Density of Points' : 'Staked Tokens'}
+          </h2>
           <p>OPTIONS</p>
-          {title && <h4>{title}</h4>}
           {Object.keys(settings).map(
             key =>
               propTypes[key].type === "boolean" && (
@@ -122,7 +135,7 @@ export class LayerControls extends Component {
                     margin: "2px"
                   }}
                 >
-                  <label>{propTypes[key].displayName}</label>
+                  {/* <label>{propTypes[key].displayName}</label> */}
                   <div>
                     <Setting
                       settingName={key}
@@ -187,34 +200,17 @@ const Checkbox = ({ settingName, value, onChange }) => {
   return (
     <div key={settingName}>
       <div className="input-group">
-        {/* <button
+        <a
           id={settingName}
           type="submit"
           value={settingName}
-          onClick={async e => {
-            if (e.target.value != null && e.target.value === "showDensityOfPoints") {
-              await onChange("showStakedTokens", false);
-              await onChange("showDensityOfPoints", true);
-            }
-            if (e.target.value != null && e.target.value === "showStakedTokens") {
-              await onChange("showDensityOfPoints", false);
-              await onChange("showStakedTokens", true);
-            }
-          }}
+          onClick={() => onChange(settingName, !value)}
         >
-          {" "}
-          {settingName}{" "}
-        </button> */}
-        <input
-          type="checkbox"
-          id={settingName}
-          checked={value}
-          onChange={e => {
-            onChange(settingName, e.target.checked);
-          }}
-        />
+          {settingName === "showDensityOfPoints"
+            ? "Density of Points"
+            : "Staked Tokens"}
+        </a>
       </div>
-      {console.log("settingname and value: ", settingName, value)}
     </div>
   );
 };
