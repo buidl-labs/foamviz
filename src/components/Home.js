@@ -4,6 +4,7 @@ import { StaticMap } from "react-map-gl";
 import { LayerControls, MapStylePicker, HEXAGON_CONTROLS } from "./controls";
 import { tooltipStyle } from "./style";
 import DeckGL from "deck.gl";
+import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
 import taxiData from "../data/taxi";
 import { renderLayers } from "./deckgl-layers";
 import Geohash from "latlon-geohash";
@@ -23,6 +24,29 @@ const MAPBOX_ACCESS_TOKEN =
 // };
 
 const BOUNDING_BOX = [[-9.667969, 56.704506], [2.988281, 49.382373]];
+
+const ambientLight = new AmbientLight({
+  color: [255, 255, 255],
+  intensity: 1.0
+});
+
+const pointLight1 = new PointLight({
+  color: [255, 255, 255],
+  intensity: 0.8,
+  position: [-0.144528, 49.739968, 80000]
+});
+
+const pointLight2 = new PointLight({
+  color: [255, 255, 255],
+  intensity: 0.8,
+  position: [-3.807751, 54.104682, 8000]
+});
+
+const lightingEffect = new LightingEffect({
+  ambientLight,
+  pointLight1,
+  pointLight2
+});
 
 export default class App extends Component {
   constructor(props) {
@@ -170,6 +194,7 @@ export default class App extends Component {
             onHover: hover => this._onHover(hover),
             settings: settings
           })}
+          effects={[lightingEffect]}
           initialViewState={{ ...this.state.viewport }}
           controller
         >
