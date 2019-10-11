@@ -48,6 +48,7 @@ export function renderLayers(props) {
         extruded: true,
         getPosition: d => d.position,
         getElevationValue: points => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
+        getColorValue: points => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
         lightSettings: LIGHT_SETTINGS,
         opacity: 0.8,
         pickable: true,
