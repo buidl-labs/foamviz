@@ -6,6 +6,7 @@ import Geohash from 'latlon-geohash';
 import { HexagonLayer } from '@deck.gl/aggregation-layers';
 import './Home.css';
 
+// getElevationValue: points => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
 // north america
 // https://map-api-direct.foam.space/poi/filtered?swLng=-126.035156&swLat=23.563987&neLng=-61.875000&neLat=49.610710&limit=10000&offset=0
 
