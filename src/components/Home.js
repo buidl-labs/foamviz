@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StaticMap } from "react-map-gl";
-import { LayerControls, MapStylePicker, HEXAGON_CONTROLS } from "./controls";
+import { LayerControls, HEXAGON_CONTROLS } from "./controls";
 import { tooltipStyle } from "./style";
 import DeckGL from "deck.gl";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
@@ -152,10 +152,6 @@ export default class App extends Component {
     this.setState({ hover: { x, y, hoveredObject: object, label, details } });
   }
 
-  _onStyleChange = style => {
-    this.setState({ style });
-  };
-
   _updateLayerSettings(settings) {
     this.setState({ settings });
   }
@@ -195,10 +191,6 @@ export default class App extends Component {
             <div>{hover.details.latitude}</div>
           </div>
         )}
-        <MapStylePicker
-          _onStyleChange={this.__onStyleChange}
-          currentStyle={this.state.style}
-        />
         <LayerControls
           settings={settings}
           propTypes={HEXAGON_CONTROLS}
