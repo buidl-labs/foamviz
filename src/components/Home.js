@@ -1,4 +1,3 @@
-/* global window */
 import React, { Component } from "react";
 import { StaticMap } from "react-map-gl";
 import { LayerControls, MapStylePicker, HEXAGON_CONTROLS } from "./controls";
@@ -13,17 +12,7 @@ import Geohash from "latlon-geohash";
 const MAPBOX_ACCESS_TOKEN =
   "pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg";
 
-// const INITIAL_VIEW_STATE = {
-//     longitude: -74,
-//     latitude: 40.7,
-//     zoom: 11,
-//     minZoom: 5,
-//     maxZoom: 16,
-//     pitch: 45,
-//     bearing: 0
-// };
-
-const BOUNDING_BOX = [[-9.667969, 56.704506], [2.988281, 49.382373]];
+// const BOUNDING_BOX = [[-9.667969, 56.704506], [2.988281, 49.382373]];
 
 const ambientLight = new AmbientLight({
   color: [255, 255, 255],
@@ -51,6 +40,8 @@ const lightingEffect = new LightingEffect({
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.mapRef = React.createRef();
+    this._onViewStateChange = this._onViewStateChange.bind(this);
     this.state = {
       viewport: {
         // longitude: this._getCenterPoint(BOUNDING_BOX)[0],
@@ -90,17 +81,26 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this._fetchData();
-    // await console.log('This is the format of data: ')
+    let currBbox = {
+      _ne: {
+        lng: "-73.878593",
+        lat: "40.790939"
+      },
+      _sw: {
+        lng: "-74.028969",
+        lat: "40.636102"
+      }
+    };
+    this._fetchData(currBbox);
+    console.log("ref", this.mapRef);
   }
 
-  _fetchData = (limit, offset) => {
+  _fetchData = bbox => {
     fetch(
-      "https://map-api-direct.foam.space/poi/filtered?swLng=-74.028969&swLat=40.636102&neLng=-73.878593&neLat=40.790939&limit=10000&offset=0"
+      `https://map-api-direct.foam.space/poi/filtered?swLng=${bbox._sw.lng}&swLat=${bbox._sw.lat}&neLng=${bbox._ne.lng}&neLat=${bbox._ne.lat}&limit=10000&offset=0`
     )
       .then(result => result.json())
       .then(json => {
-        // console.log('staked points data is: ', this._hexToDecimal(json[4].state.deposit))
         let points = [];
         json.forEach((item, index) => {
           let temp = this._hexToDecimal(item.state.deposit);
@@ -114,11 +114,6 @@ export default class App extends Component {
         this.setState({
           points
         });
-        // console.log('fetched data after processing: ', this.state.points)
-        // let points = [];
-        // json.forEach((item, i) => {
-
-        // })
       });
   };
 
@@ -165,6 +160,22 @@ export default class App extends Component {
     this.setState({ settings });
   }
 
+  _onViewStateChange() {
+    let newBbox = this.mapRef.getMap().getBounds();
+    let bbox = {
+      _ne: {
+        lng: newBbox._ne.lng,
+        lat: newBbox._ne.lat
+      },
+      _sw: {
+        lng: newBbox._sw.lng,
+        lat: newBbox._sw.lat
+      }
+    };
+
+    this._fetchData(bbox);
+  }
+
   render() {
     const data = this.state.points;
     if (!data.length) {
@@ -202,8 +213,10 @@ export default class App extends Component {
           effects={[lightingEffect]}
           initialViewState={{ ...this.state.viewport }}
           controller
+          onViewStateChange={this._onViewStateChange}
         >
           <StaticMap
+            ref={map => (this.mapRef = map)}
             mapStyle={this.state.style}
             mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
           />
