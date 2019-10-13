@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StaticMap } from "react-map-gl";
-import { LayerControls, MapStylePicker, HEXAGON_CONTROLS } from "./controls";
+import { LayerControls, HEXAGON_CONTROLS } from "./controls";
 import { tooltipStyle } from "./style";
 import DeckGL from "deck.gl";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
@@ -142,19 +142,27 @@ export default class App extends Component {
     });
   };
 
-  _onHover({ x, y, object }) {
-    const label = object ? (object.pickup ? "Pickup" : "Dropoff") : null;
-    console.log("i am hovered: ", x, y, object);
-    let details = {
-      latitude: "qwe",
-      longitude: "asd"
-    };
-    this.setState({ hover: { x, y, hoveredObject: object, label, details } });
+  _getSumOfFoamTokens(points) {
+    let sum = 0;
+    points.forEach(item => {
+      sum += item.stakedvalue;
+    });
+    return sum.toFixed(2);
   }
 
-  _onStyleChange = style => {
-    this.setState({ style });
-  };
+  _onHover({ x, y, object }) {
+    if (object && object !== null && object !== undefined) {
+      let details = {
+        latitude: object.position[0],
+        longitude: object.position[1],
+        numOfPoints: object.points.length,
+        sumOfFoamTokens: this._getSumOfFoamTokens(object.points)
+      };
+      this.setState({ hover: { x, y, hoveredObject: object, details } });
+    } else {
+      this.setState({ hover: { x, y, hoveredObject: object } });
+    }
+  }
 
   _updateLayerSettings(settings) {
     this.setState({ settings });
@@ -191,14 +199,16 @@ export default class App extends Component {
               transform: `translate(${hover.x}px, ${hover.y}px)`
             }}
           >
-            <div>{hover.label}</div>
-            <div>{hover.details.latitude}</div>
+            <div className="">
+              <div>Latitude: {hover.details.latitude}</div>
+              <div>Longitude: {hover.details.longitude}</div>
+              <div>POI's: {hover.details.numOfPoints}</div>
+              <div>
+                Aggredated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
+              </div>
+            </div>
           </div>
         )}
-        <MapStylePicker
-          _onStyleChange={this.__onStyleChange}
-          currentStyle={this.state.style}
-        />
         <LayerControls
           settings={settings}
           propTypes={HEXAGON_CONTROLS}
