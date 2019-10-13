@@ -41,7 +41,9 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.mapRef = React.createRef();
-    this._onViewStateChange = this._onViewStateChange.bind(this);
+    this._getDataForCurrentViewport = this._getDataForCurrentViewport.bind(
+      this
+    );
     this.state = {
       viewport: {
         // longitude: this._getCenterPoint(BOUNDING_BOX)[0],
@@ -168,7 +170,7 @@ export default class App extends Component {
     this.setState({ settings });
   }
 
-  _onViewStateChange() {
+  _getDataForCurrentViewport() {
     let newBbox = this.mapRef.getMap().getBounds();
     let bbox = {
       _ne: {
@@ -223,7 +225,7 @@ export default class App extends Component {
           effects={[lightingEffect]}
           initialViewState={{ ...this.state.viewport }}
           controller
-          onViewStateChange={this._onViewStateChange}
+          onDragEnd={this._getDataForCurrentViewport}
         >
           <StaticMap
             ref={map => (this.mapRef = map)}
