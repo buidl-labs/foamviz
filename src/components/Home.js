@@ -152,13 +152,23 @@ export default class App extends Component {
     return sum.toFixed(2);
   }
 
+  _getValInUSD(val) {
+    fetch("https://poloniex.com/public?command=returnTicker")
+      .then(res => res.json())
+      .then(json => {
+        return val * json.USDC_BTC.last * json.BTC_FOAM.last;
+      })
+      .catch(err => console.log(err));
+  }
+
   _onHover({ x, y, object }) {
     if (object && object !== null && object !== undefined) {
       let details = {
         latitude: object.position[0],
         longitude: object.position[1],
         numOfPoints: object.points.length,
-        sumOfFoamTokens: this._getSumOfFoamTokens(object.points)
+        sumOfFoamTokens: this._getSumOfFoamTokens(object.points),
+        sumValInUSD: this._getValInUSD(this._getSumOfFoamTokens(object.points))
       };
       this.setState({ hover: { x, y, hoveredObject: object, details } });
     } else {
@@ -206,7 +216,10 @@ export default class App extends Component {
               <div>Longitude: {hover.details.longitude}</div>
               <div>POI's: {hover.details.numOfPoints}</div>
               <div>
-                Aggredated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
+                Accumulated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
+              </div>
+              <div>
+                Accumulated value of FOAM tokens: {hover.details.sumValInUSD}
               </div>
             </div>
           </div>
