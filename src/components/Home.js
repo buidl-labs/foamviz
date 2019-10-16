@@ -152,23 +152,26 @@ export default class App extends Component {
     return sum.toFixed(2);
   }
 
-  _getValInUSD(val) {
-    fetch("https://poloniex.com/public?command=returnTicker")
-      .then(res => res.json())
-      .then(json => {
-        return val * json.USDC_BTC.last * json.BTC_FOAM.last;
-      })
-      .catch(err => console.log(err));
+  _fetch() {
+    return;
   }
 
-  _onHover({ x, y, object }) {
+  _getValInUSD(val) {
+    return fetch("https://poloniex.com/public?command=returnTicker")
+      .then(res => res.json())
+      .then(json => {
+        return Promise.resolve(val * json.USDC_BTC.last * json.BTC_FOAM.last);
+      });
+  }
+
+  async _onHover({ x, y, object }) {
     if (object && object !== null && object !== undefined) {
       let details = {
         latitude: object.position[0],
         longitude: object.position[1],
         numOfPoints: object.points.length,
         sumOfFoamTokens: this._getSumOfFoamTokens(object.points),
-        sumValInUSD: this._getValInUSD(this._getSumOfFoamTokens(object.points))
+        sumValInUSD: await this._getValInUSD(this._getSumOfFoamTokens(object.points))
       };
       this.setState({ hover: { x, y, hoveredObject: object, details } });
     } else {
