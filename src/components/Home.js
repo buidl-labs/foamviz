@@ -62,6 +62,7 @@ export default class App extends Component {
         hoveredObject: null
       },
       points: [],
+      FOAMTokenInUSD: 0,
       settings: Object.keys(HEXAGON_CONTROLS).reduce(
         (accu, key) => ({
           ...accu,
@@ -82,7 +83,7 @@ export default class App extends Component {
     return [coords["lon"], coords["lat"], 0];
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let currBbox = {
       _ne: {
         lng: "-73.878593",
@@ -94,7 +95,10 @@ export default class App extends Component {
       }
     };
     this._fetchData(currBbox);
-    console.log("ref", this.mapRef);
+    this.setState({
+      FOAMTokenInUSD: await this._getValInUSD()
+    });
+    console.log("ref", this.state.FOAMTokenInUSD);
   }
 
   _fetchData = bbox => {
@@ -152,13 +156,24 @@ export default class App extends Component {
     return sum.toFixed(2);
   }
 
-  _onHover({ x, y, object }) {
+  _getValInUSD() {
+    return fetch("https://poloniex.com/public?command=returnTicker")
+      .then(res => res.json())
+      .then(json => {
+        return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
+      });
+  }
+
+  async _onHover({ x, y, object }) {
     if (object && object !== null && object !== undefined) {
       let details = {
         latitude: object.position[0],
         longitude: object.position[1],
         numOfPoints: object.points.length,
-        sumOfFoamTokens: this._getSumOfFoamTokens(object.points)
+        sumOfFoamTokens: this._getSumOfFoamTokens(object.points),
+        sumValInUSD: (
+          this._getSumOfFoamTokens(object.points) * this.state.FOAMTokenInUSD
+        ).toFixed(2)
       };
       this.setState({ hover: { x, y, hoveredObject: object, details } });
     } else {
@@ -194,7 +209,7 @@ export default class App extends Component {
     const { hover, settings } = this.state;
     return (
       <div>
-        {hover.hoveredObject && (
+        {hover.details && (
           <div
             style={{
               ...tooltipStyle,
@@ -206,7 +221,10 @@ export default class App extends Component {
               <div>Longitude: {hover.details.longitude}</div>
               <div>POI's: {hover.details.numOfPoints}</div>
               <div>
-                Aggredated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
+                Accumulated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
+              </div>
+              <div>
+                Accumulated value of FOAM tokens: ${hover.details.sumValInUSD}
               </div>
             </div>
           </div>
