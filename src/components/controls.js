@@ -87,6 +87,7 @@ export class LayerControls extends Component {
                   key={key}
                   style={{
                     display: "flex",
+                    cursor: "pointer",
                     justifyContent: "space-between",
                     alignItems: "center",
                     margin: "2px"
@@ -191,6 +192,9 @@ const Checkbox = ({ settingName, value, onChange }) => {
           id={settingName}
           type="submit"
           value={settingName}
+          style={{
+            borderBottom: value ? "1px solid white" : null
+          }}
           onClick={() => onChange(settingName, !value)}
         >
           {settingName === "showDensityOfPoints"
