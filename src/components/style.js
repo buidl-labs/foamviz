@@ -18,7 +18,7 @@ export const tooltipStyle = {
     lineHeight: 1.833,
     width: 250,
     position: 'absolute',
-    top: '20vh',
+    top: '5vh',
     left: '20px',
     zIndex: 100,
     background: 'black',
