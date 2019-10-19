@@ -1,5 +1,8 @@
+@import url('https://fonts.google.com/specimen/Roboto+Mono?selection.family=Roboto+Mono'); 
+
+
 body {
-  font-family: Roboto monospace;
+  font-family: 'Roboto Mono', cursive;
   width: 100vw;
   height: 100vh;
   margin: 0;
@@ -7,5 +10,5 @@ body {
 
 
 code {
-  font-family: Roboto monospace;
+  font-family: 'Roboto Mono', cursive;
 }
