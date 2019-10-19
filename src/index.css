@@ -1,5 +1,9 @@
-@import url('https://fonts.google.com/specimen/Roboto+Mono?selection.family=Roboto+Mono'); 
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono'); 
 
+/* @font-face {
+  font-family: 'Roboto Mono';
+  src: url('https://fonts.googleapis.com/css?family=Roboto+Mono')
+} */
 
 body {
   font-family: 'Roboto Mono', cursive;
