@@ -8,7 +8,7 @@ control-panel {
   line-height: 1.5;
   z-index: 10000;
   background-color: #fff;
-  font-family: Roboto monospace;
+  font-family: 'Roboto Mono', cursive;
   /* box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); */
 }
 
