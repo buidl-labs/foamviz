@@ -43,7 +43,7 @@ export function renderLayers(props) {
         opacity: 0.8,
         pickable: true,
         autoHighlight: true,
-        transitions: { getElevationValue: { duration: 500 } },
+        // transitions: { getElevationValue: { duration: 500 } },
         material,
         data,
         onHover,
@@ -66,7 +66,7 @@ export function renderLayers(props) {
         pickable: true,
         material,
         autoHighlight: true,
-        transitions: { getElevationValue: { duration: 500 } },
+        // transitions: { getElevationValue: { duration: 500 } },
         data,
         onHover,
         ...settings
