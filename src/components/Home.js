@@ -4,15 +4,12 @@ import { LayerControls, HEXAGON_CONTROLS } from "./controls";
 import { tooltipStyle } from "./style";
 import DeckGL from "deck.gl";
 import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
-import taxiData from "../data/taxi";
 import { renderLayers } from "./deckgl-layers";
 import Geohash from "latlon-geohash";
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN =
   "pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg";
-
-// const BOUNDING_BOX = [[-9.667969, 56.704506], [2.988281, 49.382373]];
 
 const ambientLight = new AmbientLight({
   color: [255, 255, 255],
@@ -46,8 +43,6 @@ export default class App extends Component {
     );
     this.state = {
       viewport: {
-        // longitude: this._getCenterPoint(BOUNDING_BOX)[0],
-        // latitude: this._getCenterPoint(BOUNDING_BOX)[1],
         longitude: -74,
         latitude: 40.7,
         zoom: 11,
@@ -83,6 +78,19 @@ export default class App extends Component {
     return [coords["lon"], coords["lat"], 0];
   }
 
+  _setUserLocation = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      let newViewport = {
+        ...this.state.viewport,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+      this.setState({
+        viewport: newViewport
+      });
+    });
+  };
+
   async componentDidMount() {
     let currBbox = {
       _ne: {
@@ -95,10 +103,10 @@ export default class App extends Component {
       }
     };
     this._fetchData(currBbox);
+    this._setUserLocation();
     this.setState({
       FOAMTokenInUSD: await this._getValInUSD()
     });
-    console.log("ref", this.state.FOAMTokenInUSD);
   }
 
   _fetchData = bbox => {
@@ -126,27 +134,6 @@ export default class App extends Component {
   _hexToDecimal(hex) {
     return parseInt(hex, 16) * Math.pow(10, -18);
   }
-
-  _processData = () => {
-    const points = taxiData.reduce((accu, curr) => {
-      accu.push({
-        position: [Number(curr.pickup_longitude), Number(curr.pickup_latitude)],
-        pickup: true
-      });
-
-      accu.push({
-        position: [
-          Number(curr.dropoff_longitude),
-          Number(curr.dropoff_latitude)
-        ],
-        pickup: false
-      });
-      return accu;
-    }, []);
-    this.setState({
-      points
-    });
-  };
 
   _getSumOfFoamTokens(points) {
     let sum = 0;
@@ -249,6 +236,7 @@ export default class App extends Component {
             ref={map => (this.mapRef = map)}
             mapStyle={this.state.style}
             mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+            onLoad={this._getDataForCurrentViewport}
           />
         </DeckGL>
       </div>
