@@ -69,7 +69,7 @@ export class LayerControls extends Component {
 
   render() {
     const { settings, propTypes = {} } = this.props;
-
+    // console.log("proptypes ans props: ", propTypes, this.props);
     return (
       <div className="layer-controls" style={layerControl}>
         <div style={{ margin: "20px 20px 0 20px" }}>
@@ -188,9 +188,10 @@ const Checkbox = ({ settingName, value, onChange }) => {
   return (
     <div key={settingName}>
       <div className="input-group">
-        <a
+        <button
           id={settingName}
           type="submit"
+          className="look-like-link"
           value={settingName}
           style={{
             borderBottom: value ? "1px solid white" : null
@@ -200,7 +201,7 @@ const Checkbox = ({ settingName, value, onChange }) => {
           {settingName === "showDensityOfPoints"
             ? "Density of Points"
             : "Staked Tokens"}
-        </a>
+        </button>
       </div>
     </div>
   );
