@@ -127,15 +127,18 @@ export default class App extends Component {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _getPointCoords(geohash) {
     const coords = Geohash.decode(geohash);
     return [coords.lon, coords.lat, 0];
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _hexToDecimal(hex) {
     return parseInt(hex, 16) * Math.pow(10, -18);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _getSumOfFoamTokens(points) {
     let sum = 0;
     points.forEach(item => {
@@ -144,6 +147,7 @@ export default class App extends Component {
     return sum.toFixed(2);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _getValInUSD() {
     return fetch('https://poloniex.com/public?command=returnTicker')
       .then(res => res.json())
