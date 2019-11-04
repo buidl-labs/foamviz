@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { StaticMap } from "react-map-gl";
-import { LayerControls, HEXAGON_CONTROLS } from "./controls";
-import { tooltipStyle } from "./style";
-import DeckGL from "deck.gl";
-import { AmbientLight, PointLight, LightingEffect } from "@deck.gl/core";
-import { renderLayers } from "./deckgl-layers";
-import Geohash from "latlon-geohash";
+import React, { Component } from 'react';
+import DeckGL from 'deck.gl';
+import { AmbientLight, PointLight, LightingEffect } from '@deck.gl/core';
+import { StaticMap } from 'react-map-gl';
+import Geohash from 'latlon-geohash';
+import { LayerControls, HEXAGON_CONTROLS } from './controls';
+import { tooltipStyle } from './style';
+import { renderLayers } from './deckgl-layers';
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN =
-  "pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg";
+  'pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg';
 
 const ambientLight = new AmbientLight({
   color: [255, 255, 255],
@@ -41,6 +41,8 @@ export default class App extends Component {
     this._getDataForCurrentViewport = this._getDataForCurrentViewport.bind(
       this
     );
+    // this._getPointCoords = this._getPointCoords.bind(this);
+    this._getValInUSD = this._getValInUSD.bind(this);
     this.state = {
       viewport: {
         longitude: -74,
@@ -65,41 +67,19 @@ export default class App extends Component {
         }),
         {}
       ),
-      style: "mapbox://styles/mapbox/dark-v9"
+      style: 'mapbox://styles/mapbox/dark-v9'
     };
   }
 
-  // _getCenterPoint(bounding_box) {
-  //     return [(bounding_box[0][0] + bounding_box[1][0]) / 2, (bounding_box[0][1] + bounding_box[1][1]) / 2];
-  // }
-
-  _getPointCoords(geohash) {
-    let coords = Geohash.decode(geohash);
-    return [coords["lon"], coords["lat"], 0];
-  }
-
-  _setUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      let newViewport = {
-        ...this.state.viewport,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      };
-      this.setState({
-        viewport: newViewport
-      });
-    });
-  };
-
   async componentDidMount() {
-    let currBbox = {
+    const currBbox = {
       _ne: {
-        lng: "-73.878593",
-        lat: "40.790939"
+        lng: '-73.878593',
+        lat: '40.790939'
       },
       _sw: {
-        lng: "-74.028969",
-        lat: "40.636102"
+        lng: '-74.028969',
+        lat: '40.636102'
       }
     };
     this._fetchData(currBbox);
@@ -109,18 +89,21 @@ export default class App extends Component {
     });
   }
 
-  _fetchData = bbox => {
+  _fetchData(bbox) {
     fetch(
       `https://map-api-direct.foam.space/poi/filtered?swLng=${bbox._sw.lng}&swLat=${bbox._sw.lat}&neLng=${bbox._ne.lng}&neLat=${bbox._ne.lat}&limit=10000&offset=0`
     )
       .then(result => result.json())
       .then(json => {
-        let points = [];
+        const points = [];
         json.forEach((item, index) => {
-          let temp = this._hexToDecimal(item.state.deposit);
-          item = this._getPointCoords(item.geohash);
+          const temp = this._hexToDecimal(item.state.deposit);
+          const pointCoords = this._getPointCoords(item.geohash);
           points[index] = {
-            position: [item[0], item[1]],
+            position: [
+              parseFloat(pointCoords[0].toFixed(4)),
+              parseFloat(pointCoords[1].toFixed(4))
+            ],
             pickup: item[2],
             stakedvalue: temp
           };
@@ -129,7 +112,25 @@ export default class App extends Component {
           points
         });
       });
-  };
+  }
+
+  _setUserLocation() {
+    navigator.geolocation.getCurrentPosition(position => {
+      const newViewport = {
+        ...this.state.viewport,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+      this.setState({
+        viewport: newViewport
+      });
+    });
+  }
+
+  _getPointCoords(geohash) {
+    const coords = Geohash.decode(geohash);
+    return [coords.lon, coords.lat, 0];
+  }
 
   _hexToDecimal(hex) {
     return parseInt(hex, 16) * Math.pow(10, -18);
@@ -144,7 +145,7 @@ export default class App extends Component {
   }
 
   _getValInUSD() {
-    return fetch("https://poloniex.com/public?command=returnTicker")
+    return fetch('https://poloniex.com/public?command=returnTicker')
       .then(res => res.json())
       .then(json => {
         return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
@@ -153,10 +154,10 @@ export default class App extends Component {
 
   async _onHover({ x, y, object }) {
     if (object && object !== null && object !== undefined) {
-      let details = {
+      const details = {
         latitude: object.position[0],
         longitude: object.position[1],
-        numOfPoints: object.points.length,
+        numOfPoints: (object.points && object.points.length) || 0,
         sumOfFoamTokens: this._getSumOfFoamTokens(object.points),
         sumValInUSD: (
           this._getSumOfFoamTokens(object.points) * this.state.FOAMTokenInUSD
@@ -173,8 +174,8 @@ export default class App extends Component {
   }
 
   _getDataForCurrentViewport() {
-    let newBbox = this.mapRef.getMap().getBounds();
-    let bbox = {
+    const newBbox = this.mapRef.getMap().getBounds();
+    const bbox = {
       _ne: {
         lng: newBbox._ne.lng,
         lat: newBbox._ne.lat
@@ -189,11 +190,10 @@ export default class App extends Component {
   }
 
   render() {
-    const data = this.state.points;
-    if (!data.length) {
+    const { hover, settings, points } = this.state;
+    if (!points.length) {
       return null;
     }
-    const { hover, settings } = this.state;
     return (
       <div>
         {hover.details && (
@@ -225,7 +225,7 @@ export default class App extends Component {
           layers={renderLayers({
             data: this.state.points,
             onHover: hover => this._onHover(hover),
-            settings: settings
+            settings
           })}
           effects={[lightingEffect]}
           initialViewState={{ ...this.state.viewport }}
