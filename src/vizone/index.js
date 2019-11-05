@@ -1,65 +1,18 @@
 import React, { Component } from 'react';
 import DeckGL from 'deck.gl';
-// eslint-disable-next-line import/no-unresolved
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { AmbientLight, PointLight, LightingEffect } from '@deck.gl/core';
 import { StaticMap } from 'react-map-gl';
-import Geohash from 'latlon-geohash';
-import { LayerControls, HEXAGON_CONTROLS } from './controls';
+import LayerControls from './controls';
 import { tooltipStyle } from './style';
-import { renderLayers } from './deckgl-layers';
+import renderLayers from './deckgl-layers';
+import * as CONSTANTS from './utils/constants';
 
-// Set your mapbox access token here
-const MAPBOX_ACCESS_TOKEN =
-  'pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg';
-
-const ambientLight = new AmbientLight({
-  color: [255, 255, 255],
-  intensity: 1.0
-});
-
-const pointLight1 = new PointLight({
-  color: [255, 255, 255],
-  intensity: 0.8,
-  position: [-0.144528, 49.739968, 80000]
-});
-
-const pointLight2 = new PointLight({
-  color: [255, 255, 255],
-  intensity: 0.8,
-  position: [-3.807751, 54.104682, 8000]
-});
-
-const lightingEffect = new LightingEffect({
-  ambientLight,
-  pointLight1,
-  pointLight2
-});
-
-function _getPointCoords(geohash) {
-  const coords = Geohash.decode(geohash);
-  return [coords.lon, coords.lat, 0];
-}
-
-function _hexToDecimal(hex) {
-  return parseInt(hex, 16) * Math.pow(10, -18);
-}
-
-function _getSumOfFoamTokens(points) {
-  let sum = 0;
-  points.forEach(item => {
-    sum += item.stakedvalue;
-  });
-  return sum.toFixed(2);
-}
-
-function _getValInUSD() {
-  return fetch('https://poloniex.com/public?command=returnTicker')
-    .then(res => res.json())
-    .then(json => {
-      return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
-    });
-}
+// helper functions
+import {
+  _getPointCoords,
+  _hexToDecimal,
+  _getSumOfFoamTokens,
+  _getValInUSD
+} from './utils/helper';
 
 export default class App extends Component {
   constructor(props) {
@@ -85,14 +38,13 @@ export default class App extends Component {
       },
       points: [],
       FOAMTokenInUSD: 0,
-      settings: Object.keys(HEXAGON_CONTROLS).reduce(
+      settings: Object.keys(CONSTANTS.HEXAGON_CONTROLS).reduce(
         (accu, key) => ({
           ...accu,
-          [key]: HEXAGON_CONTROLS[key].value
+          [key]: CONSTANTS.HEXAGON_CONTROLS[key].value
         }),
         {}
-      ),
-      style: 'mapbox://styles/mapbox/dark-v9'
+      )
     };
   }
 
@@ -218,7 +170,7 @@ export default class App extends Component {
         )}
         <LayerControls
           settings={settings}
-          propTypes={HEXAGON_CONTROLS}
+          propTypes={CONSTANTS.HEXAGON_CONTROLS}
           onChange={settings => this._updateLayerSettings(settings)}
         />
         <DeckGL
@@ -227,15 +179,15 @@ export default class App extends Component {
             onHover: hover => this._onHover(hover),
             settings
           })}
-          effects={[lightingEffect]}
+          effects={[CONSTANTS.lightingEffect]}
           initialViewState={{ ...this.state.viewport }}
           controller
           onDragEnd={this._getDataForCurrentViewport}
         >
           <StaticMap
             ref={map => (this.mapRef = map)}
-            mapStyle={this.state.style}
-            mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+            mapStyle={CONSTANTS.MAP_STYLE}
+            mapboxApiAccessToken={CONSTANTS.MAPBOX_ACCESS_TOKEN}
             onLoad={this._getDataForCurrentViewport}
           />
         </DeckGL>

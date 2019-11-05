@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './components/Home';
-// pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZjR2emQwNzR0M29uZG43NXNvcXVwIn0.L5i5C7cL0oWGsYX3YWPOaA
+import Home from './vizone';
 
 function App() {
   return (

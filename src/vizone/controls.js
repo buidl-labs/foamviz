@@ -1,45 +1,8 @@
-import React, { Component } from "react";
-import { layerControl } from "./style";
-import "./Home.css";
+import React, { Component } from 'react';
+import { layerControl } from './style';
+import './Home.css';
 
-export const HEXAGON_CONTROLS = {
-  showDensityOfPoints: {
-    displayName: "Density of Points",
-    type: "boolean",
-    value: true
-  },
-  showStakedTokens: {
-    displayName: "Staked Tokens",
-    type: "boolean",
-    value: false
-  },
-  radius: {
-    displayName: "Radius",
-    type: "range",
-    value: 250,
-    step: 50,
-    min: 50,
-    max: 1000
-  },
-  coverage: {
-    displayName: "Coverage",
-    type: "range",
-    value: 0.7,
-    step: 0.1,
-    min: 0,
-    max: 1
-  },
-  upperPercentile: {
-    displayName: "Upper Percentile",
-    type: "range",
-    value: 100,
-    step: 0.1,
-    min: 80,
-    max: 100
-  }
-};
-
-export class LayerControls extends Component {
+class LayerControls extends Component {
   _onValueChange(settingName, newValue) {
     const { settings } = this.props;
     // Only update if we have a confirmed change
@@ -47,9 +10,9 @@ export class LayerControls extends Component {
     if (settings[settingName] !== newValue) {
       // Create a new object so that shallow-equal detects a change
       const altsettingName =
-        settingName === "showDensityOfPoints"
-          ? "showStakedTokens"
-          : "showDensityOfPoints";
+        settingName === 'showDensityOfPoints'
+          ? 'showStakedTokens'
+          : 'showDensityOfPoints';
 
       const newSettings = {
         ...this.props.settings,
@@ -57,8 +20,8 @@ export class LayerControls extends Component {
       };
 
       if (
-        settingName === "showDensityOfPoints" ||
-        settingName === "showStakedTokens"
+        settingName === 'showDensityOfPoints' ||
+        settingName === 'showStakedTokens'
       ) {
         newSettings[altsettingName] = !newValue;
       }
@@ -72,25 +35,25 @@ export class LayerControls extends Component {
     // console.log("proptypes ans props: ", propTypes, this.props);
     return (
       <div className="layer-controls" style={layerControl}>
-        <div style={{ margin: "20px 20px 0 20px" }}>
+        <div style={{ margin: '20px 20px 0 20px' }}>
           <p>SELECTED</p>
-          <h2 style={{ marginTop: "-10px" }}>
+          <h2 style={{ marginTop: '-10px' }}>
             {settings.showDensityOfPoints === true
-              ? "Density of Points"
-              : "Staked Tokens"}
+              ? 'Density of Points'
+              : 'Staked Tokens'}
           </h2>
           <p>OPTIONS</p>
           {Object.keys(settings).map(
             key =>
-              propTypes[key].type === "boolean" && (
+              propTypes[key].type === 'boolean' && (
                 <div
                   key={key}
                   style={{
-                    display: "flex",
-                    cursor: "pointer",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    margin: "2px"
+                    display: 'flex',
+                    cursor: 'pointer',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    margin: '2px'
                   }}
                 >
                   {/* <label>{propTypes[key].displayName}</label> */}
@@ -107,18 +70,18 @@ export class LayerControls extends Component {
           )}
         </div>
         <hr className="control-panel-divider" />
-        <div style={{ margin: "0 20px 20px 20px" }}>
+        <div style={{ margin: '0 20px 20px 20px' }}>
           <p>CONTROL PANEL</p>
           {Object.keys(settings).map(
             key =>
-              propTypes[key].type === "range" && (
+              propTypes[key].type === 'range' && (
                 <div
                   key={key}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    margin: "2px"
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    margin: '2px'
                   }}
                 >
                   <label>{propTypes[key].displayName}</label>
@@ -136,28 +99,28 @@ export class LayerControls extends Component {
           <div className="layout">
             <div
               className="legend"
-              style={{ background: "rgb(1, 152, 189)", width: "16.6667%" }}
-            ></div>
+              style={{ background: 'rgb(1, 152, 189)', width: '16.6667%' }}
+            />
             <div
               className="legend"
-              style={{ background: "rgb(73, 227, 206)", width: "16.6667%" }}
-            ></div>
+              style={{ background: 'rgb(73, 227, 206)', width: '16.6667%' }}
+            />
             <div
               className="legend"
-              style={{ background: "rgb(216, 254, 181)", width: "16.6667%" }}
-            ></div>
+              style={{ background: 'rgb(216, 254, 181)', width: '16.6667%' }}
+            />
             <div
               className="legend"
-              style={{ background: "rgb(254, 237, 177)", width: "16.6667%" }}
-            ></div>
+              style={{ background: 'rgb(254, 237, 177)', width: '16.6667%' }}
+            />
             <div
               className="legend"
-              style={{ background: "rgb(254, 173, 84)", width: "16.6667%" }}
-            ></div>
+              style={{ background: 'rgb(254, 173, 84)', width: '16.6667%' }}
+            />
             <div
               className="legend"
-              style={{ background: "rgb(209, 55, 78)", width: "16.6667%" }}
-            ></div>
+              style={{ background: 'rgb(209, 55, 78)', width: '16.6667%' }}
+            />
           </div>
           <p className="legend-text">
             <span>Low</span>
@@ -174,9 +137,9 @@ const Setting = props => {
   const { propType } = props;
   if (propType && propType.type) {
     switch (propType.type) {
-      case "range":
+      case 'range':
         return <Slider {...props} />;
-      case "boolean":
+      case 'boolean':
         return <Checkbox {...props} />;
       default:
         return <input {...props} />;
@@ -194,13 +157,13 @@ const Checkbox = ({ settingName, value, onChange }) => {
           className="look-like-link"
           value={settingName}
           style={{
-            borderBottom: value ? "1px solid white" : null
+            borderBottom: value ? '1px solid white' : null
           }}
           onClick={() => onChange(settingName, !value)}
         >
-          {settingName === "showDensityOfPoints"
-            ? "Density of Points"
-            : "Staked Tokens"}
+          {settingName === 'showDensityOfPoints'
+            ? 'Density of Points'
+            : 'Staked Tokens'}
         </button>
       </div>
     </div>
@@ -229,3 +192,5 @@ const Slider = ({ settingName, value, propType, onChange }) => {
     </div>
   );
 };
+
+export default LayerControls;
