@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import LayerControls from './controls';
@@ -11,7 +11,7 @@ import {
   getValInUSD
 } from './utils/helper';
 
-export default class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.getDataForCurrentViewport = this.getDataForCurrentViewport.bind(this);
@@ -190,3 +190,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App;
