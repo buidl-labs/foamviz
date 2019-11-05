@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import * as CONSTANTS from './utils/constants';
 import './index.css';
@@ -25,7 +26,6 @@ function _onValueChange(settingName, newValue, props) {
 
 function LayerControls(props) {
   const { settings, controls } = props;
-  // console.log(controls);
   return (
     <div className="layercontrol">
       <div className="control-panel-top">
