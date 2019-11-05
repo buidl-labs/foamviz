@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@deck.gl/core": "^7.3.3",
     "deck.gl": "^7.3.2",
     "latlon-geohash": "^2.0.0",
     "react": "^16.10.2",

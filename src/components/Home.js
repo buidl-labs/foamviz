@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import DeckGL from 'deck.gl';
+// eslint-disable-next-line import/no-unresolved
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { AmbientLight, PointLight, LightingEffect } from '@deck.gl/core';
 import { StaticMap } from 'react-map-gl';
 import Geohash from 'latlon-geohash';
@@ -34,6 +36,31 @@ const lightingEffect = new LightingEffect({
   pointLight2
 });
 
+function _getPointCoords(geohash) {
+  const coords = Geohash.decode(geohash);
+  return [coords.lon, coords.lat, 0];
+}
+
+function _hexToDecimal(hex) {
+  return parseInt(hex, 16) * Math.pow(10, -18);
+}
+
+function _getSumOfFoamTokens(points) {
+  let sum = 0;
+  points.forEach(item => {
+    sum += item.stakedvalue;
+  });
+  return sum.toFixed(2);
+}
+
+function _getValInUSD() {
+  return fetch('https://poloniex.com/public?command=returnTicker')
+    .then(res => res.json())
+    .then(json => {
+      return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
+    });
+}
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -41,8 +68,6 @@ export default class App extends Component {
     this._getDataForCurrentViewport = this._getDataForCurrentViewport.bind(
       this
     );
-    // this._getPointCoords = this._getPointCoords.bind(this);
-    this._getValInUSD = this._getValInUSD.bind(this);
     this.state = {
       viewport: {
         longitude: -74,
@@ -85,7 +110,7 @@ export default class App extends Component {
     this._fetchData(currBbox);
     this._setUserLocation();
     this.setState({
-      FOAMTokenInUSD: await this._getValInUSD()
+      FOAMTokenInUSD: await _getValInUSD()
     });
   }
 
@@ -97,8 +122,8 @@ export default class App extends Component {
       .then(json => {
         const points = [];
         json.forEach((item, index) => {
-          const temp = this._hexToDecimal(item.state.deposit);
-          const pointCoords = this._getPointCoords(item.geohash);
+          const temp = _hexToDecimal(item.state.deposit);
+          const pointCoords = _getPointCoords(item.geohash);
           points[index] = {
             position: [
               parseFloat(pointCoords[0].toFixed(4)),
@@ -127,44 +152,15 @@ export default class App extends Component {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  _getPointCoords(geohash) {
-    const coords = Geohash.decode(geohash);
-    return [coords.lon, coords.lat, 0];
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  _hexToDecimal(hex) {
-    return parseInt(hex, 16) * Math.pow(10, -18);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  _getSumOfFoamTokens(points) {
-    let sum = 0;
-    points.forEach(item => {
-      sum += item.stakedvalue;
-    });
-    return sum.toFixed(2);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  _getValInUSD() {
-    return fetch('https://poloniex.com/public?command=returnTicker')
-      .then(res => res.json())
-      .then(json => {
-        return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
-      });
-  }
-
   async _onHover({ x, y, object }) {
     if (object && object !== null && object !== undefined) {
       const details = {
         latitude: object.position[0],
         longitude: object.position[1],
         numOfPoints: (object.points && object.points.length) || 0,
-        sumOfFoamTokens: this._getSumOfFoamTokens(object.points),
+        sumOfFoamTokens: _getSumOfFoamTokens(object.points),
         sumValInUSD: (
-          this._getSumOfFoamTokens(object.points) * this.state.FOAMTokenInUSD
+          _getSumOfFoamTokens(object.points) * this.state.FOAMTokenInUSD
         ).toFixed(2)
       };
       this.setState({ hover: { x, y, hoveredObject: object, details } });
