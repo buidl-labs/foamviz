@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './vizone';
+import Home from './viz-one';
 
 function App() {
   return (

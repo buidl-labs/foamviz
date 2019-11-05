@@ -16,7 +16,6 @@ function renderLayers(props) {
         opacity: 0.8,
         pickable: true,
         autoHighlight: true,
-        // transitions: { getElevationValue: { duration: 500 } },
         material: CONSTANTS.material,
         data,
         onHover,
@@ -39,7 +38,6 @@ function renderLayers(props) {
         pickable: true,
         material: CONSTANTS.material,
         autoHighlight: true,
-        // transitions: { getElevationValue: { duration: 500 } },
         data,
         onHover,
         ...settings

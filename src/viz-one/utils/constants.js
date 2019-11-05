@@ -1,11 +1,7 @@
-// eslint-disable-next-line import/no-unresolved
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { AmbientLight, PointLight, LightingEffect } from '@deck.gl/core';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { PhongMaterial } from '@luma.gl/core';
+/* eslint-disable import/no-extraneous-dependencies */
 
-export const MAPBOX_ACCESS_TOKEN =
-  'pk.eyJ1IjoiaGthbWJvaiIsImEiOiJjazFkZnd2bWcwN2JnM25xcGNraDQxeW5kIn0.rGIXi0HRiNRTjgGYQCf_rg';
+import { AmbientLight, PointLight, LightingEffect } from '@deck.gl/core';
+import { PhongMaterial } from '@luma.gl/core';
 
 export const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
 
@@ -95,3 +91,12 @@ export const LIGHT_SETTINGS = {
 };
 
 export const elevationRange = [0, 1000];
+
+export const legendColors = [
+  'rgb(1, 152, 189)',
+  'rgb(73, 227, 206)',
+  'rgb(216, 254, 181)',
+  'rgb(254, 237, 177)',
+  'rgb(254, 173, 84)',
+  'rgb(209, 55, 78)'
+];

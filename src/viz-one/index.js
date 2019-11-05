@@ -2,25 +2,19 @@ import React, { Component } from 'react';
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import LayerControls from './controls';
-import { tooltipStyle } from './style';
 import renderLayers from './deckgl-layers';
 import * as CONSTANTS from './utils/constants';
-
-// helper functions
 import {
-  _getPointCoords,
-  _hexToDecimal,
-  _getSumOfFoamTokens,
-  _getValInUSD
+  getPointCoords,
+  hexToDecimal,
+  getSumOfFoamTokens,
+  getValInUSD
 } from './utils/helper';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.mapRef = React.createRef();
-    this._getDataForCurrentViewport = this._getDataForCurrentViewport.bind(
-      this
-    );
+    this.getDataForCurrentViewport = this.getDataForCurrentViewport.bind(this);
     this.state = {
       viewport: {
         longitude: -74,
@@ -59,14 +53,63 @@ export default class App extends Component {
         lat: '40.636102'
       }
     };
-    this._fetchData(currBbox);
-    this._setUserLocation();
+    this.fetchData(currBbox);
+    this.setUserLocation();
     this.setState({
-      FOAMTokenInUSD: await _getValInUSD()
+      FOAMTokenInUSD: await getValInUSD()
     });
   }
 
-  _fetchData(bbox) {
+  async onHover({ x, y, object }) {
+    const { FOAMTokenInUSD } = this.state;
+    if (object) {
+      const details = {
+        latitude: object.position[0],
+        longitude: object.position[1],
+        numOfPoints: (object.points && object.points.length) || 0,
+        sumOfFoamTokens: getSumOfFoamTokens(object.points),
+        sumValInUSD: (
+          getSumOfFoamTokens(object.points) * FOAMTokenInUSD
+        ).toFixed(2)
+      };
+      this.setState({ hover: { x, y, hoveredObject: object, details } });
+    } else {
+      this.setState({ hover: { x, y, hoveredObject: object } });
+    }
+  }
+
+  setUserLocation() {
+    const { viewport } = this.state;
+    navigator.geolocation.getCurrentPosition(position => {
+      const newViewport = {
+        ...viewport,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+      this.setState({ viewport: newViewport });
+    });
+  }
+
+  getDataForCurrentViewport() {
+    const newBbox = this.mapRef.getMap().getBounds();
+    const bbox = {
+      _ne: {
+        lng: newBbox._ne.lng,
+        lat: newBbox._ne.lat
+      },
+      _sw: {
+        lng: newBbox._sw.lng,
+        lat: newBbox._sw.lat
+      }
+    };
+    this.fetchData(bbox);
+  }
+
+  updateLayerSettings(settings) {
+    this.setState({ settings });
+  }
+
+  fetchData(bbox) {
     fetch(
       `https://map-api-direct.foam.space/poi/filtered?swLng=${bbox._sw.lng}&swLat=${bbox._sw.lat}&neLng=${bbox._ne.lng}&neLat=${bbox._ne.lat}&limit=10000&offset=0`
     )
@@ -74,8 +117,8 @@ export default class App extends Component {
       .then(json => {
         const points = [];
         json.forEach((item, index) => {
-          const temp = _hexToDecimal(item.state.deposit);
-          const pointCoords = _getPointCoords(item.geohash);
+          const temp = hexToDecimal(item.state.deposit);
+          const pointCoords = getPointCoords(item.geohash);
           points[index] = {
             position: [
               parseFloat(pointCoords[0].toFixed(4)),
@@ -91,74 +134,24 @@ export default class App extends Component {
       });
   }
 
-  _setUserLocation() {
-    navigator.geolocation.getCurrentPosition(position => {
-      const newViewport = {
-        ...this.state.viewport,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      };
-      this.setState({
-        viewport: newViewport
-      });
-    });
-  }
-
-  async _onHover({ x, y, object }) {
-    if (object && object !== null && object !== undefined) {
-      const details = {
-        latitude: object.position[0],
-        longitude: object.position[1],
-        numOfPoints: (object.points && object.points.length) || 0,
-        sumOfFoamTokens: _getSumOfFoamTokens(object.points),
-        sumValInUSD: (
-          _getSumOfFoamTokens(object.points) * this.state.FOAMTokenInUSD
-        ).toFixed(2)
-      };
-      this.setState({ hover: { x, y, hoveredObject: object, details } });
-    } else {
-      this.setState({ hover: { x, y, hoveredObject: object } });
-    }
-  }
-
-  _updateLayerSettings(settings) {
-    this.setState({ settings });
-  }
-
-  _getDataForCurrentViewport() {
-    const newBbox = this.mapRef.getMap().getBounds();
-    const bbox = {
-      _ne: {
-        lng: newBbox._ne.lng,
-        lat: newBbox._ne.lat
-      },
-      _sw: {
-        lng: newBbox._sw.lng,
-        lat: newBbox._sw.lat
-      }
-    };
-
-    this._fetchData(bbox);
-  }
-
   render() {
-    const { hover, settings, points } = this.state;
-    if (!points.length) {
-      return null;
-    }
+    const { hover, settings, points, viewport } = this.state;
+
+    if (!points.length) return null;
+
     return (
       <div>
         {hover.details && (
           <div
+            className="tooltipStyle"
             style={{
-              ...tooltipStyle,
               transform: `translate(${hover.x}px, ${hover.y}px)`
             }}
           >
             <div className="">
               <div>Latitude: {hover.details.latitude}</div>
               <div>Longitude: {hover.details.longitude}</div>
-              <div>POI's: {hover.details.numOfPoints}</div>
+              <div>POI&apos;s: {hover.details.numOfPoints}</div>
               <div>
                 Accumulated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
               </div>
@@ -170,25 +163,27 @@ export default class App extends Component {
         )}
         <LayerControls
           settings={settings}
-          propTypes={CONSTANTS.HEXAGON_CONTROLS}
-          onChange={settings => this._updateLayerSettings(settings)}
+          controls={CONSTANTS.HEXAGON_CONTROLS}
+          onChange={settings => this.updateLayerSettings(settings)}
         />
         <DeckGL
           layers={renderLayers({
-            data: this.state.points,
-            onHover: hover => this._onHover(hover),
+            data: points,
+            onHover: hover => this.onHover(hover),
             settings
           })}
-          effects={[CONSTANTS.lightingEffect]}
-          initialViewState={{ ...this.state.viewport }}
+          effeccontrol-panelts={[CONSTANTS.lightingEffect]}
+          initialViewState={{ ...viewport }}
           controller
-          onDragEnd={this._getDataForCurrentViewport}
+          onDragEnd={this.getDataForCurrentViewport}
         >
           <StaticMap
-            ref={map => (this.mapRef = map)}
+            ref={map => {
+              this.mapRef = map;
+            }}
             mapStyle={CONSTANTS.MAP_STYLE}
-            mapboxApiAccessToken={CONSTANTS.MAPBOX_ACCESS_TOKEN}
-            onLoad={this._getDataForCurrentViewport}
+            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+            onLoad={this.getDataForCurrentViewport}
           />
         </DeckGL>
       </div>
