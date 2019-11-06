@@ -8,7 +8,7 @@ import {
   getPointCoords,
   hexToDecimal,
   getSumOfFoamTokens,
-  getValInUSD
+  getValInUSD,
 } from './utils/helper';
 
 class App extends React.Component {
@@ -23,22 +23,22 @@ class App extends React.Component {
         minZoom: 5,
         maxZoom: 16,
         pitch: 45,
-        bearing: 0
+        bearing: 0,
       },
       hover: {
         x: 0,
         y: 0,
-        hoveredObject: null
+        hoveredObject: null,
       },
       points: [],
       FOAMTokenInUSD: 0,
       settings: Object.keys(CONSTANTS.HEXAGON_CONTROLS).reduce(
         (accu, key) => ({
           ...accu,
-          [key]: CONSTANTS.HEXAGON_CONTROLS[key].value
+          [key]: CONSTANTS.HEXAGON_CONTROLS[key].value,
         }),
-        {}
-      )
+        {},
+      ),
     };
   }
 
@@ -46,17 +46,17 @@ class App extends React.Component {
     const currBbox = {
       _ne: {
         lng: '-73.878593',
-        lat: '40.790939'
+        lat: '40.790939',
       },
       _sw: {
         lng: '-74.028969',
-        lat: '40.636102'
-      }
+        lat: '40.636102',
+      },
     };
     this.fetchData(currBbox);
     this.setUserLocation();
     this.setState({
-      FOAMTokenInUSD: await getValInUSD()
+      FOAMTokenInUSD: await getValInUSD(),
     });
   }
 
@@ -70,9 +70,16 @@ class App extends React.Component {
         sumOfFoamTokens: getSumOfFoamTokens(object.points),
         sumValInUSD: (
           getSumOfFoamTokens(object.points) * FOAMTokenInUSD
-        ).toFixed(2)
+        ).toFixed(2),
       };
-      this.setState({ hover: { x, y, hoveredObject: object, details } });
+      this.setState({
+        hover: {
+          x,
+          y,
+          hoveredObject: object,
+          details,
+        },
+      });
     } else {
       this.setState({ hover: { x, y, hoveredObject: object } });
     }
@@ -80,11 +87,11 @@ class App extends React.Component {
 
   setUserLocation() {
     const { viewport } = this.state;
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition((position) => {
       const newViewport = {
         ...viewport,
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+        longitude: position.coords.longitude,
       };
       this.setState({ viewport: newViewport });
     });
@@ -95,12 +102,12 @@ class App extends React.Component {
     const bbox = {
       _ne: {
         lng: newBbox._ne.lng,
-        lat: newBbox._ne.lat
+        lat: newBbox._ne.lat,
       },
       _sw: {
         lng: newBbox._sw.lng,
-        lat: newBbox._sw.lat
-      }
+        lat: newBbox._sw.lat,
+      },
     };
     this.fetchData(bbox);
   }
@@ -111,10 +118,10 @@ class App extends React.Component {
 
   fetchData(bbox) {
     fetch(
-      `https://map-api-direct.foam.space/poi/filtered?swLng=${bbox._sw.lng}&swLat=${bbox._sw.lat}&neLng=${bbox._ne.lng}&neLat=${bbox._ne.lat}&limit=10000&offset=0`
+      `https://map-api-direct.foam.space/poi/filtered?swLng=${bbox._sw.lng}&swLat=${bbox._sw.lat}&neLng=${bbox._ne.lng}&neLat=${bbox._ne.lat}&limit=10000&offset=0`,
     )
-      .then(result => result.json())
-      .then(json => {
+      .then((result) => result.json())
+      .then((json) => {
         const points = [];
         json.forEach((item, index) => {
           const temp = hexToDecimal(item.state.deposit);
@@ -122,20 +129,22 @@ class App extends React.Component {
           points[index] = {
             position: [
               parseFloat(pointCoords[0].toFixed(4)),
-              parseFloat(pointCoords[1].toFixed(4))
+              parseFloat(pointCoords[1].toFixed(4)),
             ],
             pickup: item[2],
-            stakedvalue: temp
+            stakedvalue: temp,
           };
         });
         this.setState({
-          points
+          points,
         });
       });
   }
 
   render() {
-    const { hover, settings, points, viewport } = this.state;
+    const {
+      hover, settings, points, viewport,
+    } = this.state;
 
     if (!points.length) return null;
 
@@ -145,18 +154,33 @@ class App extends React.Component {
           <div
             className="tooltipStyle"
             style={{
-              transform: `translate(${hover.x}px, ${hover.y}px)`
+              transform: `translate(${hover.x}px, ${hover.y}px)`,
             }}
           >
             <div className="">
-              <div>Latitude: {hover.details.latitude}</div>
-              <div>Longitude: {hover.details.longitude}</div>
-              <div>POI&apos;s: {hover.details.numOfPoints}</div>
               <div>
-                Accumulated sum of FOAM tokens: {hover.details.sumOfFoamTokens}
+Latitude:
+                {' '}
+                {hover.details.latitude}
               </div>
               <div>
-                Accumulated value of FOAM tokens: ${hover.details.sumValInUSD}
+Longitude:
+                {' '}
+                {hover.details.longitude}
+              </div>
+              <div>
+POI&apos;s:
+                {' '}
+                {hover.details.numOfPoints}
+              </div>
+              <div>
+                Accumulated sum of FOAM tokens:
+                {' '}
+                {hover.details.sumOfFoamTokens}
+              </div>
+              <div>
+                Accumulated value of FOAM tokens: $
+                {hover.details.sumValInUSD}
               </div>
             </div>
           </div>
@@ -164,13 +188,13 @@ class App extends React.Component {
         <LayerControls
           settings={settings}
           controls={CONSTANTS.HEXAGON_CONTROLS}
-          onChange={settings => this.updateLayerSettings(settings)}
+          onChange={(settings) => this.updateLayerSettings(settings)}
         />
         <DeckGL
           layers={renderLayers({
             data: points,
-            onHover: hover => this.onHover(hover),
-            settings
+            onHover: (hover) => this.onHover(hover),
+            settings,
           })}
           effeccontrol-panelts={[CONSTANTS.lightingEffect]}
           initialViewState={{ ...viewport }}
@@ -178,7 +202,7 @@ class App extends React.Component {
           onDragEnd={this.getDataForCurrentViewport}
         >
           <StaticMap
-            ref={map => {
+            ref={(map) => {
               this.mapRef = map;
             }}
             mapStyle={CONSTANTS.MAP_STYLE}
