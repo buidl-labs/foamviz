@@ -44,17 +44,7 @@ class VizPOIAnalytics extends React.Component {
   }
 
   async componentDidMount() {
-    const boundingBoxNYC = {
-      _ne: {
-        lng: '-73.878593',
-        lat: '40.790939',
-      },
-      _sw: {
-        lng: '-74.028969',
-        lat: '40.636102',
-      },
-    };
-    this.fetchAllPOIDetailsInCurrentViewport(boundingBoxNYC);
+    this.fetchAllPOIDetailsInCurrentViewport(CONSTANTS.boundingBoxNYC);
     this.setUserLocation();
     this.setState({
       FOAMTokenInUSD: await getValInUSD(),

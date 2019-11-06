@@ -45,3 +45,14 @@ export const legendColors = [
   'rgb(254, 173, 84)',
   'rgb(209, 55, 78)',
 ];
+
+export const boundingBoxNYC = {
+  _ne: {
+    lng: '-73.878593',
+    lat: '40.790939',
+  },
+  _sw: {
+    lng: '-74.028969',
+    lat: '40.636102',
+  },
+};
