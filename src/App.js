@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Home from './viz-one';
+import VizPOIAnalytics from './VizPOIAnalytics';
 
 function App() {
   return (
     <div className="App">
-      <Home />
+      <VizPOIAnalytics />
     </div>
   );
 }

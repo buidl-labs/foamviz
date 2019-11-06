@@ -1,9 +1,10 @@
 import React from 'react';
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
-import LayerControls from './controls';
-import renderLayers from './deckgl-layers';
+import POIAnalyticsControlPanel from './POIAnalyticsControlPanel';
+import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 import * as CONSTANTS from './utils/constants';
+import lightingEffect from './utils/lightingEffects';
 import {
   getPointCoords,
   hexToDecimal,
@@ -11,7 +12,7 @@ import {
   getValInUSD,
 } from './utils/helper';
 
-class App extends React.Component {
+class VizPOIAnalytics extends React.Component {
   constructor(props) {
     super(props);
     this.getDataForCurrentViewport = this.getDataForCurrentViewport.bind(this);
@@ -43,7 +44,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    const currBbox = {
+    const boundingBoxNYC = {
       _ne: {
         lng: '-73.878593',
         lat: '40.790939',
@@ -53,7 +54,7 @@ class App extends React.Component {
         lat: '40.636102',
       },
     };
-    this.fetchData(currBbox);
+    this.fetchAllPOIDetailsInCurrentViewport(boundingBoxNYC);
     this.setUserLocation();
     this.setState({
       FOAMTokenInUSD: await getValInUSD(),
@@ -63,14 +64,15 @@ class App extends React.Component {
   async onHover({ x, y, object }) {
     const { FOAMTokenInUSD } = this.state;
     if (object) {
+      const sumOfFoamTokens = object.points
+        ? await getSumOfFoamTokens(object.points)
+        : 0;
       const details = {
         latitude: object.position[0],
         longitude: object.position[1],
         numOfPoints: (object.points && object.points.length) || 0,
-        sumOfFoamTokens: getSumOfFoamTokens(object.points),
-        sumValInUSD: (
-          getSumOfFoamTokens(object.points) * FOAMTokenInUSD
-        ).toFixed(2),
+        sumOfFoamTokens,
+        sumValInUSD: (sumOfFoamTokens * FOAMTokenInUSD).toFixed(2),
       };
       this.setState({
         hover: {
@@ -98,40 +100,38 @@ class App extends React.Component {
   }
 
   getDataForCurrentViewport() {
-    const newBbox = this.mapRef.getMap().getBounds();
-    const bbox = {
+    const newBoundingBox = this.mapRef.getMap().getBounds();
+    const boundingBox = {
       _ne: {
-        lng: newBbox._ne.lng,
-        lat: newBbox._ne.lat,
+        lng: newBoundingBox._ne.lng,
+        lat: newBoundingBox._ne.lat,
       },
       _sw: {
-        lng: newBbox._sw.lng,
-        lat: newBbox._sw.lat,
+        lng: newBoundingBox._sw.lng,
+        lat: newBoundingBox._sw.lat,
       },
     };
-    this.fetchData(bbox);
+    this.fetchAllPOIDetailsInCurrentViewport(boundingBox);
   }
 
   updateLayerSettings(settings) {
     this.setState({ settings });
   }
 
-  fetchData(bbox) {
+  fetchAllPOIDetailsInCurrentViewport(boundingBox) {
     fetch(
-      `https://map-api-direct.foam.space/poi/filtered?swLng=${bbox._sw.lng}&swLat=${bbox._sw.lat}&neLng=${bbox._ne.lng}&neLat=${bbox._ne.lat}&limit=10000&offset=0`,
+      `https://map-api-direct.foam.space/poi/filtered?swLng=${boundingBox._sw.lng}&swLat=${boundingBox._sw.lat}&neLng=${boundingBox._ne.lng}&neLat=${boundingBox._ne.lat}&limit=10000&offset=0`,
     )
       .then((result) => result.json())
-      .then((json) => {
-        const points = [];
-        json.forEach((item, index) => {
+      .then((arrayOfPOIObjects) => {
+        const points = arrayOfPOIObjects.map((item) => {
           const temp = hexToDecimal(item.state.deposit);
           const pointCoords = getPointCoords(item.geohash);
-          points[index] = {
+          return {
             position: [
               parseFloat(pointCoords[0].toFixed(4)),
               parseFloat(pointCoords[1].toFixed(4)),
             ],
-            pickup: item[2],
             stakedvalue: temp,
           };
         });
@@ -185,18 +185,18 @@ POI&apos;s:
             </div>
           </div>
         )}
-        <LayerControls
+        <POIAnalyticsControlPanel
           settings={settings}
           controls={CONSTANTS.HEXAGON_CONTROLS}
           onChange={(settings) => this.updateLayerSettings(settings)}
         />
         <DeckGL
-          layers={renderLayers({
+          layers={POIAnalyticsRenderLayers({
             data: points,
             onHover: (hover) => this.onHover(hover),
             settings,
           })}
-          effeccontrol-panelts={[CONSTANTS.lightingEffect]}
+          effects={[lightingEffect]}
           initialViewState={{ ...viewport }}
           controller
           onDragEnd={this.getDataForCurrentViewport}
@@ -215,4 +215,4 @@ POI&apos;s:
   }
 }
 
-export default App;
+export default VizPOIAnalytics;

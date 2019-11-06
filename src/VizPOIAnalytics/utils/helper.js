@@ -6,21 +6,16 @@ export function getPointCoords(geohash) {
 }
 
 export function hexToDecimal(hex) {
-  return parseInt(hex, 16) * 10e-18;
+  return parseInt(hex, 16) * (10 ** -18);
 }
 
 export function getSumOfFoamTokens(points) {
-  let sum = 0;
-  points.forEach(item => {
-    sum += item.stakedvalue;
-  });
-  return sum.toFixed(2);
+  const sum = points.reduce((prevvalue, item) => prevvalue + item.stakedvalue, 0).toFixed(2);
+  return sum;
 }
 
 export function getValInUSD() {
   return fetch('https://poloniex.com/public?command=returnTicker')
-    .then(res => res.json())
-    .then(json => {
-      return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
-    });
+    .then((res) => res.json())
+    .then((json) => Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last));
 }
