@@ -1,7 +1,8 @@
 import { HexagonLayer } from 'deck.gl';
+import { equals } from 'ramda';
 import LAYER_PROPERTIES from './utils/layerProperties';
 
-function POIAnalyticsRenderLayers(props) {
+const POIAnalyticsRenderLayers = function RenderedDeckGLLayerSettings(props) {
   const { data, onHover, settings } = props;
 
   return [
@@ -9,6 +10,7 @@ function POIAnalyticsRenderLayers(props) {
       && new HexagonLayer({
         id: 'heatmap',
         getPosition: (d) => d.position,
+        dataComparator: (newData, oldData) => equals(newData, oldData),
         data,
         onHover,
         ...settings,
@@ -26,6 +28,6 @@ function POIAnalyticsRenderLayers(props) {
         ...LAYER_PROPERTIES,
       }),
   ];
-}
+};
 
 export default POIAnalyticsRenderLayers;

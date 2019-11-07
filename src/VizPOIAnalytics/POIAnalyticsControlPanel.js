@@ -3,7 +3,7 @@ import React from 'react';
 import * as CONSTANTS from './utils/constants';
 import './index.css';
 
-const Checkbox = ({ settingName, value, onChange }) => (
+const Selector = ({ settingName, value, onChange }) => (
   <div key={settingName}>
     <div className="input-group">
       <button
@@ -48,7 +48,7 @@ const Slider = ({
   );
 };
 
-function _onValueChange(settingName, newValue, props) {
+const onValueChange = function onChangeInControlPanelSettings(settingName, newValue, props) {
   const { settings, onChange } = props;
   if (settings[settingName] !== newValue) {
     const altsettingName = settingName === 'showDensityOfPoints'
@@ -66,7 +66,7 @@ function _onValueChange(settingName, newValue, props) {
     }
     onChange(newSettings);
   }
-}
+};
 
 function POIAnalyticsControlPanel(props) {
   const { settings, controls } = props;
@@ -88,7 +88,7 @@ function POIAnalyticsControlPanel(props) {
                 settingName={key}
                 value={settings[key]}
                 controls={controls[key]}
-                onChange={(p1, p2) => _onValueChange(p1, p2, props)}
+                onChange={(p1, p2) => onValueChange(p1, p2, props)}
               />
             </div>
           </div>
@@ -107,7 +107,7 @@ function POIAnalyticsControlPanel(props) {
                 settingName={key}
                 value={settings[key]}
                 controls={controls[key]}
-                onChange={(p1, p2) => _onValueChange(p1, p2, props)}
+                onChange={(p1, p2) => onValueChange(p1, p2, props)}
               />
             </div>
           </div>
@@ -138,7 +138,7 @@ function Setting(props) {
       case 'range':
         return <Slider {...props} />;
       case 'boolean':
-        return <Checkbox {...props} />;
+        return <Selector {...props} />;
       default:
         return <input {...props} />;
     }

@@ -3,6 +3,7 @@ import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import POIAnalyticsControlPanel from './POIAnalyticsControlPanel';
 import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
+import Tooltip from './components/Tooltip';
 import * as CONSTANTS from './utils/constants';
 import lightingEffect from './utils/lightingEffects';
 import {
@@ -17,15 +18,7 @@ class VizPOIAnalytics extends React.Component {
     super(props);
     this.getDataForCurrentViewport = this.getDataForCurrentViewport.bind(this);
     this.state = {
-      viewport: {
-        longitude: -74,
-        latitude: 40.7,
-        zoom: 11,
-        minZoom: 5,
-        maxZoom: 16,
-        pitch: 45,
-        bearing: 0,
-      },
+      viewport: CONSTANTS.INITIAL_VIEWPORT,
       hover: {
         x: 0,
         y: 0,
@@ -44,23 +37,28 @@ class VizPOIAnalytics extends React.Component {
   }
 
   async componentDidMount() {
-    this.fetchAllPOIDetailsInCurrentViewport(CONSTANTS.boundingBoxNYC);
-    this.setUserLocation();
     this.setState({
       FOAMTokenInUSD: await getValInUSD(),
     });
+    this.fetchAllPOIDetailsInCurrentViewport(
+      CONSTANTS.boundingBoxDefaultLocation,
+    );
+    this.setUserLocation();
   }
 
   async onHover({ x, y, object }) {
+    const allHoveredPOIDetails = object;
     const { FOAMTokenInUSD } = this.state;
-    if (object) {
-      const sumOfFoamTokens = object.points
-        ? await getSumOfFoamTokens(object.points)
+    if (allHoveredPOIDetails) {
+      const sumOfFoamTokens = allHoveredPOIDetails.points
+        ? await getSumOfFoamTokens(allHoveredPOIDetails.points)
         : 0;
       const details = {
-        latitude: object.position[0],
-        longitude: object.position[1],
-        numOfPoints: (object.points && object.points.length) || 0,
+        latitude: allHoveredPOIDetails.position[0],
+        longitude: allHoveredPOIDetails.position[1],
+        numOfPoints:
+          (allHoveredPOIDetails.points && allHoveredPOIDetails.points.length)
+          || 0,
         sumOfFoamTokens,
         sumValInUSD: (sumOfFoamTokens * FOAMTokenInUSD).toFixed(2),
       };
@@ -68,25 +66,36 @@ class VizPOIAnalytics extends React.Component {
         hover: {
           x,
           y,
-          hoveredObject: object,
+          hoveredObject: allHoveredPOIDetails,
           details,
         },
       });
     } else {
-      this.setState({ hover: { x, y, hoveredObject: object } });
+      this.setState({ hover: { x, y, hoveredObject: allHoveredPOIDetails } });
     }
   }
 
   setUserLocation() {
     const { viewport } = this.state;
-    navigator.geolocation.getCurrentPosition((position) => {
-      const newViewport = {
-        ...viewport,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      };
-      this.setState({ viewport: newViewport });
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newViewport = {
+            ...viewport,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          this.setState({ viewport: newViewport });
+        },
+        (err) => {
+          if (err.code === 1 || err.message === 'User denied Geolocation') {
+            this.fetchAllPOIDetailsInCurrentViewport(
+              CONSTANTS.boundingBoxDefaultLocation,
+            );
+          }
+        },
+      );
+    }
   }
 
   getDataForCurrentViewport() {
@@ -115,14 +124,14 @@ class VizPOIAnalytics extends React.Component {
       .then((result) => result.json())
       .then((arrayOfPOIObjects) => {
         const points = arrayOfPOIObjects.map((item) => {
-          const temp = hexToDecimal(item.state.deposit);
+          const stakedvalue = hexToDecimal(item.state.deposit);
           const pointCoords = getPointCoords(item.geohash);
           return {
             position: [
               parseFloat(pointCoords[0].toFixed(4)),
               parseFloat(pointCoords[1].toFixed(4)),
             ],
-            stakedvalue: temp,
+            stakedvalue,
           };
         });
         this.setState({
@@ -140,41 +149,9 @@ class VizPOIAnalytics extends React.Component {
 
     return (
       <div>
-        {hover.details && (
-          <div
-            className="tooltipStyle"
-            style={{
-              transform: `translate(${hover.x}px, ${hover.y}px)`,
-            }}
-          >
-            <div className="">
-              <div>
-Latitude:
-                {' '}
-                {hover.details.latitude}
-              </div>
-              <div>
-Longitude:
-                {' '}
-                {hover.details.longitude}
-              </div>
-              <div>
-POI&apos;s:
-                {' '}
-                {hover.details.numOfPoints}
-              </div>
-              <div>
-                Accumulated sum of FOAM tokens:
-                {' '}
-                {hover.details.sumOfFoamTokens}
-              </div>
-              <div>
-                Accumulated value of FOAM tokens: $
-                {hover.details.sumValInUSD}
-              </div>
-            </div>
-          </div>
-        )}
+        <Tooltip
+          allHoveredPOIDetails={hover}
+        />
         <POIAnalyticsControlPanel
           settings={settings}
           controls={CONSTANTS.HEXAGON_CONTROLS}

@@ -1,5 +1,15 @@
 export const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
 
+export const INITIAL_VIEWPORT = {
+  longitude: -74,
+  latitude: 40.7,
+  zoom: 11,
+  minZoom: 5,
+  maxZoom: 16,
+  pitch: 45,
+  bearing: 0,
+};
+
 export const HEXAGON_CONTROLS = {
   showDensityOfPoints: {
     displayName: 'Density of Points',
@@ -46,7 +56,8 @@ export const legendColors = [
   'rgb(209, 55, 78)',
 ];
 
-export const boundingBoxNYC = {
+// NYC
+export const boundingBoxDefaultLocation = {
   _ne: {
     lng: '-73.878593',
     lat: '40.790939',
