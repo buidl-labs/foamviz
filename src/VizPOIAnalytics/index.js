@@ -9,8 +9,10 @@ import lightingEffect from './utils/lightingEffects';
 import {
   getPointCoords,
   hexToDecimal,
-  getSumOfFoamTokens,
   getValInUSD,
+  getSumOfFoamTokens,
+  getInitialControlPanelSettings,
+  getToolTipFormattedDetails,
 } from './utils/helper';
 
 class VizPOIAnalytics extends React.Component {
@@ -26,13 +28,7 @@ class VizPOIAnalytics extends React.Component {
       },
       points: [],
       FOAMTokenInUSD: 0,
-      settings: Object.keys(CONSTANTS.HEXAGON_CONTROLS).reduce(
-        (accu, key) => ({
-          ...accu,
-          [key]: CONSTANTS.HEXAGON_CONTROLS[key].value,
-        }),
-        {},
-      ),
+      settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS),
     };
   }
 
@@ -57,8 +53,8 @@ class VizPOIAnalytics extends React.Component {
         latitude: allHoveredPOIDetails.position[0],
         longitude: allHoveredPOIDetails.position[1],
         numOfPoints:
-          (allHoveredPOIDetails.points && allHoveredPOIDetails.points.length)
-          || 0,
+        (allHoveredPOIDetails.points && allHoveredPOIDetails.points.length)
+        || 0,
         sumOfFoamTokens,
         sumValInUSD: (sumOfFoamTokens * FOAMTokenInUSD).toFixed(2),
       };

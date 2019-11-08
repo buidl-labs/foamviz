@@ -68,7 +68,7 @@ const onValueChange = function onChangeInControlPanelSettings(settingName, newVa
   }
 };
 
-function POIAnalyticsControlPanel(props) {
+const POIAnalyticsControlPanel = (props) => {
   const { settings, controls } = props;
   return (
     <div className="layercontrol">
@@ -129,7 +129,7 @@ function POIAnalyticsControlPanel(props) {
       </div>
     </div>
   );
-}
+};
 
 function Setting(props) {
   const { controls } = props;
