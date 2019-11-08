@@ -10,9 +10,8 @@ import {
   getPointCoords,
   hexToDecimal,
   getValInUSD,
-  getSumOfFoamTokens,
   getInitialControlPanelSettings,
-  getToolTipFormattedDetails,
+  getTooltipFormattedDetails,
 } from './utils/helper';
 
 class VizPOIAnalytics extends React.Component {
@@ -46,24 +45,12 @@ class VizPOIAnalytics extends React.Component {
     const allHoveredPOIDetails = object;
     const { FOAMTokenInUSD } = this.state;
     if (allHoveredPOIDetails) {
-      const sumOfFoamTokens = allHoveredPOIDetails.points
-        ? await getSumOfFoamTokens(allHoveredPOIDetails.points)
-        : 0;
-      const details = {
-        latitude: allHoveredPOIDetails.position[0],
-        longitude: allHoveredPOIDetails.position[1],
-        numOfPoints:
-        (allHoveredPOIDetails.points && allHoveredPOIDetails.points.length)
-        || 0,
-        sumOfFoamTokens,
-        sumValInUSD: (sumOfFoamTokens * FOAMTokenInUSD).toFixed(2),
-      };
       this.setState({
         hover: {
           x,
           y,
           hoveredObject: allHoveredPOIDetails,
-          details,
+          details: await getTooltipFormattedDetails(allHoveredPOIDetails, FOAMTokenInUSD),
         },
       });
     } else {

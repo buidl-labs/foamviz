@@ -7,7 +7,7 @@ export const getPointCoords = (geohash) => {
 
 export const hexToDecimal = (hex) => parseInt(hex, 16) * (10 ** -18);
 
-export const getSumOfFoamTokens = (points) => {
+const getSumOfFoamTokens = (points) => {
   const sum = points.reduce((prevvalue, item) => prevvalue + item.stakedvalue, 0).toFixed(2);
   return sum;
 };
@@ -23,3 +23,19 @@ export const getInitialControlPanelSettings = (constants) => Object.keys(constan
   }),
   {},
 );
+
+export const getTooltipFormattedDetails = async (allHoveredPOIDetails, FOAMTokenInUSD) => {
+  const sumOfFoamTokens = allHoveredPOIDetails.points
+    ? await getSumOfFoamTokens(allHoveredPOIDetails.points)
+    : 0;
+  const details = {
+    latitude: allHoveredPOIDetails.position[0],
+    longitude: allHoveredPOIDetails.position[1],
+    numOfPoints:
+    (allHoveredPOIDetails.points && allHoveredPOIDetails.points.length)
+    || 0,
+    sumOfFoamTokens,
+    sumValInUSD: (sumOfFoamTokens * FOAMTokenInUSD).toFixed(2),
+  };
+  return details;
+};
