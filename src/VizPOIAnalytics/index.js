@@ -7,17 +7,17 @@ import Tooltip from './components/Tooltip';
 import * as CONSTANTS from './utils/constants';
 import lightingEffect from './utils/lightingEffects';
 import {
-  getPointCoords,
-  hexToDecimal,
   getValInUSD,
   getInitialControlPanelSettings,
   getTooltipFormattedDetails,
+  getBoundingBoxDetailsFromCurrentViewport,
+  fetchPOIDetailsFromFOAMAPI,
 } from './utils/helper';
 
 class VizPOIAnalytics extends React.Component {
   constructor(props) {
     super(props);
-    this.getDataForCurrentViewport = this.getDataForCurrentViewport.bind(this);
+    this.fetchAllPOIDetailsInCurrentViewport = this.fetchAllPOIDetailsInCurrentViewport.bind(this);
     this.state = {
       viewport: CONSTANTS.INITIAL_VIEWPORT,
       hover: {
@@ -28,6 +28,7 @@ class VizPOIAnalytics extends React.Component {
       points: [],
       FOAMTokenInUSD: 0,
       settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS),
+      userResponse: false,
     };
   }
 
@@ -35,9 +36,6 @@ class VizPOIAnalytics extends React.Component {
     this.setState({
       FOAMTokenInUSD: await getValInUSD(),
     });
-    this.fetchAllPOIDetailsInCurrentViewport(
-      CONSTANTS.boundingBoxDefaultLocation,
-    );
     this.setUserLocation();
   }
 
@@ -68,67 +66,35 @@ class VizPOIAnalytics extends React.Component {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          this.setState({ viewport: newViewport });
+          this.setState({ viewport: newViewport, userResponse: true });
         },
         (err) => {
           if (err.code === 1 || err.message === 'User denied Geolocation') {
-            this.fetchAllPOIDetailsInCurrentViewport(
-              CONSTANTS.boundingBoxDefaultLocation,
-            );
+            this.setState({ userResponse: true });
           }
         },
       );
     }
   }
 
-  getDataForCurrentViewport() {
-    const newBoundingBox = this.mapRef.getMap().getBounds();
-    const boundingBox = {
-      _ne: {
-        lng: newBoundingBox._ne.lng,
-        lat: newBoundingBox._ne.lat,
-      },
-      _sw: {
-        lng: newBoundingBox._sw.lng,
-        lat: newBoundingBox._sw.lat,
-      },
-    };
-    this.fetchAllPOIDetailsInCurrentViewport(boundingBox);
+  async fetchAllPOIDetailsInCurrentViewport() {
+    const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(this.mapRef.getMap().getBounds());
+
+    const pointsInCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(boundingBoxDetailsFromCurrentViewPort);
+
+    this.setState({ points: pointsInCurrentViewPort });
   }
 
   updateLayerSettings(settings) {
     this.setState({ settings });
   }
 
-  fetchAllPOIDetailsInCurrentViewport(boundingBox) {
-    fetch(
-      `https://map-api-direct.foam.space/poi/filtered?swLng=${boundingBox._sw.lng}&swLat=${boundingBox._sw.lat}&neLng=${boundingBox._ne.lng}&neLat=${boundingBox._ne.lat}&limit=10000&offset=0`,
-    )
-      .then((result) => result.json())
-      .then((arrayOfPOIObjects) => {
-        const points = arrayOfPOIObjects.map((item) => {
-          const stakedvalue = hexToDecimal(item.state.deposit);
-          const pointCoords = getPointCoords(item.geohash);
-          return {
-            position: [
-              parseFloat(pointCoords[0].toFixed(4)),
-              parseFloat(pointCoords[1].toFixed(4)),
-            ],
-            stakedvalue,
-          };
-        });
-        this.setState({
-          points,
-        });
-      });
-  }
-
   render() {
     const {
-      hover, settings, points, viewport,
+      hover, settings, points, viewport, userResponse,
     } = this.state;
 
-    if (!points.length) return null;
+    if (userResponse === false) return <p>Loading...</p>;
 
     return (
       <div>
@@ -149,7 +115,7 @@ class VizPOIAnalytics extends React.Component {
           effects={[lightingEffect]}
           initialViewState={{ ...viewport }}
           controller
-          onDragEnd={this.getDataForCurrentViewport}
+          onDragEnd={this.fetchAllPOIDetailsInCurrentViewport}
         >
           <StaticMap
             ref={(map) => {
@@ -157,7 +123,7 @@ class VizPOIAnalytics extends React.Component {
             }}
             mapStyle={CONSTANTS.MAP_STYLE}
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-            onLoad={this.getDataForCurrentViewport}
+            onLoad={this.fetchAllPOIDetailsInCurrentViewport}
           />
         </DeckGL>
       </div>

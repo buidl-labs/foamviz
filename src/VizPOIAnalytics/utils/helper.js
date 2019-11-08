@@ -39,3 +39,36 @@ export const getTooltipFormattedDetails = async (allHoveredPOIDetails, FOAMToken
   };
   return details;
 };
+
+export const getBoundingBoxDetailsFromCurrentViewport = (newBoundingBox) => {
+  const boundingBox = {
+    _ne: {
+      lng: newBoundingBox._ne.lng,
+      lat: newBoundingBox._ne.lat,
+    },
+    _sw: {
+      lng: newBoundingBox._sw.lng,
+      lat: newBoundingBox._sw.lat,
+    },
+  };
+  return boundingBox;
+};
+
+export const fetchPOIDetailsFromFOAMAPI = (boundingBox) => fetch(
+  `https://map-api-direct.foam.space/poi/filtered?swLng=${boundingBox._sw.lng}&swLat=${boundingBox._sw.lat}&neLng=${boundingBox._ne.lng}&neLat=${boundingBox._ne.lat}&limit=10000&offset=0`,
+)
+  .then((result) => result.json())
+  .then((arrayOfPOIObjects) => {
+    const points = arrayOfPOIObjects.map((item) => {
+      const stakedvalue = hexToDecimal(item.state.deposit);
+      const pointCoords = getPointCoords(item.geohash);
+      return {
+        position: [
+          parseFloat(pointCoords[0].toFixed(4)),
+          parseFloat(pointCoords[1].toFixed(4)),
+        ],
+        stakedvalue,
+      };
+    });
+    return Promise.resolve(points);
+  });
