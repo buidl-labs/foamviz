@@ -1,54 +1,25 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import Selector from './components/Selector';
+import Slider from './components/Slider';
 import * as CONSTANTS from './utils/constants';
 import './index.css';
 
-const Selector = ({ settingName, value, onChange }) => (
-  <div key={settingName}>
-    <div className="input-group">
-      <button
-        id={settingName}
-        type="submit"
-        className="look-like-link"
-        value={settingName}
-        style={{
-          borderBottom: value ? '1px solid white' : null,
-        }}
-        onClick={() => onChange(settingName, !value)}
-      >
-        {settingName === 'showDensityOfPoints'
-          ? 'Density of Points'
-          : 'Staked Tokens'}
-      </button>
-    </div>
-  </div>
-);
+function Setting(props) {
+  const { controls } = props;
+  if (controls && controls.type) {
+    switch (controls.type) {
+      case 'range':
+        return <Slider {...props} />;
+      case 'boolean':
+        return <Selector {...props} />;
+      default:
+        return <input {...props} />;
+    }
+  }
+}
 
-const Slider = ({
-  settingName, value, controls, onChange,
-}) => {
-  const { max = 100 } = controls;
-  return (
-    <div key={settingName}>
-      <div className="input-group">
-        <div>
-          <input
-            className="slider"
-            type="range"
-            id={settingName}
-            min={0}
-            max={max}
-            step={max / 100}
-            value={value}
-            onChange={(e) => onChange(settingName, Number(e.target.value))}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const onValueChange = function onChangeInControlPanelSettings(settingName, newValue, props) {
+const onValueChange = (settingName, newValue, props) => {
   const { settings, onChange } = props;
   if (settings[settingName] !== newValue) {
     const altsettingName = settingName === 'showDensityOfPoints'
@@ -130,19 +101,5 @@ const POIAnalyticsControlPanel = (props) => {
     </div>
   );
 };
-
-function Setting(props) {
-  const { controls } = props;
-  if (controls && controls.type) {
-    switch (controls.type) {
-      case 'range':
-        return <Slider {...props} />;
-      case 'boolean':
-        return <Selector {...props} />;
-      default:
-        return <input {...props} />;
-    }
-  }
-}
 
 export default POIAnalyticsControlPanel;

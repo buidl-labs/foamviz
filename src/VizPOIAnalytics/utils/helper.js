@@ -24,9 +24,9 @@ export const getInitialControlPanelSettings = (constants) => Object.keys(constan
   {},
 );
 
-export const getTooltipFormattedDetails = async (allHoveredPOIDetails, FOAMTokenInUSD) => {
+export const getTooltipFormattedDetails = (allHoveredPOIDetails, FOAMTokenInUSD) => {
   const sumOfFoamTokens = allHoveredPOIDetails.points
-    ? await getSumOfFoamTokens(allHoveredPOIDetails.points)
+    ? getSumOfFoamTokens(allHoveredPOIDetails.points)
     : 0;
   const details = {
     latitude: allHoveredPOIDetails.position[0],
