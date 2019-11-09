@@ -14,17 +14,17 @@ const Tooltip = (props) => {
     >
       <div className="">
         <div>
-Latitude:
+          Latitude:
           {' '}
           {allHoveredPOIDetails.details.latitude}
         </div>
         <div>
-Longitude:
+          Longitude:
           {' '}
           {allHoveredPOIDetails.details.longitude}
         </div>
         <div>
-POI&apos;s:
+          POI&apos;s:
           {' '}
           {allHoveredPOIDetails.details.numOfPoints}
         </div>

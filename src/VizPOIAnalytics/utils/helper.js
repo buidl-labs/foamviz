@@ -1,4 +1,7 @@
 import Geohash from 'latlon-geohash';
+import axios from 'axios';
+import { sortBy } from 'ramda';
+
 
 export const getPointCoords = (geohash) => {
   const coords = Geohash.decode(geohash);
@@ -12,9 +15,11 @@ const getSumOfFoamTokens = (points) => {
   return sum;
 };
 
-export const getValInUSD = () => fetch('https://poloniex.com/public?command=returnTicker')
-  .then((res) => res.json())
-  .then((json) => Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last));
+export const getValInUSD = () => axios.get('https://poloniex.com/public?command=returnTicker')
+  .then((res) => {
+    const json = res.data;
+    return Promise.resolve(json.USDC_BTC.last * json.BTC_FOAM.last);
+  });
 
 export const getInitialControlPanelSettings = (constants) => Object.keys(constants).reduce(
   (accu, key) => ({
@@ -54,21 +59,31 @@ export const getBoundingBoxDetailsFromCurrentViewport = (newBoundingBox) => {
   return boundingBox;
 };
 
-export const fetchPOIDetailsFromFOAMAPI = (boundingBox) => fetch(
+
+export const fetchPOIDetailsFromFOAMAPI = (boundingBox) => axios.get(
   `https://map-api-direct.foam.space/poi/filtered?swLng=${boundingBox._sw.lng}&swLat=${boundingBox._sw.lat}&neLng=${boundingBox._ne.lng}&neLat=${boundingBox._ne.lat}&limit=10000&offset=0`,
 )
-  .then((result) => result.json())
-  .then((arrayOfPOIObjects) => {
-    const points = arrayOfPOIObjects.map((item) => {
-      const stakedvalue = hexToDecimal(item.state.deposit);
-      const pointCoords = getPointCoords(item.geohash);
-      return {
-        position: [
-          parseFloat(pointCoords[0].toFixed(4)),
-          parseFloat(pointCoords[1].toFixed(4)),
-        ],
-        stakedvalue,
-      };
-    });
-    return Promise.resolve(points);
-  });
+  .then(
+    (res) => {
+      const arrayOfPOIObjects = res.data;
+      const points = arrayOfPOIObjects.map((item) => {
+        const stakedvalue = hexToDecimal(item.state.deposit);
+        const pointCoords = getPointCoords(item.geohash);
+        const uniqueIdentifier = item.name.toLowerCase() + item.state.createdAt;
+        return {
+          position: [
+            parseFloat(pointCoords[0].toFixed(4)),
+            parseFloat(pointCoords[1].toFixed(4)),
+          ],
+          stakedvalue,
+          uniqueIdentifier,
+        };
+      });
+      points.sort((a, b) => {
+        if (a.uniqueIdentifier < b.uniqueIdentifier) { return -1; }
+        if (a.uniqueIdentifier > b.uniqueIdentifier) { return 1; }
+        return 0;
+      });
+      return Promise.resolve(points);
+    },
+  );

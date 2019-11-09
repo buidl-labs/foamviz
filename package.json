@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.19.0",
     "deck.gl": "^7.3.2",
     "latlon-geohash": "^2.0.0",
     "ramda": "^0.26.1",
