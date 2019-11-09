@@ -1,6 +1,5 @@
 import Geohash from 'latlon-geohash';
 import axios from 'axios';
-import { sortBy } from 'ramda';
 
 
 export const getPointCoords = (geohash) => {
