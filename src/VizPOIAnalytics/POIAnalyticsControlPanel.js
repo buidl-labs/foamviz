@@ -2,10 +2,10 @@
 import React from 'react';
 import Selector from './components/Selector';
 import Slider from './components/Slider';
-import * as CONSTANTS from './utils/constants';
+import Legend from './components/Legend';
 import './index.css';
 
-function Setting(props) {
+const Setting = (props) => {
   const { controls } = props;
   if (controls && controls.type) {
     switch (controls.type) {
@@ -17,7 +17,7 @@ function Setting(props) {
         return <input {...props} />;
     }
   }
-}
+};
 
 const onValueChange = (settingName, newValue, props) => {
   const { settings, onChange } = props;
@@ -84,19 +84,7 @@ const POIAnalyticsControlPanel = (props) => {
           </div>
           ),
         )}
-        <div className="layout">
-          {CONSTANTS.legendColors.map((value) => (
-            <div
-              key={value}
-              className="legend"
-              style={{ background: `${value}`, width: '16.6667%' }}
-            />
-          ))}
-        </div>
-        <p className="legend-text">
-          <span>Low</span>
-          <span>High</span>
-        </p>
+        <Legend />
       </div>
     </div>
   );

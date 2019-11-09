@@ -42,7 +42,7 @@ export const HEXAGON_CONTROLS = {
     type: 'range',
     value: 100,
     step: 0.1,
-    min: 80,
+    min: 0,
     max: 100,
   },
 };
