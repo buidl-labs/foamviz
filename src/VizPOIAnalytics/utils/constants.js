@@ -1,5 +1,3 @@
-export const MAP_STYLE = 'mapbox://styles/mapbox/dark-v9';
-
 export const INITIAL_VIEWPORT = {
   longitude: -74,
   latitude: 40.7,

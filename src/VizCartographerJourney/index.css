@@ -1,0 +1,26 @@
+.address-container {
+    z-index: 1000;
+    position: absolute;
+    top: 5vh;
+    left: 2.5vw;
+}
+
+.address-input-box {
+    background: black;
+    border: none;
+    padding: 1.5rem;
+    width: 25rem;
+    border-radius: 0.2rem;
+    outline: transparent;
+    color: #ffffff;
+}
+
+.address-input-box::placeholder {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .address-input-box:-internal-autofill-selected {
+      background: black !important;
+  }

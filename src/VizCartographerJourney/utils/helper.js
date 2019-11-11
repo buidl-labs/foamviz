@@ -1,24 +1,29 @@
 import Geohash from 'latlon-geohash';
 import axios from 'axios';
 
-export const getPointCoords = (geohash) => {
+const getPointCoords = (geohash) => {
   const coords = Geohash.decode(geohash);
   return [coords.lon, coords.lat, 0];
 };
 
-export const fetchCartographerDetailsFromFOAMAPI = () => axios.get(
-  'https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=100&offset=0&sort=oldest&creator=0xda65d14fb04ce371b435674829bede656693eb48',
+export const fetchCartographerDetailsFromFOAMAPI = (cartographerAddress) => axios.get(
+  `https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=10000&offset=0&sort=oldest&creator=${cartographerAddress}`,
 )
   .then(
     (res) => {
       const cartographerJourneyObject = res.data;
       const arcData = [];
       let i;
-      for (i = 0; i < cartographerJourneyObject.length - 1; i++) {
+
+      for (i = 0; i < cartographerJourneyObject.length - 1; i += 1) {
         const pointCoordsSource = getPointCoords(cartographerJourneyObject[i].geohash);
         const pointCoordsDestination = getPointCoords(cartographerJourneyObject[i + 1].geohash);
+        const sourceStatus = cartographerJourneyObject[i].state.status.type;
+        const destinationStatus = cartographerJourneyObject[i + 1].state.status.type;
 
         const item = {
+          sourceStatus,
+          destinationStatus,
           from: {
             name: cartographerJourneyObject[i].name,
             position: [
@@ -40,3 +45,11 @@ export const fetchCartographerDetailsFromFOAMAPI = () => axios.get(
       return Promise.resolve(arcData);
     },
   );
+
+export const getColorForArcLayer = (status) => {
+  if (status === 'applied') return [46, 124, 230, 255]; // blue
+  if (status === 'listing') return [46, 124, 230, 255]; // blue
+  if (status === 'challenged') return [252, 199, 108, 255]; // orange
+  if (status === 'removed') return [87, 172, 96, 255]; // green
+  return [255, 255, 255, 255];
+};
