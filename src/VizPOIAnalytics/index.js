@@ -5,6 +5,7 @@ import POIAnalyticsControlPanel from './POIAnalyticsControlPanel';
 import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 import Tooltip from './components/Tooltip';
 import * as CONSTANTS from './utils/constants';
+import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import lightingEffect from './utils/lightingEffects';
 import {
   getValInUSD,
@@ -121,7 +122,7 @@ class VizPOIAnalytics extends React.Component {
             ref={(map) => {
               this.mapRef = map;
             }}
-            mapStyle={CONSTANTS.MAP_STYLE}
+            mapStyle={GLOBAL_CONSTANTS.MAP_STYLE}
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
             onLoad={this.fetchAllPOIDetailsInCurrentViewport}
           />
