@@ -1,15 +1,17 @@
 import React from 'react';
 import Box from '3box';
 
-const x = async () => {
-  const profile = await Box.getProfile('0x1de5366615bceb1bdb7274536bf3fc9f06aa9c2c');
-  console.log(profile);
+const x = async (cartographerAddress) => {
+  const profile = await Box.getProfile(cartographerAddress);
+  // console.log(profile);
+  return Promise.resolve(profile);
 };
 
 const CartographerProfilePanel = (props) => {
   const { display, cartographerAddress } = props;
 
-  x();
+  const cartographer = x(cartographerAddress);
+  console.log('car: ', cartographer);
 
   if (display === false) return null;
 
@@ -22,7 +24,7 @@ const CartographerProfilePanel = (props) => {
             alt="cartographer"
             src="https://ipfs.infura.io:5001/api/v0/cat?arg=QmZF7cLSWSPhEMFPqK4t5gH3kzd1bD89cNkudzY3844NF4"
           />
-          <h2>name</h2>
+          <h2>{cartographer.name}</h2>
         </div>
         <hr />
         <div className="cartographer-analytics">

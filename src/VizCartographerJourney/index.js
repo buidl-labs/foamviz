@@ -31,16 +31,16 @@ class VizCartographerJourney extends React.Component {
 
   async componentDidMount() {
     // 0xda65d14fb04ce371b435674829bede656693eb48
-    const data = await fetchCartographerDetailsFromFOAMAPI('0xda65d14fb04ce371b435674829bede656693eb48');
-    console.log(data);
-    this.setState({
-      points: data,
-    }, () => {
-      this.setState({
-        showInputBox: false,
-        showProfilePanel: true,
-      });
-    });
+    // const data = await fetchCartographerDetailsFromFOAMAPI('0xda65d14fb04ce371b435674829bede656693eb48');
+    // console.log(data);
+    // this.setState({
+    //   points: data,
+    // }, () => {
+    //   this.setState({
+    //     showInputBox: false,
+    //     showProfilePanel: true,
+    //   });
+    // });
   }
 
   async getCartographerDetails(event) {
@@ -55,6 +55,8 @@ class VizCartographerJourney extends React.Component {
       }, () => {
         this.setState({
           showInputBox: false,
+          showProfilePanel: true,
+          cartographerAddress,
         });
       });
     }
