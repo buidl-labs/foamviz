@@ -1,11 +1,11 @@
-.address-container {
+.abs-container {
     z-index: 1000;
     position: absolute;
     top: 5vh;
     left: 2.5vw;
 }
 
-.address-input-box {
+.main-container {
     background: black;
     border: none;
     padding: 1.5rem;
@@ -24,3 +24,21 @@
   .address-input-box:-internal-autofill-selected {
       background: black !important;
   }
+
+.cartographer-profile-pic {
+    height: 8rem;
+    border-radius: 4rem;
+}
+
+.profile-panel {
+    text-align: center;
+}
+
+.big-int {
+    font-weight: 500;
+    font-size: 3rem;
+}
+
+.cartographer-analytics {
+    line-height: 15px;
+}

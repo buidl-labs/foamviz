@@ -3,6 +3,7 @@ import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
+import CartographerProfilePanel from './components/CartographerProfilePanel';
 import { fetchCartographerDetailsFromFOAMAPI } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
@@ -23,6 +24,8 @@ class VizCartographerJourney extends React.Component {
       },
       points: [],
       showInputBox: true,
+      showProfilePanel: false,
+      cartographerAddress: '',
     };
   }
 
@@ -35,6 +38,7 @@ class VizCartographerJourney extends React.Component {
     }, () => {
       this.setState({
         showInputBox: false,
+        showProfilePanel: true,
       });
     });
   }
@@ -47,6 +51,7 @@ class VizCartographerJourney extends React.Component {
       console.log(data);
       this.setState({
         points: data,
+        // cartographerAddress,
       }, () => {
         this.setState({
           showInputBox: false,
@@ -56,12 +61,18 @@ class VizCartographerJourney extends React.Component {
   }
 
   render() {
-    const { viewport, points, showInputBox } = this.state;
+    const {
+      viewport, points, showInputBox, showProfilePanel, cartographerAddress,
+    } = this.state;
     return (
       <div>
         <CartographerAddressInputBox
-          showInputBox={showInputBox}
+          display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}
+        />
+        <CartographerProfilePanel
+          display={showProfilePanel}
+          cartographerAddress={cartographerAddress}
         />
         <DeckGL
           layers={CartographerJourneyRenderLayers({
