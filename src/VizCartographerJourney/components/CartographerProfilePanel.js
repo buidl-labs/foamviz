@@ -1,17 +1,21 @@
 import React from 'react';
-import Box from '3box';
-
-const x = async (cartographerAddress) => {
-  const profile = await Box.getProfile(cartographerAddress);
-  // console.log(profile);
-  return Promise.resolve(profile);
-};
+import { getCartographerProfile } from '../utils/helper';
 
 const CartographerProfilePanel = (props) => {
-  const { display, cartographerAddress } = props;
+  const { display, cartographerAddress, profileAnalytics } = props;
+  const [cartographer, updateCartographer] = React.useState({});
+  const [cartographerProfilePic, updateProfilePic] = React.useState('#');
 
-  const cartographer = x(cartographerAddress);
-  console.log('car: ', cartographer);
+  React.useEffect(() => {
+    if (cartographerAddress) {
+      getCartographerProfile(cartographerAddress).then((details) => {
+        const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
+        updateCartographer(details);
+        updateProfilePic(cartographerProfilePic);
+        // console.log(details);
+      });
+    }
+  }, [cartographerAddress]);
 
   if (display === false) return null;
 
@@ -22,7 +26,7 @@ const CartographerProfilePanel = (props) => {
           <img
             className="cartographer-profile-pic"
             alt="cartographer"
-            src="https://ipfs.infura.io:5001/api/v0/cat?arg=QmZF7cLSWSPhEMFPqK4t5gH3kzd1bD89cNkudzY3844NF4"
+            src={cartographerProfilePic}
           />
           <h2>{cartographer.name}</h2>
         </div>
@@ -30,12 +34,12 @@ const CartographerProfilePanel = (props) => {
         <div className="cartographer-analytics">
           <p>ANALYTICS</p>
           <br />
-          <span className="big-int">300</span>
+          <span className="big-int">{profileAnalytics.points}</span>
           <p>points added</p>
           <br />
           <div>
-            <span className="big-int">7</span>
-            <p>points added</p>
+            <span className="big-int">{profileAnalytics.challenged}</span>
+            <p>points challenged</p>
           </div>
         </div>
       </div>

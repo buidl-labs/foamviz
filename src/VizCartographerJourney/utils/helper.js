@@ -1,9 +1,23 @@
 import Geohash from 'latlon-geohash';
 import axios from 'axios';
+import Box from '3box';
 
 const getPointCoords = (geohash) => {
   const coords = Geohash.decode(geohash);
   return [coords.lon, coords.lat, 0];
+};
+
+export const getCartographerProfile = async (cartographerAddress) => {
+  const profile = await Box.getProfile(cartographerAddress);
+  return Promise.resolve(profile);
+};
+
+export const getProfileAnalytics = (data) => {
+  const profile = {
+    points: data.length + 2, // since we get N-1 points for arc-layer incase of N points marked
+    challenged: data.reduce((acc, val) => (val.sourceStatus === 'challenged' ? val + acc : 0), 0),
+  };
+  return profile;
 };
 
 export const fetchCartographerDetailsFromFOAMAPI = (cartographerAddress) => axios.get(
@@ -21,6 +35,7 @@ export const fetchCartographerDetailsFromFOAMAPI = (cartographerAddress) => axio
         const sourceStatus = cartographerJourneyObject[i].state.status.type;
         const destinationStatus = cartographerJourneyObject[i + 1].state.status.type;
 
+        // data for arc-layer
         const item = {
           sourceStatus,
           destinationStatus,
@@ -37,7 +52,6 @@ export const fetchCartographerDetailsFromFOAMAPI = (cartographerAddress) => axio
               parseFloat(pointCoordsDestination[0].toFixed(4)),
               parseFloat(pointCoordsDestination[1].toFixed(4)),
             ],
-
           },
         };
         arcData.push(item);
