@@ -1,15 +1,22 @@
 import React from 'react';
 
 const CartographerAddressInputBox = (props) => {
-  const { showInputBox, getCartographerDetails } = props;
+  const { display, getCartographerDetails } = props;
 
-  if (showInputBox === false) return null;
+  let cartographerAddressInput = null;
+
+  React.useEffect(() => {
+    if (display) cartographerAddressInput.focus();
+  });
+
+  if (display === false) return null;
 
   return (
-    <div className="address-container">
+    <div className="abs-container">
       <input
         id="cartographer-address"
-        className="address-input-box"
+        ref={(input) => { cartographerAddressInput = input; }}
+        className="address-input-box main-container"
         type="text"
         placeholder="Enter Cartographer Address"
         onKeyPress={getCartographerDetails}
