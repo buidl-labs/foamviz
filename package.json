@@ -8,6 +8,7 @@
     "deck.gl": "^7.3.2",
     "latlon-geohash": "^2.0.0",
     "ramda": "^0.26.1",
+    "rc-slider": "^8.7.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-map-gl": "^5.0.11",

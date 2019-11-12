@@ -34,9 +34,11 @@ export const fetchCartographerDetailsFromFOAMAPI = (cartographerAddress) => axio
         const pointCoordsDestination = getPointCoords(cartographerJourneyObject[i + 1].geohash);
         const sourceStatus = cartographerJourneyObject[i].state.status.type;
         const destinationStatus = cartographerJourneyObject[i + 1].state.status.type;
+        const dateOfMarking = cartographerJourneyObject[i].state.createdAt;
 
         // data for arc-layer
         const item = {
+          dateOfMarking,
           sourceStatus,
           destinationStatus,
           from: {

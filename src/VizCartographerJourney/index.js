@@ -5,6 +5,7 @@ import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
 import CartographerProfilePanel from './components/CartographerProfilePanel';
 import { fetchCartographerDetailsFromFOAMAPI, getProfileAnalytics } from './utils/helper';
+import TimeSeriesSlider from './components/TimeSeriesSlider';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
 
@@ -12,6 +13,7 @@ class VizCartographerJourney extends React.Component {
   constructor(props) {
     super(props);
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
+    this.onSliderValueChange = this.onSliderValueChange.bind(this);
     this.state = {
       viewport: {
         longitude: 77.10,
@@ -27,11 +29,19 @@ class VizCartographerJourney extends React.Component {
       showProfilePanel: false,
       cartographerAddress: '',
       profileAnalytics: {},
+      timeseries: {
+        // minDate: new Date('10/10/1999'),
+        // maxDate: new Date('11/11/2019'),
+      },
     };
   }
 
   async componentDidMount() {
     // 0xda65d14fb04ce371b435674829bede656693eb48
+  }
+
+  onSliderValueChange(event) {
+    console.log('value:', event);
   }
 
   async getCartographerDetails(event) {
@@ -47,20 +57,31 @@ class VizCartographerJourney extends React.Component {
         showProfilePanel: true,
         cartographerAddress,
         profileAnalytics,
-        // cartographerAddress,
       });
     }
   }
 
   render() {
     const {
-      viewport, points, showInputBox, showProfilePanel, cartographerAddress, profileAnalytics,
+      viewport,
+      points,
+      showInputBox,
+      showProfilePanel,
+      cartographerAddress,
+      profileAnalytics,
+      timeseries,
     } = this.state;
     return (
       <div>
         <CartographerAddressInputBox
           display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}
+        />
+        <TimeSeriesSlider
+          display={showProfilePanel}
+          minDate={timeseries.minDate}
+          maxDate={timeseries.maxDate}
+          onSliderValueChange={this.onSliderValueChange}
         />
         <CartographerProfilePanel
           display={showProfilePanel}

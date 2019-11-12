@@ -5,6 +5,23 @@
     left: 2.5vw;
 }
 
+.abs-container-bottom {
+    z-index: 1000;
+    position: absolute;
+    bottom: 5vh;
+    right: 2.5vw;
+}
+
+.main-container-bottom {
+    background: white;
+    border: none;
+    padding: 1.5rem;
+    width: 50rem;
+    border-radius: 0.2rem;
+    outline: transparent;
+    color: #ffffff;
+}
+
 .main-container {
     background: black;
     border: none;
