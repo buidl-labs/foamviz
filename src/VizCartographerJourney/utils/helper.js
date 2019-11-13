@@ -14,7 +14,7 @@ export const getCartographerProfile = async (cartographerAddress) => {
 
 export const getProfileAnalytics = (data) => {
   const profile = {
-    points: data.length + 2, // since we get N-1 points for arc-layer incase of N points marked
+    points: data.length + 1, // since we get N-1 points for arc-layer incase of N points marked
     challenged: data.reduce((acc, val) => (val.sourceStatus === 'challenged' ? val + acc : 0), 0),
   };
   return profile;

@@ -13,26 +13,26 @@ class VizCartographerJourney extends React.Component {
   constructor(props) {
     super(props);
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
-    this.onSliderValueChange = this.onSliderValueChange.bind(this);
     this.state = {
       viewport: {
         longitude: 77.10,
         latitude: 28.70,
-        zoom: 11,
+        zoom: 5,
         minZoom: 2,
         maxZoom: 20,
         pitch: 45,
         bearing: 0,
       },
-      points: [],
+      data: [],
       showInputBox: true,
       showProfilePanel: false,
       cartographerAddress: '',
       profileAnalytics: {},
-      timeseries: {
-        // minDate: new Date('10/10/1999'),
-        // maxDate: new Date('11/11/2019'),
-      },
+      filteredData: [],
+      minDate: null,
+      maxDate: null,
+      timelineMin: null,
+      timelineMax: null,
     };
   }
 
@@ -40,37 +40,74 @@ class VizCartographerJourney extends React.Component {
     // 0xda65d14fb04ce371b435674829bede656693eb48
   }
 
-  onSliderValueChange(event) {
-    console.log('value:', event);
+  async getCartographerDetails(cartographerAddress) {
+    const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
+    const profileAnalytics = getProfileAnalytics(cartographerDetails);
+
+    this.setState({
+      data: cartographerDetails,
+      filteredData: cartographerDetails,
+      showInputBox: false,
+      showProfilePanel: true,
+      cartographerAddress,
+      profileAnalytics,
+    });
   }
 
-  async getCartographerDetails(event) {
-    const code = event.keyCode || event.which;
-    if (code === 13) {
-      const cartographerAddress = event.target.value;
-      const data = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
-      const profileAnalytics = getProfileAnalytics(data);
-      // console.log(data);
+  filterDate = (evt) => {
+    const {
+      minDate, maxDate, data, filteredData,
+    } = this.state;
+    const [newMinDate, newMaxDate] = [new Date(evt[0]), new Date(evt[1])];
+    const [oldMinDate, oldMaxDate] = [minDate, maxDate];
+
+    if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
       this.setState({
-        points: data,
-        showInputBox: false,
-        showProfilePanel: true,
-        cartographerAddress,
-        profileAnalytics,
+        minDate: newMinDate,
+        maxDate: newMaxDate,
+        filteredData: data
+          .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
+          .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
       });
+      console.log(filteredData);
     }
+  }
+
+  startShow = () => {
+    const { data, timelineMax } = this.state;
+    const minVal = Math.min.apply(null, data.map((x) => new Date(x.dateOfMarking)));
+    this.setState({
+      timelineMin: minVal,
+      timelineMax: minVal + 10000,
+    }, () => {
+      setInterval(() => {
+        this.setState({ timelineMax: timelineMax + 10000000 });
+      }, 500);
+    });
   }
 
   render() {
     const {
       viewport,
-      points,
+      data,
       showInputBox,
       showProfilePanel,
       cartographerAddress,
       profileAnalytics,
-      timeseries,
+      // timeseries,
+      filteredData,
+      // timelineMax,
+      // timelineMin,
+      // minDate,
+      // maxDate,
     } = this.state;
+
+    const min = Math.min.apply(null,
+      data.map((x) => new Date(x.dateOfMarking)));
+
+    const max = Math.max.apply(null,
+      data.map((x) => new Date(x.dateOfMarking)));
+
     return (
       <div>
         <CartographerAddressInputBox
@@ -79,9 +116,15 @@ class VizCartographerJourney extends React.Component {
         />
         <TimeSeriesSlider
           display={showProfilePanel}
-          minDate={timeseries.minDate}
-          maxDate={timeseries.maxDate}
-          onSliderValueChange={this.onSliderValueChange}
+          minRange={min}
+          maxRange={max}
+          curMinVal={min}
+          curMaxVal={max}
+          count={2}
+          currMin={min}
+          currMax={max}
+          filterDate={this.filterDate}
+          length={2}
         />
         <CartographerProfilePanel
           display={showProfilePanel}
@@ -89,9 +132,7 @@ class VizCartographerJourney extends React.Component {
           profileAnalytics={profileAnalytics}
         />
         <DeckGL
-          layers={CartographerJourneyRenderLayers({
-            data: points,
-          })}
+          layers={CartographerJourneyRenderLayers({ data: filteredData })}
           initialViewState={{ ...viewport }}
           controller
         >

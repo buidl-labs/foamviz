@@ -59,3 +59,12 @@
 .cartographer-analytics {
     line-height: 15px;
 }
+
+.date-row {
+    margin-top: 0px;
+    margin-bottom: 10px;
+	display: flex;
+	justify-content: space-between;
+	color: #7D7D7D;
+	font-size: 14px;
+}
