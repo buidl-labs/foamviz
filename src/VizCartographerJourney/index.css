@@ -79,3 +79,14 @@
     margin: 10px;
     outline: none;
 }
+
+.cartographerJourneyTooltipStyle {
+    position: absolute;
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    max-width: 300px;
+    font-size: 12px;
+    z-index: 9;
+    pointer-events: none;
+  }
