@@ -1,41 +1,52 @@
 import React from 'react';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import playButton from '../../assets/imgs/play-button.png';
+import pauseButton from '../../assets/imgs/pause.png';
 
 const TimeSeriesSlider = (props) => {
   const {
     display,
-    // data,
     minRange,
     maxRange,
-    // curMinVal,
-    // curMaxVal,
-    // count,
-    filterDate,
+    initialMinValue,
+    initialMaxValue,
+    curMinVal,
+    curMaxVal,
+    count,
+    filterData,
     length,
+    play,
+    isPlayButton,
   } = props;
-  // const currMin = new Date(props.currMin);
-  // const currMax = new Date(props.currMax);
 
   if (display === false) return null;
 
-  //   const currMin = new Date(currMin);
-  //     const currMax = new Date(currMax);
+  const filterDate = (event) => {
+    filterData(event[0], event[1]);
+  };
 
   return (
     <div className="abs-container-bottom main-container-bottom">
       <div className="date-row">
-        <div>{length > 0 ? (new Date(minRange).toLocaleDateString().split(',')[0]) || minRange.toLocaleString().split(',')[0] : ''}</div>
-        <div>{length > 0 ? (new Date(maxRange).toLocaleDateString().split(',')[0]) || maxRange.toLocaleString().split(',')[0] : ''}</div>
+        <div>{length > 0 ? (new Date(curMinVal).toLocaleDateString().split(',')[0]) || curMinVal.toLocaleString().split(',')[0] : ''}</div>
+        <div>{length > 0 ? (new Date(curMaxVal).toLocaleDateString().split(',')[0]) || curMaxVal.toLocaleString().split(',')[0] : ''}</div>
+      </div>
+      <div>
+
+        <button type="button" className="button-img-container">
+          <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
+        </button>
       </div>
       <Range
         onChange={filterDate}
         min={minRange}
         max={maxRange}
-        // value={[minRange + 10000000, maxRange - 10000000]}
-        count={2}
-        defaultValue={[minRange, maxRange]}
+        value={[curMinVal, curMaxVal]}
+        count={count}
+        defaultValue={[initialMinValue, initialMaxValue]}
         allowCross={false}
+        pushable={false}
         trackStyle={[{ backgroundColor: '#363636' }]}
         handleStyle={[
           {
