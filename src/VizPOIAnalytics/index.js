@@ -1,6 +1,7 @@
 import React from 'react';
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
+import * as R from 'ramda';
 import POIAnalyticsControlPanel from './POIAnalyticsControlPanel';
 import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 import Tooltip from './components/Tooltip';
@@ -18,7 +19,9 @@ import {
 class VizPOIAnalytics extends React.Component {
   constructor(props) {
     super(props);
-    this.fetchAllPOIDetailsInCurrentViewport = this.fetchAllPOIDetailsInCurrentViewport.bind(this);
+    this.fetchAllPOIDetailsInCurrentViewport = this.fetchAllPOIDetailsInCurrentViewport.bind(
+      this,
+    );
     this.state = {
       viewport: CONSTANTS.INITIAL_VIEWPORT,
       hover: {
@@ -34,6 +37,7 @@ class VizPOIAnalytics extends React.Component {
   }
 
   async componentDidMount() {
+    console.log('Mounted');
     this.setState({
       FOAMTokenInUSD: await getValInUSD(),
     });
@@ -49,7 +53,10 @@ class VizPOIAnalytics extends React.Component {
           x,
           y,
           hoveredObject: allHoveredPOIDetails,
-          details: await getTooltipFormattedDetails(allHoveredPOIDetails, FOAMTokenInUSD),
+          details: await getTooltipFormattedDetails(
+            allHoveredPOIDetails,
+            FOAMTokenInUSD,
+          ),
         },
       });
     } else {
@@ -78,12 +85,49 @@ class VizPOIAnalytics extends React.Component {
     }
   }
 
+  dataSanityChecker(newPointsFetched) {
+    const existingPoints = this.state.points;
+    const newPoints = newPointsFetched;
+    console.log('Existing Points');
+    console.log(existingPoints);
+    console.log('NewPoints');
+    console.log(newPoints);
+
+    console.log('Existing Points Length', existingPoints.length);
+    console.log('New Points Length', newPoints.length);
+
+    const compareListingHash = (x, y) => x.listingHash === y.listingHash;
+
+    const difference = R.differenceWith(
+      compareListingHash,
+      existingPoints,
+      newPoints,
+    );
+
+    console.log('Difference before Union', difference);
+
+    const arrayOfUniquePoints = R.unionWith(
+      R.eqBy(R.prop('listingHash')),
+      existingPoints,
+      newPoints,
+    );
+
+    return arrayOfUniquePoints;
+  }
+
   async fetchAllPOIDetailsInCurrentViewport() {
-    const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(this.mapRef.getMap().getBounds());
+    console.log('fetchAllPOIDetailsInCurrentViewport called!');
+    const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
+      this.mapRef.getMap().getBounds(),
+    );
 
-    const pointsInCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(boundingBoxDetailsFromCurrentViewPort);
+    const newPointsFetched = await fetchPOIDetailsFromFOAMAPI(
+      boundingBoxDetailsFromCurrentViewPort,
+    );
 
-    this.setState({ points: pointsInCurrentViewPort });
+    const formattedObjectForDeckGL = this.dataSanityChecker(newPointsFetched);
+
+    this.setState({ points: formattedObjectForDeckGL });
   }
 
   updateLayerSettings(settings) {
@@ -92,16 +136,14 @@ class VizPOIAnalytics extends React.Component {
 
   render() {
     const {
-      hover, settings, points, viewport, userResponse,
-    } = this.state;
+ hover, settings, points, viewport, userResponse 
+} = this.state;
 
     if (userResponse === false) return <p>Loading...</p>;
 
     return (
       <div>
-        <Tooltip
-          allHoveredPOIDetails={hover}
-        />
+        <Tooltip allHoveredPOIDetails={hover} />
         <POIAnalyticsControlPanel
           settings={settings}
           controls={CONSTANTS.HEXAGON_CONTROLS}
@@ -123,7 +165,7 @@ class VizPOIAnalytics extends React.Component {
               this.mapRef = map;
             }}
             mapStyle={GLOBAL_CONSTANTS.MAP_STYLE}
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+            mapboxApiAccessToken="pk.eyJ1IjoicHJhc3R1dCIsImEiOiJjazJ5a2RxdGIwNjYzM2R0ODAzcXJpN2FmIn0.-XHSjrUZcvB9y40hReB7nw"
             onLoad={this.fetchAllPOIDetailsInCurrentViewport}
           />
         </DeckGL>
