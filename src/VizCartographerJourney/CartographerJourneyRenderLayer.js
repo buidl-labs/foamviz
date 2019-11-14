@@ -2,7 +2,7 @@ import { ArcLayer } from 'deck.gl';
 import { getColorForArcLayer } from './utils/helper';
 
 const CartographerJourneyRenderLayers = (props) => {
-  const { data } = props;
+  const { data, onHover } = props;
 
   return [
     new ArcLayer({
@@ -14,6 +14,7 @@ const CartographerJourneyRenderLayers = (props) => {
       getTargetPosition: (d) => d.to.position,
       getSourceColor: (d) => getColorForArcLayer(d.sourceStatus),
       getTargetColor: (d) => getColorForArcLayer(d.destinationStatus),
+      onHover,
     }),
   ];
 };

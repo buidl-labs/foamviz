@@ -4,6 +4,7 @@ import { StaticMap } from 'react-map-gl';
 import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
 import CartographerProfilePanel from './components/CartographerProfilePanel';
+import CartographerJourneyTooltip from './components/CartographerJourneyTooltip';
 import { fetchCartographerDetailsFromFOAMAPI, getProfileAnalytics } from './utils/helper';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
@@ -34,6 +35,11 @@ class VizCartographerJourney extends React.Component {
       timelineMin: null,
       timelineMax: null,
       isPlayButton: true,
+      hover: {
+        x: 0,
+        y: 0,
+        hoveredObject: null,
+      },
     };
   }
 
@@ -68,13 +74,11 @@ class VizCartographerJourney extends React.Component {
 
   filterData = (newMinVal, newMaxVal) => {
     const {
-      minDate, maxDate, data, filteredData,
+      minDate, maxDate, data,
     } = this.state;
 
     const [newMinDate, newMaxDate] = [new Date(newMinVal), new Date(newMaxVal)];
     const [oldMinDate, oldMaxDate] = [minDate, maxDate];
-
-    console.log(newMinDate, newMaxDate);
 
     if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
       this.setState({
@@ -86,7 +90,6 @@ class VizCartographerJourney extends React.Component {
           .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
           .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
       });
-      console.log(filteredData);
     }
   }
 
@@ -117,6 +120,28 @@ class VizCartographerJourney extends React.Component {
     });
   }
 
+  onHover = ({ object, x, y }) => {
+    const hoveredArcLayer = object;
+    if (hoveredArcLayer) {
+      this.setState({
+        hover: {
+          x,
+          y,
+          hoveredObject: hoveredArcLayer,
+          details: hoveredArcLayer,
+        },
+      });
+    } else {
+      this.setState({
+        hover: {
+          x,
+          y,
+          hoveredObject: hoveredArcLayer,
+        },
+      });
+    }
+  }
+
   render() {
     const {
       viewport,
@@ -129,6 +154,7 @@ class VizCartographerJourney extends React.Component {
       timelineMax,
       timelineMin,
       isPlayButton,
+      hover,
     } = this.state;
 
     const min = Math.min.apply(null,
@@ -142,6 +168,9 @@ class VizCartographerJourney extends React.Component {
         <CartographerAddressInputBox
           display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}
+        />
+        <CartographerJourneyTooltip
+          hoveredObjectDetails={hover}
         />
         <TimeSeriesSlider
           display={showProfilePanel}
@@ -163,7 +192,10 @@ class VizCartographerJourney extends React.Component {
           profileAnalytics={profileAnalytics}
         />
         <DeckGL
-          layers={CartographerJourneyRenderLayers({ data: filteredData })}
+          layers={CartographerJourneyRenderLayers({
+            data: filteredData,
+            onHover: (hover) => this.onHover(hover),
+          })}
           initialViewState={{ ...viewport }}
           controller
         >
