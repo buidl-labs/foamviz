@@ -1,13 +1,17 @@
 import React from 'react';
-import DeckGL from 'deck.gl';
+import { HexagonLayer, DeckGL } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import * as R from 'ramda';
 import POIAnalyticsControlPanel from './POIAnalyticsControlPanel';
 import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
+
 import Tooltip from './components/Tooltip';
 import * as CONSTANTS from './utils/constants';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import lightingEffect from './utils/lightingEffects';
+
+import LAYER_PROPERTIES from './utils/layerProperties';
+
 import {
   getValInUSD,
   getInitialControlPanelSettings,
@@ -29,6 +33,7 @@ class VizPOIAnalytics extends React.Component {
         y: 0,
         hoveredObject: null,
       },
+      checkingPoints: [],
       points: [],
       FOAMTokenInUSD: 0,
       settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS),
@@ -42,6 +47,10 @@ class VizPOIAnalytics extends React.Component {
       FOAMTokenInUSD: await getValInUSD(),
     });
     this.setUserLocation();
+  }
+
+  componentDidUpdate() {
+    // console.log(this.state);
   }
 
   onHover({ x, y, object }) {
@@ -85,46 +94,36 @@ class VizPOIAnalytics extends React.Component {
     }
   }
 
-  dataSanityChecker(newPointsFetched) {
-    const existingPoints = [...this.state.points];
-    const newPoints = newPointsFetched;
-    const unionOfExistingPointsAndNewPoints = R.unionWith(
+  dataSanityChecker(pointsFetchedForCurrentViewPort) {
+    const pointsAlreadyRendered = [...this.state.points];
+    const unionOfOldAndNew = R.unionWith(
       R.eqBy(R.prop('listingHash')),
-      existingPoints,
-      newPoints,
+      pointsAlreadyRendered,
+      pointsFetchedForCurrentViewPort,
     );
-    // console.log('Existing Points');
-    // console.log(existingPoints);
-    // console.log('NewPoints');
-    // console.log(newPoints);
 
-    console.log('Existing Points Length', existingPoints.length);
-    console.log('New Points Length', newPoints.length);
+    console.log('Existing Points Length', pointsAlreadyRendered.length);
     console.log(
-      'Union Points of Existing & New',
-      unionOfExistingPointsAndNewPoints.length,
+      'Points Fetched in the Current ViewPort Length',
+      pointsFetchedForCurrentViewPort.length,
     );
+    console.log('Union Points of Existing & New', unionOfOldAndNew.length);
 
     const compareListingHash = (x, y) => x.listingHash === y.listingHash;
 
-    const difference = R.differenceWith(
+    const newPoints = R.differenceWith(
       compareListingHash,
-      unionOfExistingPointsAndNewPoints,
-      existingPoints,
+      unionOfOldAndNew,
+      pointsAlreadyRendered,
     );
 
-    console.log('Difference', difference.length);
-    const pointsToRender = existingPoints.concat(difference);
+    console.log(
+      'Count of points that are not already rendered',
+      newPoints.length,
+    );
 
-    console.log('pointsToRender', pointsToRender.length);
-
-    // Only set state when difference is not 0 as union contains new points
-    if (difference.length !== 0) {
-      console.log('Went inside');
-      return pointsToRender;
-    }
-
-    return false;
+    // If difference is not 0, then union contains new points that were not existing before
+    return newPoints.length !== 0 ? newPoints : false;
   }
 
   async fetchAllPOIDetailsInCurrentViewport() {
@@ -134,18 +133,22 @@ class VizPOIAnalytics extends React.Component {
       this.mapRef.getMap().getBounds(),
     );
 
-    const newPointsFetched = await fetchPOIDetailsFromFOAMAPI(
+    const pointsFetchedForCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(
       boundingBoxDetailsFromCurrentViewPort,
     );
 
-    const pointsToRender = this.dataSanityChecker(newPointsFetched);
+    const newPoints = this.dataSanityChecker(pointsFetchedForCurrentViewPort);
 
-    if (pointsToRender) {
-      console.log('Setting state');
-      this.setState({ points: pointsToRender });
+    if (newPoints) {
+      const dataChunks = [...this.state.checkingPoints];
+      dataChunks.push(newPoints);
+      this.setState((prevState) => ({
+        checkingPoints: dataChunks,
+        points: [...prevState.points, ...newPoints],
+      }));
     }
 
-    // this.setState({ points: newPointsFetched });
+    // this.setState({ points: newPoints });
   }
 
   updateLayerSettings(settings) {
@@ -154,10 +157,43 @@ class VizPOIAnalytics extends React.Component {
 
   render() {
     const {
- hover, settings, points, viewport, userResponse 
-} = this.state;
+      hover,
+      settings,
+      points,
+      checkingPoints,
+      viewport,
+      userResponse,
+    } = this.state;
 
     if (userResponse === false) return <p>Loading...</p>;
+
+    // const layers = POIAnalyticsRenderLayers({
+    //   data: points,
+    //   onHover: (hover) => this.onHover(hover),
+    //   settings,
+    // });
+
+    console.log('Checking Points', checkingPoints);
+    const layers = checkingPoints.map(
+      (chunk, chunkIndex) =>
+      // console.log(chunk);
+
+        new HexagonLayer({
+          id: `chunk-${chunkIndex}`,
+          getPosition: (d) => d.position,
+          dataComparator: (newData, oldData) => {
+            const noChangeInData = R.equals(newData, oldData);
+            // console.log(noChangeInData);
+            return noChangeInData;
+          },
+          data: chunk,
+          onHover: (hover) => this.onHover(hover),
+          ...settings,
+          ...LAYER_PROPERTIES,
+        }),
+    );
+
+    // console.log(layers);
 
     return (
       <div>
@@ -168,11 +204,7 @@ class VizPOIAnalytics extends React.Component {
           onChange={(settings) => this.updateLayerSettings(settings)}
         />
         <DeckGL
-          layers={POIAnalyticsRenderLayers({
-            data: points,
-            onHover: (hover) => this.onHover(hover),
-            settings,
-          })}
+          layers={layers}
           effects={[lightingEffect]}
           initialViewState={{ ...viewport }}
           controller
