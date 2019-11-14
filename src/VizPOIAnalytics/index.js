@@ -44,7 +44,7 @@ class VizPOIAnalytics extends React.Component {
     this.setUserLocation();
   }
 
-  async onHover({ x, y, object }) {
+  onHover({ x, y, object }) {
     const allHoveredPOIDetails = object;
     const { FOAMTokenInUSD } = this.state;
     if (allHoveredPOIDetails) {
@@ -53,7 +53,7 @@ class VizPOIAnalytics extends React.Component {
           x,
           y,
           hoveredObject: allHoveredPOIDetails,
-          details: await getTooltipFormattedDetails(
+          details: getTooltipFormattedDetails(
             allHoveredPOIDetails,
             FOAMTokenInUSD,
           ),
@@ -86,36 +86,49 @@ class VizPOIAnalytics extends React.Component {
   }
 
   dataSanityChecker(newPointsFetched) {
-    const existingPoints = this.state.points;
+    const existingPoints = [...this.state.points];
     const newPoints = newPointsFetched;
-    console.log('Existing Points');
-    console.log(existingPoints);
-    console.log('NewPoints');
-    console.log(newPoints);
+    const unionOfExistingPointsAndNewPoints = R.unionWith(
+      R.eqBy(R.prop('listingHash')),
+      existingPoints,
+      newPoints,
+    );
+    // console.log('Existing Points');
+    // console.log(existingPoints);
+    // console.log('NewPoints');
+    // console.log(newPoints);
 
     console.log('Existing Points Length', existingPoints.length);
     console.log('New Points Length', newPoints.length);
+    console.log(
+      'Union Points of Existing & New',
+      unionOfExistingPointsAndNewPoints.length,
+    );
 
     const compareListingHash = (x, y) => x.listingHash === y.listingHash;
 
     const difference = R.differenceWith(
       compareListingHash,
+      unionOfExistingPointsAndNewPoints,
       existingPoints,
-      newPoints,
     );
 
-    console.log('Difference before Union', difference);
+    console.log('Difference', difference.length);
+    const pointsToRender = existingPoints.concat(difference);
 
-    const arrayOfUniquePoints = R.unionWith(
-      R.eqBy(R.prop('listingHash')),
-      existingPoints,
-      newPoints,
-    );
+    console.log('pointsToRender', pointsToRender.length);
 
-    return arrayOfUniquePoints;
+    // Only set state when difference is not 0 as union contains new points
+    if (difference.length !== 0) {
+      console.log('Went inside');
+      return pointsToRender;
+    }
+
+    return false;
   }
 
   async fetchAllPOIDetailsInCurrentViewport() {
+    console.log('==========================');
     console.log('fetchAllPOIDetailsInCurrentViewport called!');
     const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
       this.mapRef.getMap().getBounds(),
@@ -125,9 +138,14 @@ class VizPOIAnalytics extends React.Component {
       boundingBoxDetailsFromCurrentViewPort,
     );
 
-    const formattedObjectForDeckGL = this.dataSanityChecker(newPointsFetched);
+    const pointsToRender = this.dataSanityChecker(newPointsFetched);
 
-    this.setState({ points: formattedObjectForDeckGL });
+    if (pointsToRender) {
+      console.log('Setting state');
+      this.setState({ points: pointsToRender });
+    }
+
+    // this.setState({ points: newPointsFetched });
   }
 
   updateLayerSettings(settings) {
