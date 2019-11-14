@@ -13,26 +13,27 @@ class VizCartographerJourney extends React.Component {
   constructor(props) {
     super(props);
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
-    this.onSliderValueChange = this.onSliderValueChange.bind(this);
     this.state = {
       viewport: {
-        longitude: 77.10,
-        latitude: 28.70,
-        zoom: 11,
-        minZoom: 2,
+        longitude: -57.38580902885856,
+        latitude: 62.51353296267838,
+        zoom: 1.75,
         maxZoom: 20,
-        pitch: 45,
-        bearing: 0,
+        minZoom: 1,
+        pitch: 60,
+        bearing: 50,
       },
-      points: [],
+      data: [],
       showInputBox: true,
       showProfilePanel: false,
       cartographerAddress: '',
       profileAnalytics: {},
-      timeseries: {
-        // minDate: new Date('10/10/1999'),
-        // maxDate: new Date('11/11/2019'),
-      },
+      filteredData: [],
+      minDate: null,
+      maxDate: null,
+      timelineMin: null,
+      timelineMax: null,
+      isPlayButton: true,
     };
   }
 
@@ -40,37 +41,102 @@ class VizCartographerJourney extends React.Component {
     // 0xda65d14fb04ce371b435674829bede656693eb48
   }
 
-  onSliderValueChange(event) {
-    console.log('value:', event);
+  async getCartographerDetails(cartographerAddress) {
+    const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
+    const profileAnalytics = getProfileAnalytics(cartographerDetails);
+
+    const min = Math.min.apply(null,
+      cartographerDetails.map((x) => new Date(x.dateOfMarking)));
+
+    const max = Math.max.apply(null,
+      cartographerDetails.map((x) => new Date(x.dateOfMarking)));
+
+    this.setState({
+      data: cartographerDetails,
+      filteredData: cartographerDetails,
+      showInputBox: false,
+      showProfilePanel: true,
+      cartographerAddress,
+      profileAnalytics,
+      timelineMin: min,
+      timelineMax: max,
+      minDate: min,
+      maxDate: max,
+      globalMax: max,
+    });
   }
 
-  async getCartographerDetails(event) {
-    const code = event.keyCode || event.which;
-    if (code === 13) {
-      const cartographerAddress = event.target.value;
-      const data = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
-      const profileAnalytics = getProfileAnalytics(data);
-      // console.log(data);
+  filterData = (newMinVal, newMaxVal) => {
+    const {
+      minDate, maxDate, data, filteredData,
+    } = this.state;
+
+    const [newMinDate, newMaxDate] = [new Date(newMinVal), new Date(newMaxVal)];
+    const [oldMinDate, oldMaxDate] = [minDate, maxDate];
+
+    console.log(newMinDate, newMaxDate);
+
+    if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
       this.setState({
-        points: data,
-        showInputBox: false,
-        showProfilePanel: true,
-        cartographerAddress,
-        profileAnalytics,
+        timelineMin: newMinVal,
+        timelineMax: newMaxVal,
+        minDate: newMinDate,
+        maxDate: newMaxDate,
+        filteredData: [...data]
+          .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
+          .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
       });
+      console.log(filteredData);
     }
+  }
+
+  toggle = () => {
+    const { isPlayButton } = this.state;
+    this.setState({
+      isPlayButton: !isPlayButton,
+    });
+    if (this.showInterval) {
+      clearInterval(this.showInterval);
+      this.showInterval = !this.showInterval;
+      return;
+    }
+
+    const {
+      timelineMax, timelineMin, globalMax,
+    } = this.state;
+
+    this.setState({
+      timelineMin,
+      timelineMax: timelineMax !== globalMax ? timelineMax + 86400000 : timelineMin + 86400000,
+    }, () => {
+      if (this.showInterval) clearInterval(this.showInterval);
+      this.showInterval = setInterval(() => {
+        const { timelineMax } = this.state;
+        this.filterData(timelineMin, timelineMax + 86400000);
+      }, 1000);
+    });
   }
 
   render() {
     const {
       viewport,
-      points,
+      data,
       showInputBox,
       showProfilePanel,
       cartographerAddress,
       profileAnalytics,
-      timeseries,
+      filteredData,
+      timelineMax,
+      timelineMin,
+      isPlayButton,
     } = this.state;
+
+    const min = Math.min.apply(null,
+      data.map((x) => new Date(x.dateOfMarking)));
+
+    const max = Math.max.apply(null,
+      data.map((x) => new Date(x.dateOfMarking)));
+
     return (
       <div>
         <CartographerAddressInputBox
@@ -79,9 +145,17 @@ class VizCartographerJourney extends React.Component {
         />
         <TimeSeriesSlider
           display={showProfilePanel}
-          minDate={timeseries.minDate}
-          maxDate={timeseries.maxDate}
-          onSliderValueChange={this.onSliderValueChange}
+          count={2}
+          length={2}
+          minRange={min}
+          maxRange={max}
+          curMinVal={timelineMin}
+          curMaxVal={timelineMax}
+          initialMinValue={min}
+          initialMaxValue={max}
+          filterData={this.filterData}
+          play={this.toggle}
+          isPlayButton={isPlayButton}
         />
         <CartographerProfilePanel
           display={showProfilePanel}
@@ -89,9 +163,7 @@ class VizCartographerJourney extends React.Component {
           profileAnalytics={profileAnalytics}
         />
         <DeckGL
-          layers={CartographerJourneyRenderLayers({
-            data: points,
-          })}
+          layers={CartographerJourneyRenderLayers({ data: filteredData })}
           initialViewState={{ ...viewport }}
           controller
         >
