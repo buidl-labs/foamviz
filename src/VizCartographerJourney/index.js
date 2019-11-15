@@ -48,28 +48,32 @@ class VizCartographerJourney extends React.Component {
   }
 
   async getCartographerDetails(cartographerAddress) {
-    const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
-    const profileAnalytics = getProfileAnalytics(cartographerDetails);
+    try {
+      const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
+      const profileAnalytics = getProfileAnalytics(cartographerDetails);
 
-    const min = Math.min.apply(null,
-      cartographerDetails.map((x) => new Date(x.dateOfMarking)));
+      const min = Math.min.apply(null,
+        cartographerDetails.map((x) => new Date(x.dateOfMarking)));
 
-    const max = Math.max.apply(null,
-      cartographerDetails.map((x) => new Date(x.dateOfMarking)));
+      const max = Math.max.apply(null,
+        cartographerDetails.map((x) => new Date(x.dateOfMarking)));
 
-    this.setState({
-      data: cartographerDetails,
-      filteredData: cartographerDetails,
-      showInputBox: false,
-      showProfilePanel: true,
-      cartographerAddress,
-      profileAnalytics,
-      timelineMin: min,
-      timelineMax: max,
-      minDate: min,
-      maxDate: max,
-      globalMax: max,
-    });
+      this.setState({
+        data: cartographerDetails,
+        filteredData: cartographerDetails,
+        showInputBox: false,
+        showProfilePanel: true,
+        cartographerAddress,
+        profileAnalytics,
+        timelineMin: min,
+        timelineMax: max,
+        minDate: min,
+        maxDate: max,
+        globalMax: max,
+      });
+    } catch {
+      console.log('catch');
+    }
   }
 
   filterData = (newMinVal, newMaxVal) => {
