@@ -5,8 +5,9 @@ import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
 import CartographerProfilePanel from './components/CartographerProfilePanel';
 import CartographerJourneyTooltip from './components/CartographerJourneyTooltip';
-import { fetchCartographerDetailsFromFOAMAPI, getProfileAnalytics } from './utils/helper';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
+import ErrorDialogueBox from './components/ErrorDialogueBox';
+import { fetchCartographerDetailsFromFOAMAPI, getProfileAnalytics } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
 
@@ -40,12 +41,18 @@ class VizCartographerJourney extends React.Component {
         y: 0,
         hoveredObject: null,
       },
+      hasError: false,
+      errorMessage: '',
     };
   }
 
   async componentDidMount() {
     // 0xda65d14fb04ce371b435674829bede656693eb48
   }
+
+  // componentDidCatch(error, info) {
+  //   console.log('error from componentdidcatch:', error, 'info', info);
+  // }
 
   async getCartographerDetails(cartographerAddress) {
     try {
@@ -71,8 +78,11 @@ class VizCartographerJourney extends React.Component {
         maxDate: max,
         globalMax: max,
       });
-    } catch {
-      console.log('catch');
+    } catch (error) {
+      this.setState({
+        hasError: true,
+        errorMessage: error.message,
+      });
     }
   }
 
@@ -124,6 +134,13 @@ class VizCartographerJourney extends React.Component {
     });
   }
 
+  closeErrorBox = () => {
+    this.setState({
+      hasError: false,
+      errorMessage: '',
+    });
+  }
+
   onHover = ({ object, x, y }) => {
     const hoveredArcLayer = object;
     if (hoveredArcLayer) {
@@ -159,6 +176,8 @@ class VizCartographerJourney extends React.Component {
       timelineMin,
       isPlayButton,
       hover,
+      hasError,
+      errorMessage,
     } = this.state;
 
     const min = Math.min.apply(null,
@@ -169,6 +188,11 @@ class VizCartographerJourney extends React.Component {
 
     return (
       <div>
+        <ErrorDialogueBox
+          display={hasError}
+          errorMessage={errorMessage}
+          closeErrorBox={this.closeErrorBox}
+        />
         <CartographerAddressInputBox
           display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}

@@ -12,7 +12,8 @@ const CartographerProfilePanel = (props) => {
         const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
         updateCartographer(details);
         updateProfilePic(cartographerProfilePic);
-        // console.log(details);
+      }).catch((error) => {
+        console.log('error in getting', error);
       });
     }
   }, [cartographerAddress]);

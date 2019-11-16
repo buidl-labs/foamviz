@@ -2,15 +2,15 @@ import React from 'react';
 
 const CartographerAddressInputBox = (props) => {
   const { display, getCartographerDetails } = props;
+  let cartographerAddressInput = null;
 
   const getCartographerDetailsWhenPressedEnter = (event) => {
     const code = event.keyCode || event.which;
     if (code === 13) {
       getCartographerDetails(event.target.value);
+      cartographerAddressInput.value = '';
     }
   };
-
-  let cartographerAddressInput = null;
 
   React.useEffect(() => {
     if (display) cartographerAddressInput.focus();
