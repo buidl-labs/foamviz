@@ -12,13 +12,29 @@ export const getCartographerProfile = async (cartographerAddress) => {
   return Promise.resolve(profile);
 };
 
-export const getProfileAnalytics = (data) => {
-  const profile = {
-    points: data.length + 1, // since we get N-1 points for arc-layer incase of N points marked
-    challenged: data.reduce((acc, val) => (val.sourceStatus === 'challenged' ? val + acc : 0), 0),
-  };
-  return profile;
-};
+// const profile = {
+//   points: data.length + 1, // since we get N-1 points for arc-layer incase of N points marked
+//   challenged: data.reduce((acc, val) => (val.sourceStatus === 'challenged' ? val + acc : 0), 0),
+// };
+// return profile;
+
+export const getProfileAnalytics = (cartographerAddress) => axios.get(
+  `http://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
+)
+  .then((res) => {
+    const cartographerHistory = res.data;
+
+    const newPoints = cartographerHistory.filter((item) => item.action === 'newPoint').length;
+    const removedPoints = cartographerHistory.filter((item) => item.action === 'removedPoint').length;
+    const pointsChallenged = cartographerHistory.filter((item) => item.action === 'challenge').length;
+    const pointsAdded = newPoints - removedPoints;
+
+    const profile = {
+      pointsChallenged,
+      pointsAdded,
+    };
+    return Promise.resolve(profile);
+  });
 
 export const fetchCartographerDetailsFromFOAMAPI = (cartographerAddress) => axios.get(
   `https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=10000&offset=0&sort=oldest&creator=${cartographerAddress}`,
