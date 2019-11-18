@@ -1,12 +1,12 @@
 .abs-container {
-    z-index: 1000;
+    z-index: 7;
     position: absolute;
     top: 5vh;
     left: 2.5vw;
 }
 
 .abs-container-bottom {
-    z-index: 1000;
+    z-index: 7;
     position: absolute;
     bottom: 5vh;
     right: 2.5vw;
@@ -87,6 +87,29 @@
     color: #fff;
     max-width: 300px;
     font-size: 12px;
-    z-index: 9;
+    z-index: 7;
     pointer-events: none;
   }
+
+.error-modal {
+    z-index: 10;
+    background-color: rgba(255,255,255,1);
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 25rem;
+    height: 10rem;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+.error-background {
+    background-color: rgba(0,0,0,0.75);
+    position: absolute;
+    width: 100vw;
+    z-index: 9;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
