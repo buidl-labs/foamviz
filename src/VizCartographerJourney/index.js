@@ -50,14 +50,11 @@ class VizCartographerJourney extends React.Component {
     // 0xda65d14fb04ce371b435674829bede656693eb48
   }
 
-  // componentDidCatch(error, info) {
-  //   console.log('error from componentdidcatch:', error, 'info', info);
-  // }
-
   async getCartographerDetails(cartographerAddress) {
     try {
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
-      const profileAnalytics = getProfileAnalytics(cartographerDetails);
+      console.log(cartographerDetails);
+      const profileAnalytics = await getProfileAnalytics(cartographerAddress);
 
       const min = Math.min.apply(null,
         cartographerDetails.map((x) => new Date(x.dateOfMarking)));

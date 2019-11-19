@@ -35,11 +35,11 @@ const CartographerProfilePanel = (props) => {
         <div className="cartographer-analytics">
           <p>ANALYTICS</p>
           <br />
-          <span className="big-int">{profileAnalytics.points}</span>
+          <span className="big-int">{profileAnalytics.pointsAdded}</span>
           <p>points added</p>
           <br />
           <div>
-            <span className="big-int">{profileAnalytics.challenged}</span>
+            <span className="big-int">{profileAnalytics.pointsChallenged}</span>
             <p>points challenged</p>
           </div>
         </div>
