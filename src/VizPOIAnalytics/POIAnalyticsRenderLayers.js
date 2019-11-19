@@ -10,7 +10,11 @@ const POIAnalyticsRenderLayers = function RenderedDeckGLLayerSettings(props) {
       && new HexagonLayer({
         id: 'heatmap',
         getPosition: (d) => d.position,
-        dataComparator: (newData, oldData) => equals(newData, oldData),
+        dataComparator: (newData, oldData) => {
+          const noChangeInData = equals(newData, oldData);
+          console.log(noChangeInData);
+          return noChangeInData;
+        },
         data,
         onHover,
         ...settings,
