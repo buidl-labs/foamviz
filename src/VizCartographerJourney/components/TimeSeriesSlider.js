@@ -1,7 +1,7 @@
 import React from 'react';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import playButton from '../../assets/imgs/play-button.png';
+import playButton from '../../assets/imgs/play-button-white.png';
 import pauseButton from '../../assets/imgs/pause.png';
 
 const TimeSeriesSlider = (props) => {

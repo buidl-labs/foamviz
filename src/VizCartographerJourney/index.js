@@ -17,13 +17,13 @@ class VizCartographerJourney extends React.Component {
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
     this.state = {
       viewport: {
-        longitude: -57.38580902885856,
-        latitude: 62.51353296267838,
-        zoom: 1.75,
+        longitude: -18,
+        latitude: 0,
+        zoom: 2,
         maxZoom: 20,
         minZoom: 1,
-        pitch: 60,
-        bearing: 50,
+        pitch: 45,
+        bearing: -10,
       },
       data: [],
       showInputBox: true,
@@ -53,7 +53,7 @@ class VizCartographerJourney extends React.Component {
   async getCartographerDetails(cartographerAddress) {
     try {
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
-      console.log(cartographerDetails);
+
       const profileAnalytics = await getProfileAnalytics(cartographerAddress);
 
       const min = Math.min.apply(null,

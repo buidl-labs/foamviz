@@ -73,8 +73,6 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
     `https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=10000&offset=0&sort=oldest&creator=${cartographerAddress}`,
   );
 
-  // console.log(allAddedPOIdata);
-
   const filteredAddedPOIData = allAddedPOIdata.data.map((item) => ({
     name: item.name,
     geohash: item.geohash,
@@ -95,7 +93,6 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
   const pollIDsOfAllChallangePoints = detailOfAllChallengedPoints.map((item) => `0x${parseFloat(item.challenge_id).toString(16)}`);
 
   const promises = pollIDsOfAllChallangePoints.map((item) => axios.get(`https://map-api-direct.foam.space/challenge/${item}/doc`));
-  console.log(promises);
 
   return Promise.all(promises).then(async (res) => {
     const hashes = res.map((item) => item.data.metaData.listingHash);

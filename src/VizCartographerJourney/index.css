@@ -9,11 +9,11 @@
     z-index: 7;
     position: absolute;
     bottom: 5vh;
-    right: 2.5vw;
+    right: 20vw;
 }
 
 .main-container-bottom {
-    background: white;
+    background: black;
     border: none;
     padding: 1.5rem;
     width: 50rem;
@@ -26,7 +26,7 @@
     background: black;
     border: none;
     padding: 1.5rem;
-    width: 25rem;
+    width: 22rem;
     border-radius: 0.2rem;
     outline: transparent;
     color: #ffffff;
@@ -71,6 +71,7 @@
 
 .play-pause-btn {
     height: 2rem;
+    background-color: white;
 }
 
 .button-img-container {
@@ -112,4 +113,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.rc-slider-handle {
+    background-color: white !important;
+}
+
+.rc-slider-step {
+    background: rgba(101, 105, 237, 250);
 }

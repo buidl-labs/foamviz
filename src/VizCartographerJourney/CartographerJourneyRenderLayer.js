@@ -9,12 +9,14 @@ const CartographerJourneyRenderLayers = (props) => {
       id: 'arc-layer',
       data,
       pickable: true,
-      getWidth: 12,
+      getWidth: 3,
       getSourcePosition: (d) => d.from.position,
       getTargetPosition: (d) => d.to.position,
       getSourceColor: (d) => getColorForArcLayer(d.sourceStatus),
       getTargetColor: (d) => getColorForArcLayer(d.destinationStatus),
       onHover,
+      autoHighlight: true,
+      highlightColor: [101, 105, 237, 250],
     }),
   ];
 };
