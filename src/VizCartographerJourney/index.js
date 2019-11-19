@@ -53,6 +53,7 @@ class VizCartographerJourney extends React.Component {
   async getCartographerDetails(cartographerAddress) {
     try {
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
+      console.log(cartographerDetails);
       const profileAnalytics = await getProfileAnalytics(cartographerAddress);
 
       const min = Math.min.apply(null,
