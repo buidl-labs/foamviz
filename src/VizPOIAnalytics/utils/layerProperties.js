@@ -34,7 +34,7 @@ const LAYER_PROPERTIES = {
   elevationRange,
   elevationScale: 5,
   extruded: true,
-  opacity: 0.8,
+  opacity: 1,
   pickable: true,
   autoHighlight: true,
   material,

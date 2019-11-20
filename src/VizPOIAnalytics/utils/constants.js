@@ -1,11 +1,6 @@
-export const INITIAL_VIEWPORT = {
+export const NY_COORDINATES = {
   longitude: -74,
   latitude: 40.7,
-  zoom: 11,
-  minZoom: 5,
-  maxZoom: 16,
-  pitch: 45,
-  bearing: 0,
 };
 
 export const HEXAGON_CONTROLS = {
@@ -45,7 +40,7 @@ export const HEXAGON_CONTROLS = {
   },
 };
 
-export const legendColors = [
+export const LEGEND_COLORS = [
   'rgb(1, 152, 189)',
   'rgb(73, 227, 206)',
   'rgb(216, 254, 181)',

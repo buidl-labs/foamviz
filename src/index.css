@@ -1,13 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono'); 
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 
 body {
   font-family: 'Roboto Mono', cursive;
-  width: 100vw;
-  height: 100vh;
   margin: 0;
-}
-
-
-code {
-  font-family: 'Roboto Mono', cursive;
+  overflow: hidden;
 }
