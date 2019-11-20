@@ -24,7 +24,7 @@ class VizCartographerJourney extends React.Component {
         zoom: 1,
         maxZoom: 20,
         minZoom: 1,
-        pitch: 45,
+        pitch: 50,
         bearing: -5,
         transitionDuration: 1200,
         transitionInterpolator: new FlyToInterpolator(),

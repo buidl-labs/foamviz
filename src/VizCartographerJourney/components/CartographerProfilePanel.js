@@ -1,5 +1,7 @@
 import React from 'react';
+import Img from 'react-image';
 import { getCartographerProfile } from '../utils/helper';
+import placeholder from '../../assets/imgs/person.jpeg';
 
 const CartographerProfilePanel = (props) => {
   const {
@@ -32,10 +34,11 @@ const CartographerProfilePanel = (props) => {
     <div className="abs-container">
       <div className="main-container">
         <div className="profile-panel">
-          <img
+          <Img
             className="cartographer-profile-pic"
-            alt="cartographer"
             src={cartographerProfilePic}
+            loader={<img alt="img" className="placeholder-img" src={placeholder} />}
+            unloader={<img alt="img" className="placeholder-img" src={placeholder} />}
           />
           <h2>{cartographer.name}</h2>
         </div>

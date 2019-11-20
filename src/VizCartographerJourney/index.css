@@ -184,3 +184,8 @@
       position: relative; 
       left: -30%;
   }
+
+  .placeholder-img {
+      height: 8rem;
+      border-radius: 4rem;
+  }
