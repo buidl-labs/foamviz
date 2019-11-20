@@ -29,13 +29,15 @@ const TimeSeriesSlider = (props) => {
   return (
     <div className="abs-container-bottom main-container-bottom">
       <div className="date-row">
-        <div>{length > 0 ? (new Date(curMinVal).toLocaleDateString().split(',')[0]) || curMinVal.toLocaleString().split(',')[0] : ''}</div>
+        <div>
+          <div className="play">
+            <button type="button" className="button-img-container">
+              <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
+            </button>
+            <div>{length > 0 ? (new Date(curMinVal).toLocaleDateString().split(',')[0]) || curMinVal.toLocaleString().split(',')[0] : ''}</div>
+          </div>
+        </div>
         <div>{length > 0 ? (new Date(curMaxVal).toLocaleDateString().split(',')[0]) || curMaxVal.toLocaleString().split(',')[0] : ''}</div>
-      </div>
-      <div>
-        <button type="button" className="button-img-container">
-          <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
-        </button>
       </div>
       <Range
         onChange={filterDate}

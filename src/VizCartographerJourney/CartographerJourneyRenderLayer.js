@@ -1,8 +1,10 @@
-import { ArcLayer } from 'deck.gl';
+import { ArcLayer, ScatterplotLayer } from 'deck.gl';
 import { getColorForArcLayer } from './utils/helper';
 
 const CartographerJourneyRenderLayers = (props) => {
   const { data, onHover } = props;
+
+  console.log('data:', data);
 
   return [
     new ArcLayer({
@@ -17,6 +19,22 @@ const CartographerJourneyRenderLayers = (props) => {
       onHover,
       autoHighlight: true,
       highlightColor: [101, 105, 237, 250],
+    }),
+    new ScatterplotLayer({
+      id: 'scatterplot-layer',
+      data,
+      pickable: true,
+      opacity: 0.8,
+      stroked: true,
+      filled: true,
+      radiusScale: 6,
+      radiusMinPixels: 1,
+      radiusMaxPixels: 100,
+      lineWidthMinPixels: 1,
+      getPosition: (d) => d.from.position,
+      getRadius: (d) => 50,
+      getFillColor: (d) => [101, 197, 108],
+      getLineColor: (d) => [0, 0, 0],
     }),
   ];
 };

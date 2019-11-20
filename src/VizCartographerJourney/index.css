@@ -8,7 +8,7 @@
 .abs-container-bottom {
     z-index: 7;
     position: absolute;
-    bottom: 5vh;
+    top: calc(5vh + 100vh - 9rem - 2.8rem);
     right: 2vw;
 }
 
@@ -16,7 +16,7 @@
     background: black;
     border: none;
     padding: 1.5rem;
-    width: 50rem;
+    width: calc(100vw - 32rem);
     border-radius: 0.2rem;
     outline: transparent;
     color: #ffffff;
@@ -26,11 +26,33 @@
     background: black;
     border: none;
     padding: 1.5rem;
-    width: 18rem;
+    width: 16rem;
     border-radius: 0.2rem;
     outline: transparent;
     color: #ffffff;
 }
+
+.profile-container {
+    height: calc(100vh - 9rem);
+}
+
+.divider {
+    position: absolute;
+    width: 100%;
+    left: 0;
+}
+
+.mapview-title {
+    margin-top: 4rem;
+}
+
+.analytic-title {
+    margin-bottom: 2rem;
+}
+
+  .analytic-value-title {
+    font-size: 0.7rem;
+  }
 
 .address-input-box::placeholder {
     color: #ffffff;
@@ -49,6 +71,8 @@
 
 .profile-panel {
     text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .big-int {
@@ -58,6 +82,7 @@
 
 .cartographer-analytics {
     line-height: 15px;
+    margin-top: 3rem;
 }
 
 .date-row {
@@ -69,18 +94,27 @@
 	font-size: 14px;
 }
 
+.play {
+    display: flex;
+  }
+
 .play-pause-btn {
-    height: 2rem;
-    /* background-color: white; */
+    height: 1rem;
+    margin-left: -10px;
     color: white;
+    margin-right: 0.5rem;
+    cursor: pointer;
 }
 
 .button-img-container {
     background: transparent;
     border: none;
-    margin: 10px;
     outline: none;
 }
+
+.rc-slider-rail {
+    background-color: grey !important;
+  }
 
 .cartographerJourneyTooltipStyle {
     position: absolute;
@@ -134,11 +168,12 @@
 }
 
 .view-btn {
-    width: 40%;
-    padding: 0.6rem;
+    width: 50%;
+    padding: 0.75rem;
     background: transparent;
     color: white;
-    border: 1px solid white;
+    font-size: 0.8rem;
+    border: 0.6px solid #2e2d2c;
     outline: none;
     cursor: pointer;
 }
