@@ -13,7 +13,7 @@ export const getCartographerProfile = async (cartographerAddress) => {
 };
 
 export const getProfileAnalytics = (cartographerAddress) => axios.get(
-  `http://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
+  `https://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
 )
   .then((res) => {
     const cartographerHistory = res.data;
@@ -85,7 +85,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
   }));
 
   const allPointsOfCartographer = await axios.get(
-    `http://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
+    `https://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
   );
 
   const detailOfAllChallengedPoints = allPointsOfCartographer.data.filter((item) => item.action === 'challenge');

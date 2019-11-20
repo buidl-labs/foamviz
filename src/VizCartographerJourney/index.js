@@ -7,6 +7,7 @@ import CartographerProfilePanel from './components/CartographerProfilePanel';
 import CartographerJourneyTooltip from './components/CartographerJourneyTooltip';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import ErrorDialogueBox from './components/ErrorDialogueBox';
+import Loading from './components/Loading';
 import { fetchCartographerDetailsFromFOAMAPI, getProfileAnalytics } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
@@ -18,16 +19,17 @@ class VizCartographerJourney extends React.Component {
     this.changeMapView = this.changeMapView.bind(this);
     this.state = {
       viewport: {
-        longitude: -18,
-        latitude: 0,
-        zoom: 2,
+        longitude: 20,
+        latitude: 20,
+        zoom: 1,
         maxZoom: 20,
         minZoom: 1,
         pitch: 45,
-        bearing: -10,
+        bearing: -5,
         transitionDuration: 1200,
         transitionInterpolator: new FlyToInterpolator(),
       },
+      loading: false,
       data: [],
       showInputBox: true,
       showProfilePanel: false,
@@ -59,15 +61,9 @@ class VizCartographerJourney extends React.Component {
     // }, 5000);
   }
 
-  changeMapView(pitch) {
-    const { viewport } = this.state;
-    this.setState({
-      viewport: { ...viewport, pitch },
-    });
-  }
-
   async getCartographerDetails(cartographerAddress) {
     try {
+      this.setState({ loading: true });
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
 
       const profileAnalytics = await getProfileAnalytics(cartographerAddress);
@@ -90,11 +86,13 @@ class VizCartographerJourney extends React.Component {
         minDate: min,
         maxDate: max,
         globalMax: max,
+        loading: false,
       });
     } catch (error) {
       this.setState({
         hasError: true,
         errorMessage: error.message,
+        loading: false,
       });
     }
   }
@@ -176,6 +174,13 @@ class VizCartographerJourney extends React.Component {
     }
   }
 
+  changeMapView(pitch) {
+    const { viewport } = this.state;
+    this.setState({
+      viewport: { ...viewport, pitch },
+    });
+  }
+
   render() {
     const {
       viewport,
@@ -191,6 +196,7 @@ class VizCartographerJourney extends React.Component {
       hover,
       hasError,
       errorMessage,
+      loading,
     } = this.state;
 
     const min = Math.min.apply(null,
@@ -201,6 +207,9 @@ class VizCartographerJourney extends React.Component {
 
     return (
       <div>
+        <Loading
+          display={loading}
+        />
         <ErrorDialogueBox
           display={hasError}
           errorMessage={errorMessage}

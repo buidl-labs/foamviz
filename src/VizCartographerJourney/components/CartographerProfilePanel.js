@@ -39,8 +39,9 @@ const CartographerProfilePanel = (props) => {
           />
           <h2>{cartographer.name}</h2>
         </div>
+        <hr />
+        <h3>MapView</h3>
         <div className="profile-panel">
-          <h2>MapView</h2>
           <div className="toggleButton">
             <button
               className="view-btn"
@@ -64,7 +65,6 @@ const CartographerProfilePanel = (props) => {
             </button>
           </div>
         </div>
-        <hr />
         <div className="cartographer-analytics">
           <p>ANALYTICS</p>
           <br />
