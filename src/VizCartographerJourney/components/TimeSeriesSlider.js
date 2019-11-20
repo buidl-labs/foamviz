@@ -1,7 +1,7 @@
 import React from 'react';
 import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import playButton from '../../assets/imgs/play-button-white.png';
+import playButton from '../../assets/imgs/play.svg';
 import pauseButton from '../../assets/imgs/pause.png';
 
 const TimeSeriesSlider = (props) => {
@@ -33,7 +33,6 @@ const TimeSeriesSlider = (props) => {
         <div>{length > 0 ? (new Date(curMaxVal).toLocaleDateString().split(',')[0]) || curMaxVal.toLocaleString().split(',')[0] : ''}</div>
       </div>
       <div>
-
         <button type="button" className="button-img-container">
           <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
         </button>

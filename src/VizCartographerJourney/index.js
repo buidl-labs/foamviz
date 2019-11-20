@@ -1,5 +1,5 @@
 import React from 'react';
-import DeckGL from 'deck.gl';
+import DeckGL, { FlyToInterpolator } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
@@ -15,6 +15,7 @@ class VizCartographerJourney extends React.Component {
   constructor(props) {
     super(props);
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
+    this.changeMapView = this.changeMapView.bind(this);
     this.state = {
       viewport: {
         longitude: -18,
@@ -24,6 +25,8 @@ class VizCartographerJourney extends React.Component {
         minZoom: 1,
         pitch: 45,
         bearing: -10,
+        transitionDuration: 1200,
+        transitionInterpolator: new FlyToInterpolator(),
       },
       data: [],
       showInputBox: true,
@@ -46,8 +49,21 @@ class VizCartographerJourney extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // 0xda65d14fb04ce371b435674829bede656693eb48
+    // setTimeout(() => {
+    //   this.mapRefVizTwo.getMap().flyTo({ pitch: 0, speed: 0.6 });
+    // setTimeout(() => {
+
+    //   });
+    // }, 5000);
+  }
+
+  changeMapView(pitch) {
+    const { viewport } = this.state;
+    this.setState({
+      viewport: { ...viewport, pitch },
+    });
   }
 
   async getCartographerDetails(cartographerAddress) {
@@ -215,6 +231,8 @@ class VizCartographerJourney extends React.Component {
           display={showProfilePanel}
           cartographerAddress={cartographerAddress}
           profileAnalytics={profileAnalytics}
+          displayMode2D={viewport.pitch === 0}
+          changeMapView={this.changeMapView}
         />
         <DeckGL
           layers={CartographerJourneyRenderLayers({
@@ -222,9 +240,13 @@ class VizCartographerJourney extends React.Component {
             onHover: (hover) => this.onHover(hover),
           })}
           initialViewState={{ ...viewport }}
+          viewState={{ ...viewport }}
           controller
         >
           <StaticMap
+            ref={(map) => {
+              this.mapRefVizTwo = map;
+            }}
             mapStyle={GLOBAL_CONSTANTS.MAP_STYLE}
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
           />

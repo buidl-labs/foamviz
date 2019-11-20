@@ -117,7 +117,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
     const test = filteredAddedPOIData.concat(challengedPoints);
     test.sort((a, b) => (new Date(a.state.createdAt).getTime() - new Date(b.state.createdAt).getTime()));
     return getArcLayerData(test);
-  });
+  }).catch(() => {});
 };
 
 export const getColorForArcLayer = (status) => {

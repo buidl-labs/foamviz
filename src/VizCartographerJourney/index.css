@@ -71,7 +71,8 @@
 
 .play-pause-btn {
     height: 2rem;
-    background-color: white;
+    /* background-color: white; */
+    color: white;
 }
 
 .button-img-container {
@@ -119,6 +120,21 @@
     background-color: white !important;
 }
 
-.rc-slider-step {
-    background: rgba(101, 105, 237, 250);
+.rc-slider-track {
+    background: rgba(101, 105, 237, 250) !important;
+}
+
+.toggleButton {
+    display: flex;
+    justify-content: center;
+}
+
+.view-btn {
+    width: 40%;
+    padding: 0.6rem;
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    outline: none;
+    cursor: pointer;
 }

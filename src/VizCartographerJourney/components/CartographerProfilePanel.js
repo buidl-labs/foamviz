@@ -2,19 +2,27 @@ import React from 'react';
 import { getCartographerProfile } from '../utils/helper';
 
 const CartographerProfilePanel = (props) => {
-  const { display, cartographerAddress, profileAnalytics } = props;
+  const {
+    display,
+    cartographerAddress,
+    profileAnalytics,
+    changeMapView,
+    displayMode2D,
+  } = props;
   const [cartographer, updateCartographer] = React.useState({});
   const [cartographerProfilePic, updateProfilePic] = React.useState('#');
 
   React.useEffect(() => {
     if (cartographerAddress) {
-      getCartographerProfile(cartographerAddress).then((details) => {
-        const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
-        updateCartographer(details);
-        updateProfilePic(cartographerProfilePic);
-      }).catch((error) => {
-        console.log('error in getting', error);
-      });
+      getCartographerProfile(cartographerAddress)
+        .then((details) => {
+          const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
+          updateCartographer(details);
+          updateProfilePic(cartographerProfilePic);
+        })
+        .catch((error) => {
+          console.log('error in getting', error);
+        });
     }
   }, [cartographerAddress]);
 
@@ -30,6 +38,31 @@ const CartographerProfilePanel = (props) => {
             src={cartographerProfilePic}
           />
           <h2>{cartographer.name}</h2>
+        </div>
+        <div className="profile-panel">
+          <h2>MapView</h2>
+          <div className="toggleButton">
+            <button
+              className="view-btn"
+              style={{
+                background: displayMode2D ? 'white' : 'black',
+                color: !displayMode2D ? 'white' : 'black',
+              }}
+              onClick={() => changeMapView(0)}
+            >
+              2D
+            </button>
+            <button
+              className="view-btn"
+              style={{
+                background: !displayMode2D ? 'white' : 'black',
+                color: displayMode2D ? 'white' : 'black',
+              }}
+              onClick={() => changeMapView(45)}
+            >
+              3D
+            </button>
+          </div>
         </div>
         <hr />
         <div className="cartographer-analytics">
