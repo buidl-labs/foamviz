@@ -149,10 +149,12 @@ class VizCartographerJourney extends React.Component {
   }
 
   closeErrorBox = () => {
+    const { history } = this.props;
     this.setState({
       hasError: false,
       errorMessage: '',
     });
+    history.push('/vizcartographerjourney');
   }
 
   onHover = ({ object, x, y }) => {

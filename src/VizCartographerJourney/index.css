@@ -224,3 +224,7 @@
       height: 8rem;
       border-radius: 4rem;
   }
+
+  .close-button {
+      cursor: pointer;
+  }
