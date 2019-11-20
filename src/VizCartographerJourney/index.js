@@ -52,6 +52,8 @@ class VizCartographerJourney extends React.Component {
   }
 
   componentDidMount() {
+    const { match } = this.props;
+    if (match && match.params && match.params.id) this.getCartographerDetails(match.params.id);
     // 0xda65d14fb04ce371b435674829bede656693eb48
     // setTimeout(() => {
     //   this.mapRefVizTwo.getMap().flyTo({ pitch: 0, speed: 0.6 });
@@ -63,7 +65,7 @@ class VizCartographerJourney extends React.Component {
 
   async getCartographerDetails(cartographerAddress) {
     try {
-      this.setState({ loading: true });
+      this.setState({ loading: true, showInputBox: false });
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(cartographerAddress);
 
       const profileAnalytics = await getProfileAnalytics(cartographerAddress);
@@ -93,6 +95,7 @@ class VizCartographerJourney extends React.Component {
         hasError: true,
         errorMessage: error.message,
         loading: false,
+        showInputBox: true,
       });
     }
   }

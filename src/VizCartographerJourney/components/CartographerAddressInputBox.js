@@ -1,15 +1,17 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 const CartographerAddressInputBox = (props) => {
-  const { display, getCartographerDetails } = props;
+  const { display, getCartographerDetails, history } = props;
   let cartographerAddressInput = null;
 
   const getCartographerDetailsWhenPressedEnter = (event) => {
     const code = event.keyCode || event.which;
+    const { value } = event.target;
     if (code === 13) {
-      getCartographerDetails(event.target.value);
-      cartographerAddressInput.value = '';
+      getCartographerDetails(value);
     }
+    if (history) history.push(`/vizcartographerjourney/${value}`);
   };
 
   React.useEffect(() => {
@@ -32,4 +34,4 @@ const CartographerAddressInputBox = (props) => {
   );
 };
 
-export default CartographerAddressInputBox;
+export default withRouter(CartographerAddressInputBox);

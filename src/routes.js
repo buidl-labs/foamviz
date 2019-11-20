@@ -9,5 +9,6 @@ export default () => (
     <Route exact path="/" component={HomePage} />
     <Route exact path="/vizpoianalytics" component={VizPOIAnalytics} />
     <Route exact path="/vizcartographerjourney" component={VizCartographerJourney} />
+    <Route exact path="/vizcartographerjourney/:id" component={VizCartographerJourney} />
   </Router>
 );
