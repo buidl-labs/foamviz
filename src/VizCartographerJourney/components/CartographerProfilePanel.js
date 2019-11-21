@@ -1,46 +1,101 @@
 import React from 'react';
+import Img from 'react-image';
 import { getCartographerProfile } from '../utils/helper';
+import placeholder from '../../assets/imgs/person.jpeg';
 
 const CartographerProfilePanel = (props) => {
-  const { display, cartographerAddress, profileAnalytics } = props;
+  const {
+    display,
+    cartographerAddress,
+    profileAnalytics,
+    changeMapView,
+    displayMode2D,
+  } = props;
   const [cartographer, updateCartographer] = React.useState({});
   const [cartographerProfilePic, updateProfilePic] = React.useState('#');
 
   React.useEffect(() => {
     if (cartographerAddress) {
-      getCartographerProfile(cartographerAddress).then((details) => {
-        const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
-        updateCartographer(details);
-        updateProfilePic(cartographerProfilePic);
-      }).catch((error) => {
-        console.log('error in getting', error);
-      });
+      getCartographerProfile(cartographerAddress)
+        .then((details) => {
+          const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
+          updateCartographer(details);
+          updateProfilePic(cartographerProfilePic);
+        })
+        .catch((error) => {
+          console.log('error in getting', error);
+        });
     }
   }, [cartographerAddress]);
 
-  if (display === false) return null;
+  if (!display) return null;
 
   return (
     <div className="abs-container">
-      <div className="main-container">
+      <div className="main-container profile-container">
         <div className="profile-panel">
-          <img
+          <Img
             className="cartographer-profile-pic"
-            alt="cartographer"
             src={cartographerProfilePic}
+            loader={(
+              <div className="lds-spinner">
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+              </div>
+)}
+            unloader={<img alt="img" className="placeholder-img" src={placeholder} />}
           />
           <h2>{cartographer.name}</h2>
         </div>
-        <hr />
+        <hr className="divider" />
+        <p className="mapview-title">MAP VIEW</p>
+        <div className="profile-panel">
+          <div className="toggleButton">
+            <button
+              type="submit"
+              className="view-btn"
+              style={{
+                background: displayMode2D ? '#2e2d2c' : 'black',
+                borderRadius: '3.5px 0px 0px 3.5px',
+              }}
+              onClick={() => changeMapView('2d')}
+            >
+              2D
+            </button>
+            <button
+              type="submit"
+              className="view-btn"
+              style={{
+                background: !displayMode2D ? '#2e2d2c' : 'black',
+                borderRadius: '0px 3.5px 3.5px 0px',
+              }}
+              onClick={() => changeMapView('3d')}
+            >
+              3D
+            </button>
+          </div>
+        </div>
         <div className="cartographer-analytics">
-          <p>ANALYTICS</p>
+          <p className="analytic-title">ANALYTICS</p>
           <br />
-          <span className="big-int">{profileAnalytics.pointsAdded}</span>
-          <p>points added</p>
+          <div className="analytic-title">
+            <span className="big-int">{profileAnalytics.pointsAdded}</span>
+            <p className="analytic-value-title">points added</p>
+          </div>
           <br />
-          <div>
+          <div className="analytic-title">
             <span className="big-int">{profileAnalytics.pointsChallenged}</span>
-            <p>points challenged</p>
+            <p className="analytic-value-title">points challenged</p>
           </div>
         </div>
       </div>

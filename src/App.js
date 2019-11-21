@@ -15,6 +15,11 @@ const App = () => (
       path="/cartographer-journey"
       component={VizCartographerJourney}
     />
+    <Route
+      exact
+      path="/cartographer-journey/:id"
+      component={VizCartographerJourney}
+    />
   </Router>
 );
 

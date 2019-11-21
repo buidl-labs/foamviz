@@ -13,7 +13,7 @@ export const getCartographerProfile = async (cartographerAddress) => {
 };
 
 export const getProfileAnalytics = (cartographerAddress) => axios.get(
-  `http://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
+  `https://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
 )
   .then((res) => {
     const cartographerHistory = res.data;
@@ -32,6 +32,8 @@ export const getProfileAnalytics = (cartographerAddress) => axios.get(
 
 const resultChallenge = (listingHash) => axios.get(`https://map-api-direct.foam.space/poi/details/${listingHash}`);
 
+const hexToDecimal = (hex) => parseInt(hex, 16) * 10 ** -18;
+
 const getArcLayerData = (cartographerJourneyObject) => {
   const arcData = [];
   let i;
@@ -42,12 +44,14 @@ const getArcLayerData = (cartographerJourneyObject) => {
     const sourceStatus = cartographerJourneyObject[i].state.status.type;
     const destinationStatus = cartographerJourneyObject[i + 1].state.status.type;
     const dateOfMarking = cartographerJourneyObject[i].state.createdAt;
+    const stakedValue = hexToDecimal(cartographerJourneyObject[i + 1].stakedvalue);
 
     // data for arc-layer
     const item = {
       dateOfMarking,
       sourceStatus,
       destinationStatus,
+      stakedValue,
       from: {
         name: cartographerJourneyObject[i].name,
         position: [
@@ -73,11 +77,10 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
     `https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=10000&offset=0&sort=oldest&creator=${cartographerAddress}`,
   );
 
-  // console.log(allAddedPOIdata);
-
   const filteredAddedPOIData = allAddedPOIdata.data.map((item) => ({
     name: item.name,
     geohash: item.geohash,
+    stakedvalue: item.state.deposit,
     state: {
       createdAt: item.state.createdAt,
       status: {
@@ -87,7 +90,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
   }));
 
   const allPointsOfCartographer = await axios.get(
-    `http://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
+    `https://api.blocklytics.org/foam/v0/cartographers/${cartographerAddress}/history?key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`,
   );
 
   const detailOfAllChallengedPoints = allPointsOfCartographer.data.filter((item) => item.action === 'challenge');
@@ -95,7 +98,6 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
   const pollIDsOfAllChallangePoints = detailOfAllChallengedPoints.map((item) => `0x${parseFloat(item.challenge_id).toString(16)}`);
 
   const promises = pollIDsOfAllChallangePoints.map((item) => axios.get(`https://map-api-direct.foam.space/challenge/${item}/doc`));
-  console.log(promises);
 
   return Promise.all(promises).then(async (res) => {
     const hashes = res.map((item) => item.data.metaData.listingHash);
@@ -109,6 +111,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
     const challengedPoints = acceptedResults.map((point) => ({
       name: point.data.data.name,
       geohash: point.data.data.geohash,
+      stakedvalue: point.data.state.deposit,
       state: {
         createdAt: point.data.state.createdAt,
         status: {
@@ -120,7 +123,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
     const test = filteredAddedPOIData.concat(challengedPoints);
     test.sort((a, b) => (new Date(a.state.createdAt).getTime() - new Date(b.state.createdAt).getTime()));
     return getArcLayerData(test);
-  });
+  }).catch(() => {});
 };
 
 export const getColorForArcLayer = (status) => {
