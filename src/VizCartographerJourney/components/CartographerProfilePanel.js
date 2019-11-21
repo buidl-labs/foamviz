@@ -37,7 +37,22 @@ const CartographerProfilePanel = (props) => {
           <Img
             className="cartographer-profile-pic"
             src={cartographerProfilePic}
-            loader={<img alt="img" className="placeholder-img" src={placeholder} />}
+            loader={(
+              <div className="lds-spinner">
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+              </div>
+)}
             unloader={<img alt="img" className="placeholder-img" src={placeholder} />}
           />
           <h2>{cartographer.name}</h2>

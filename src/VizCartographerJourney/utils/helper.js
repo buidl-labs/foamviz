@@ -32,6 +32,8 @@ export const getProfileAnalytics = (cartographerAddress) => axios.get(
 
 const resultChallenge = (listingHash) => axios.get(`https://map-api-direct.foam.space/poi/details/${listingHash}`);
 
+const hexToDecimal = (hex) => parseInt(hex, 16) * 10 ** -18;
+
 const getArcLayerData = (cartographerJourneyObject) => {
   const arcData = [];
   let i;
@@ -42,12 +44,14 @@ const getArcLayerData = (cartographerJourneyObject) => {
     const sourceStatus = cartographerJourneyObject[i].state.status.type;
     const destinationStatus = cartographerJourneyObject[i + 1].state.status.type;
     const dateOfMarking = cartographerJourneyObject[i].state.createdAt;
+    const stakedValue = hexToDecimal(cartographerJourneyObject[i + 1].stakedvalue);
 
     // data for arc-layer
     const item = {
       dateOfMarking,
       sourceStatus,
       destinationStatus,
+      stakedValue,
       from: {
         name: cartographerJourneyObject[i].name,
         position: [
@@ -76,6 +80,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
   const filteredAddedPOIData = allAddedPOIdata.data.map((item) => ({
     name: item.name,
     geohash: item.geohash,
+    stakedvalue: item.state.deposit,
     state: {
       createdAt: item.state.createdAt,
       status: {
@@ -106,6 +111,7 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
     const challengedPoints = acceptedResults.map((point) => ({
       name: point.data.data.name,
       geohash: point.data.data.geohash,
+      stakedvalue: point.data.state.deposit,
       state: {
         createdAt: point.data.state.createdAt,
         status: {

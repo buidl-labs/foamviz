@@ -30,9 +30,9 @@ const CartographerJourneyRenderLayers = (props) => {
       radiusMaxPixels: 100,
       lineWidthMinPixels: 1,
       getPosition: (d) => d.from.position,
-      getRadius: (d) => 50,
-      getFillColor: (d) => [101, 197, 108],
-      getLineColor: (d) => [0, 0, 0],
+      getRadius: (d) => (d.stakedValue * 5),
+      getFillColor: () => [101, 197, 108],
+      getLineColor: () => [0, 0, 0],
     }),
   ];
 };
