@@ -20,8 +20,8 @@ const INITIAL_VIEWPORT_STATE = {
   minZoom: 1,
   pitch: 50,
   bearing: -5,
-  transitionDuration: 1200,
-  transitionInterpolator: new FlyToInterpolator(),
+  // transitionDuration: 1200,
+  // transitionInterpolator: new FlyToInterpolator(),
 };
 
 class VizCartographerJourney extends React.Component {
@@ -187,7 +187,9 @@ class VizCartographerJourney extends React.Component {
     return new Promise((resolve) => {
       this.setState({
         viewport: {
-          ...viewport,
+          // ...viewport,
+          maxZoom: 20,
+          minZoom: 1,
           latitude: map.getCenter().lat,
           longitude: map.getCenter().lng,
           zoom: map.getZoom(),

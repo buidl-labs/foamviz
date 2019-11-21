@@ -33,9 +33,6 @@ const CartographerJourneyRenderLayers = (props) => {
       getRadius: (d) => (d.stakedValue * 5),
       getFillColor: () => [101, 197, 108, 100],
       getLineColor: () => [101, 197, 108],
-      onHover: ({ object, x, y }) => {
-        const tooltip = `${object.name}\n${object.address}`;
-      },
     }),
   ];
 };
