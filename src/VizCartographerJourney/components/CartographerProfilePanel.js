@@ -28,7 +28,7 @@ const CartographerProfilePanel = (props) => {
     }
   }, [cartographerAddress]);
 
-  if (display === false) return null;
+  if (!display) return null;
 
   return (
     <div className="abs-container">

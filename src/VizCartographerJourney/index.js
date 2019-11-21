@@ -28,7 +28,7 @@ class VizCartographerJourney extends React.Component {
   constructor(props) {
     super(props);
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
-    this.changeMapView = this.changeMapView.bind(this);
+    this.updateViewport = this.updateViewport.bind(this);
     this.state = {
       viewport: INITIAL_VIEWPORT_STATE,
       loading: false,
@@ -153,8 +153,8 @@ class VizCartographerJourney extends React.Component {
   }
 
   onHover = ({ object, x, y }) => {
-    const hoveredArcLayer = object;
-    if (hoveredArcLayer) {
+    const hoveredArcLayer = object || null;
+    this.updateViewport().then(() => {
       this.setState({
         hover: {
           x,
@@ -163,28 +163,26 @@ class VizCartographerJourney extends React.Component {
           details: hoveredArcLayer,
         },
       });
-    } else {
-      this.setState({
-        hover: {
-          x,
-          y,
-          hoveredObject: hoveredArcLayer,
-        },
-      });
-    }
+    });
   }
 
-  changeMapView() {
+  updateViewport(togglePitch = false) {
     const { viewport } = this.state;
     const map = this.mapRefVizTwo.getMap();
-    this.setState({
-      viewport: {
-        ...viewport,
-        latitude: map.getCenter().lat,
-        longitude: map.getCenter().lng,
-        zoom: map.getZoom(),
-        pitch: map.getPitch() === 50 ? 0 : 50,
-      },
+    let pitch = map.getPitch();
+
+    if (togglePitch) pitch = pitch === 50 ? 0 : 50;
+
+    return new Promise((resolve) => {
+      this.setState({
+        viewport: {
+          ...viewport,
+          latitude: map.getCenter().lat,
+          longitude: map.getCenter().lng,
+          zoom: map.getZoom(),
+          pitch,
+        },
+      }, resolve);
     });
   }
 
@@ -248,7 +246,7 @@ class VizCartographerJourney extends React.Component {
           cartographerAddress={cartographerAddress}
           profileAnalytics={profileAnalytics}
           displayMode2D={viewport.pitch === 0}
-          changeMapView={this.changeMapView}
+          changeMapView={() => this.updateViewport(true)}
         />
         <DeckGL
           layers={CartographerJourneyRenderLayers({
