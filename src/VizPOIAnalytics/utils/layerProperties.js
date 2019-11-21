@@ -29,6 +29,7 @@ const LIGHT_SETTINGS = {
 const elevationRange = [0, 1000];
 
 // Todo: to be part of Density of Points Layer component
+// Todo: hardcoded values, need to find a way to update the maximum domain for color and elevation
 export const LAYER_PROPERTIES_Op1 = {
   colorRange: HEATMAP_COLORS,
   lightSettings: LIGHT_SETTINGS,
@@ -43,9 +44,14 @@ export const LAYER_PROPERTIES_Op1 = {
   material,
 };
 
+// Todo: to be part of Staked Points Layer component
+// Todo: hardcoded values, need to find a way to update the maximum domain for color and elevation
 export const LAYER_PROPERTIES_Op2 = {
   colorRange: HEATMAP_COLORS,
   lightSettings: LIGHT_SETTINGS,
+  colorDomain: [0, 7000],
+  elevationDomain: [0, 7000],
+  elevationRange: [0, 1000],
   elevationScale: 5,
   extruded: true,
   opacity: 1,
