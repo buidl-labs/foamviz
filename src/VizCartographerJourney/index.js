@@ -16,13 +16,13 @@ import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
 
 const INITIAL_VIEWPORT_STATE = {
-  longitude: 20,
-  latitude: 20,
-  zoom: 1,
+  longitude: -80,
+  latitude: 50,
+  zoom: 1.1,
   maxZoom: 20,
   minZoom: 1,
   pitch: 50,
-  bearing: -5,
+  bearing: 15,
   // transitionDuration: 1200,
   // transitionInterpolator: new FlyToInterpolator(),
 };
@@ -59,7 +59,7 @@ class VizCartographerJourney extends React.Component {
 
   componentDidMount() {
     const { match } = this.props;
-    if (match && match.params && match.params.id) {this.getCartographerDetails(match.params.id);}
+    if (match && match.params && match.params.id) { this.getCartographerDetails(match.params.id); }
   }
 
   async getCartographerDetails(cartographerAddress) {
@@ -184,6 +184,7 @@ class VizCartographerJourney extends React.Component {
 
     const map = this.mapRefVizTwo.getMap();
     const mapPitch = map.getPitch();
+    console.log(map.getCenter());
 
     let pitch;
     if (pitchMode === '2d') {
