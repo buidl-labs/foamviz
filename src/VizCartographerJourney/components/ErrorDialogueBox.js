@@ -3,10 +3,14 @@ import React from 'react';
 const ErrorDialogueBox = (props) => {
   const { display, errorMessage, closeErrorBox } = props;
 
-  const ifESCpressed = (event) => {
-    const code = event.keyCode || event.which;
-    if (code === 27) closeErrorBox();
-  };
+  React.useEffect(() => {
+    const registered = document.addEventListener('keydown', (ev) => {
+      if (ev.keyCode === 27) closeErrorBox();
+    });
+    return () => {
+      document.removeEventListener('keydown', registered);
+    };
+  }, []);
 
   return display && (
     <div className="error-background">
@@ -16,8 +20,7 @@ const ErrorDialogueBox = (props) => {
           <p>{errorMessage}</p>
         </div>
         <span
-          onClick={() => closeErrorBox}
-          onKeyPress={ifESCpressed}
+          onClick={() => closeErrorBox()}
           className="close-button"
         >
         X

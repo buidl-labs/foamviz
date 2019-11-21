@@ -8,15 +8,12 @@ const CartographerAddressInputBox = (props) => {
   const getCartographerDetailsWhenPressedEnter = (event) => {
     const code = event.keyCode || event.which;
     const { value } = event.target;
-    if (code === 13) {
-      getCartographerDetails(value);
-    }
-    if (history) history.push(`/vizcartographerjourney/${value}`);
+    if (code === 13 && history) history.push(`/vizcartographerjourney/${value}`);
   };
 
   React.useEffect(() => {
     if (display) cartographerAddressInput.focus();
-  });
+  }, []);
 
   if (display === false) return null;
 

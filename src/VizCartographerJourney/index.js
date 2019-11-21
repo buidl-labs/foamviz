@@ -12,23 +12,25 @@ import { fetchCartographerDetailsFromFOAMAPI, getProfileAnalytics } from './util
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
 
+const INITIAL_VIEWPORT_STATE = {
+  longitude: 20,
+  latitude: 20,
+  zoom: 1,
+  maxZoom: 20,
+  minZoom: 1,
+  pitch: 50,
+  bearing: -5,
+  transitionDuration: 1200,
+  transitionInterpolator: new FlyToInterpolator(),
+};
+
 class VizCartographerJourney extends React.Component {
   constructor(props) {
     super(props);
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
     this.changeMapView = this.changeMapView.bind(this);
     this.state = {
-      viewport: {
-        longitude: 20,
-        latitude: 20,
-        zoom: 1,
-        maxZoom: 20,
-        minZoom: 1,
-        pitch: 50,
-        bearing: -5,
-        transitionDuration: 1200,
-        transitionInterpolator: new FlyToInterpolator(),
-      },
+      viewport: INITIAL_VIEWPORT_STATE,
       loading: false,
       data: [],
       showInputBox: true,
@@ -54,13 +56,6 @@ class VizCartographerJourney extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     if (match && match.params && match.params.id) this.getCartographerDetails(match.params.id);
-    // 0xda65d14fb04ce371b435674829bede656693eb48
-    // setTimeout(() => {
-    //   this.mapRefVizTwo.getMap().flyTo({ pitch: 0, speed: 0.6 });
-    // setTimeout(() => {
-
-    //   });
-    // }, 5000);
   }
 
   async getCartographerDetails(cartographerAddress) {
@@ -179,10 +174,17 @@ class VizCartographerJourney extends React.Component {
     }
   }
 
-  changeMapView(pitch) {
+  changeMapView() {
     const { viewport } = this.state;
+    const map = this.mapRefVizTwo.getMap();
     this.setState({
-      viewport: { ...viewport, pitch },
+      viewport: {
+        ...viewport,
+        latitude: map.getCenter().lat,
+        longitude: map.getCenter().lng,
+        zoom: map.getZoom(),
+        pitch: map.getPitch() === 50 ? 0 : 50,
+      },
     });
   }
 
@@ -253,7 +255,7 @@ class VizCartographerJourney extends React.Component {
             data: filteredData,
             onHover: (hover) => this.onHover(hover),
           })}
-          initialViewState={{ ...viewport }}
+          initialViewState={INITIAL_VIEWPORT_STATE}
           viewState={{ ...viewport }}
           controller
         >
