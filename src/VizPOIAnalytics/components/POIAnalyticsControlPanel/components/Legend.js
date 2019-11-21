@@ -1,10 +1,9 @@
 import React from 'react';
-import * as CONSTANTS from '../utils/constants';
 
-const Legend = () => (
+const Legend = ({ legendColors }) => (
   <div>
     <div className="layout">
-      {CONSTANTS.legendColors.map((value) => (
+      {legendColors.map((value) => (
         <div
           key={value}
           className="legend"
