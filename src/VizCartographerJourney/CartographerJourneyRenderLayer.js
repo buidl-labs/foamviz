@@ -9,7 +9,7 @@ const CartographerJourneyRenderLayers = (props) => {
       id: 'arc-layer',
       data,
       pickable: true,
-      getWidth: 5,
+      getWidth: 4,
       getSourcePosition: (d) => d.from.position,
       getTargetPosition: (d) => d.to.position,
       getSourceColor: (d) => getColorForArcLayer(d.sourceStatus),
@@ -31,8 +31,11 @@ const CartographerJourneyRenderLayers = (props) => {
       lineWidthMinPixels: 1,
       getPosition: (d) => d.from.position,
       getRadius: (d) => (d.stakedValue * 5),
-      getFillColor: () => [101, 197, 108],
-      getLineColor: () => [0, 0, 0],
+      getFillColor: () => [101, 197, 108, 100],
+      getLineColor: () => [101, 197, 108],
+      onHover: ({ object, x, y }) => {
+        const tooltip = `${object.name}\n${object.address}`;
+      },
     }),
   ];
 };
