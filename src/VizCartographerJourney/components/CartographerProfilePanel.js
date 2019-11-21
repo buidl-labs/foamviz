@@ -53,7 +53,7 @@ const CartographerProfilePanel = (props) => {
                 background: displayMode2D ? '#2e2d2c' : 'black',
                 borderRadius: '3.5px 0px 0px 3.5px',
               }}
-              onClick={changeMapView}
+              onClick={() => changeMapView('2d')}
             >
               2D
             </button>
@@ -64,7 +64,7 @@ const CartographerProfilePanel = (props) => {
                 background: !displayMode2D ? '#2e2d2c' : 'black',
                 borderRadius: '0px 3.5px 3.5px 0px',
               }}
-              onClick={changeMapView}
+              onClick={() => changeMapView('3d')}
             >
               3D
             </button>

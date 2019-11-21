@@ -50,6 +50,7 @@ class VizCartographerJourney extends React.Component {
       },
       hasError: false,
       errorMessage: '',
+      pitchFor3d: 50,
     };
   }
 
@@ -166,12 +167,22 @@ class VizCartographerJourney extends React.Component {
     });
   }
 
-  updateViewport(togglePitch = false) {
+  updateViewport(pitchMode = null) {
     const { viewport } = this.state;
-    const map = this.mapRefVizTwo.getMap();
-    let pitch = map.getPitch();
+    let { pitchFor3d } = this.state;
 
-    if (togglePitch) pitch = pitch === 50 ? 0 : 50;
+    const map = this.mapRefVizTwo.getMap();
+    const mapPitch = map.getPitch();
+
+    let pitch;
+    if (pitchMode === '2d') {
+      pitch = 0;
+      pitchFor3d = mapPitch;
+    } else if (pitchMode === '3d') {
+      pitch = pitchFor3d || 50;
+    } else {
+      pitch = mapPitch;
+    }
 
     return new Promise((resolve) => {
       this.setState({
@@ -180,8 +191,10 @@ class VizCartographerJourney extends React.Component {
           latitude: map.getCenter().lat,
           longitude: map.getCenter().lng,
           zoom: map.getZoom(),
+          bearing: map.getBearing(),
           pitch,
         },
+        pitchFor3d,
       }, resolve);
     });
   }
@@ -246,7 +259,7 @@ class VizCartographerJourney extends React.Component {
           cartographerAddress={cartographerAddress}
           profileAnalytics={profileAnalytics}
           displayMode2D={viewport.pitch === 0}
-          changeMapView={() => this.updateViewport(true)}
+          changeMapView={this.updateViewport}
         />
         <DeckGL
           layers={CartographerJourneyRenderLayers({
