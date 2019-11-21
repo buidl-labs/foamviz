@@ -4,8 +4,8 @@ import './HomePage.css';
 
 const HomePage = () => (
   <div className="app">
-    <p>Welcome to FOAMviz</p>
-    <p>Please select a viz to proceed</p>
+    <p className="heading">Welcome to FOAMviz</p>
+    <p className="heading">Please select a viz to proceed</p>
     <div>
       <ul>
         <li>
