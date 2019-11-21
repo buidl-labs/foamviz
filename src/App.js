@@ -16,7 +16,6 @@ const App = () => (
       component={VizCartographerJourney}
     />
     <Route
-      exact
       path="/cartographer-journey/:id"
       component={VizCartographerJourney}
     />

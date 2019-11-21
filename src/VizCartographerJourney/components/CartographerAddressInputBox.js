@@ -8,7 +8,7 @@ const CartographerAddressInputBox = (props) => {
   const getCartographerDetailsWhenPressedEnter = (event) => {
     const code = event.keyCode || event.which;
     const { value } = event.target;
-    if (code === 13 && history) history.push(`/vizcartographerjourney/${value}`);
+    if (code === 13 && history) history.push(`/cartographer-journey/${value}`);
   };
 
   React.useEffect(() => {
@@ -21,7 +21,9 @@ const CartographerAddressInputBox = (props) => {
     <div className="abs-container">
       <input
         id="cartographer-address"
-        ref={(input) => { cartographerAddressInput = input; }}
+        ref={(input) => {
+          cartographerAddressInput = input;
+        }}
         className="address-input-box main-container"
         type="text"
         placeholder="Enter Cartographer Address"

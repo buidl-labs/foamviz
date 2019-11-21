@@ -4,6 +4,7 @@ body {
   font-family: 'Roboto Mono', cursive;
   margin: 0;
   overflow: hidden;
+  background: #191a1a;
 }
 
 code {

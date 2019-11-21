@@ -8,6 +8,13 @@ const useStyles = createUseStyles({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '8px',
+    color: 'white',
+  },
+  subInfo: {
+    color: '#d3d3d3',
+  },
+  link: {
+    color: 'white',
   },
 });
 
@@ -16,17 +23,21 @@ const HomePage = () => {
   return (
     <div className={classes.root}>
       <h1>FOAMViz Project</h1>
-      <p>
+      <p className={classes.subInfo}>
         Current visualizations to study FOAM's TCR data are live on the
         following links:
       </p>
       <div>
         <ul>
           <li>
-            <Link to="/poi-analytics">Analytics around density of POI's</Link>
+            <Link to="/poi-analytics" className={classes.link}>
+              Analytics around density of POI's
+            </Link>
           </li>
           <li>
-            <Link to="/cartographer-journey">Journey of a Cartographer</Link>
+            <Link to="/cartographer-journey" className={classes.link}>
+              Journey of a Cartographer
+            </Link>
           </li>
         </ul>
       </div>
