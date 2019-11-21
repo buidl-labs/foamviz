@@ -3,6 +3,7 @@ export const NY_COORDINATES = {
   latitude: 40.7,
 };
 
+// Todo: this should not be here and instead be a part of the control Panel.
 export const HEXAGON_CONTROLS = {
   showDensityOfPoints: {
     displayName: 'Density of Points',
@@ -17,7 +18,7 @@ export const HEXAGON_CONTROLS = {
   radius: {
     displayName: 'Radius',
     type: 'range',
-    value: 250,
+    value: 220,
     step: 50,
     min: 50,
     max: 1000,
@@ -25,7 +26,7 @@ export const HEXAGON_CONTROLS = {
   coverage: {
     displayName: 'Coverage',
     type: 'range',
-    value: 0.7,
+    value: 0.63,
     step: 0.1,
     min: 0,
     max: 1,
@@ -40,6 +41,8 @@ export const HEXAGON_CONTROLS = {
   },
 };
 
+// Todo: this should be part of control panel and be sent as a prop to lengend component, since control panel parent component
+// controls everything.
 export const LEGEND_COLORS = [
   'rgb(1, 152, 189)',
   'rgb(73, 227, 206)',

@@ -33,6 +33,7 @@ export const getInitialControlPanelSettings = (constants) => Object.keys(constan
     {},
   );
 
+// Todo: To be part of TodoComponent
 export const getTooltipFormattedDetails = (
   allHoveredPOIDetails,
   FOAMTokenInUSD,
@@ -74,7 +75,6 @@ export const getFOAMUSDRate = async () => {
     const FOAM_BTC = response.data.BTC_FOAM.last;
     const BTC_USDC = response.data.USDC_BTC.last;
 
-    console.log(response);
     return FOAM_BTC * BTC_USDC;
   } catch (error) {
     console.log(error);

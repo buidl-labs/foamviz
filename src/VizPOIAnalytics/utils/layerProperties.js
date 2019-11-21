@@ -28,10 +28,13 @@ const LIGHT_SETTINGS = {
 
 const elevationRange = [0, 1000];
 
-const LAYER_PROPERTIES = {
+// Todo: to be part of Density of Points Layer component
+export const LAYER_PROPERTIES_Op1 = {
   colorRange: HEATMAP_COLORS,
   lightSettings: LIGHT_SETTINGS,
-  elevationRange,
+  colorDomain: [0, 30],
+  elevationDomain: [0, 30],
+  elevationRange: [0, 1000],
   elevationScale: 5,
   extruded: true,
   opacity: 1,
@@ -40,4 +43,13 @@ const LAYER_PROPERTIES = {
   material,
 };
 
-export default LAYER_PROPERTIES;
+export const LAYER_PROPERTIES_Op2 = {
+  colorRange: HEATMAP_COLORS,
+  lightSettings: LIGHT_SETTINGS,
+  elevationScale: 5,
+  extruded: true,
+  opacity: 1,
+  pickable: true,
+  autoHighlight: true,
+  material,
+};

@@ -1,6 +1,6 @@
 import { HexagonLayer } from 'deck.gl';
 import { equals } from 'ramda';
-import LAYER_PROPERTIES from './utils/layerProperties';
+import { LAYER_PROPERTIES_Op1 } from './utils/layerProperties';
 
 const POIAnalyticsRenderLayers = function RenderedDeckGLLayerSettings(props) {
   const { data, onHover, settings } = props;
@@ -18,7 +18,7 @@ const POIAnalyticsRenderLayers = function RenderedDeckGLLayerSettings(props) {
         data,
         onHover,
         ...settings,
-        ...LAYER_PROPERTIES,
+        ...LAYER_PROPERTIES_Op1,
       }),
     settings.showStakedTokens
       && new HexagonLayer({
@@ -26,10 +26,11 @@ const POIAnalyticsRenderLayers = function RenderedDeckGLLayerSettings(props) {
         getPosition: (d) => d.position,
         getElevationValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
         getColorValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
+        onSetElevationDomain: () => console.log('yolo'),
         data,
         onHover,
         ...settings,
-        ...LAYER_PROPERTIES,
+        ...LAYER_PROPERTIES_Op1,
       }),
   ];
 };
