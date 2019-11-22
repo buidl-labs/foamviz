@@ -22,7 +22,7 @@ import lightingEffect from './utils/lightingEffects';
 
 import {
   LAYER_PROPERTIES_Op1,
-  LAYER_PROPERTIES_Op2
+  LAYER_PROPERTIES_Op2,
 } from './utils/layerProperties';
 
 import {
@@ -32,7 +32,7 @@ import {
   getBoundingBoxDetailsFromCurrentViewport,
   fetchPOIDetailsFromFOAMAPI,
   getCurrentLocation,
-  getFOAMUSDRate
+  getFOAMUSDRate,
 } from './utils/helper';
 
 // Todo: All Control panel settings need to become part of this initital state
@@ -43,7 +43,7 @@ const INTIAL_VIEW_STATE = {
   pitch: 40.5,
   bearing: 0,
   latitude: null,
-  longitude: null
+  longitude: null,
 };
 
 // const elevationScale = { min: 0, max: 5 };
@@ -56,18 +56,18 @@ class VizPOIAnalytics extends React.Component {
       hover: {
         x: 0,
         y: 0,
-        hoveredObject: null
+        hoveredObject: null,
       },
       checkingPoints: [],
       points: [],
       FOAMTokenInUSD: 0,
       settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS),
       elevationScale: 0,
-      fetchingData: false
+      fetchingData: false,
     };
 
     this.fetchPointsInCurrentViewPort = this.fetchPointsInCurrentViewPort.bind(
-      this
+      this,
     );
     this.startAnimationTimer = null;
     this.intervalTimer = null;
@@ -85,18 +85,18 @@ class VizPOIAnalytics extends React.Component {
 
       const viewPortObject = {
         latitude: userLocationObject.coords.latitude,
-        longitude: userLocationObject.coords.longitude
+        longitude: userLocationObject.coords.longitude,
       };
 
-      this.setState(prevState => ({
-        viewport: { ...prevState.viewport, ...viewPortObject }
+      this.setState((prevState) => ({
+        viewport: { ...prevState.viewport, ...viewPortObject },
       }));
     } catch (error) {
       // If user doesn't give information, render NYC location
 
       if (error.message === 'User denied Geolocation') {
-        this.setState(prevState => ({
-          viewport: { ...prevState.viewport, ...CONSTANTS.NY_COORDINATES }
+        this.setState((prevState) => ({
+          viewport: { ...prevState.viewport, ...CONSTANTS.NY_COORDINATES },
         }));
       }
     }
@@ -126,9 +126,9 @@ class VizPOIAnalytics extends React.Component {
           hoveredObject: allHoveredPOIDetails,
           details: getTooltipFormattedDetails(
             allHoveredPOIDetails,
-            FOAMTokenInUSD
-          )
-        }
+            FOAMTokenInUSD,
+          ),
+        },
       });
     } else {
       this.setState({ hover: { x, y, hoveredObject: allHoveredPOIDetails } });
@@ -160,7 +160,7 @@ class VizPOIAnalytics extends React.Component {
     const unionOfOldAndNew = R.unionWith(
       R.eqBy(R.prop('listingHash')),
       pointsAlreadyRendered,
-      pointsFetchedForCurrentViewPort
+      pointsFetchedForCurrentViewPort,
     );
 
     // console.log('Existing Points Length', pointsAlreadyRendered.length);
@@ -175,7 +175,7 @@ class VizPOIAnalytics extends React.Component {
     const newPoints = R.differenceWith(
       compareListingHash,
       unionOfOldAndNew,
-      pointsAlreadyRendered
+      pointsAlreadyRendered,
     );
 
     // console.log(
@@ -191,11 +191,11 @@ class VizPOIAnalytics extends React.Component {
     this.setState({ fetchingData: true });
 
     const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
-      this.mapRef.getMap().getBounds()
+      this.mapRef.getMap().getBounds(),
     );
 
     const pointsFetchedForCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(
-      boundingBoxDetailsFromCurrentViewPort
+      boundingBoxDetailsFromCurrentViewPort,
     );
 
     const newPoints = this.dataSanityChecker(pointsFetchedForCurrentViewPort);
@@ -204,15 +204,15 @@ class VizPOIAnalytics extends React.Component {
       const dataChunks = [...this.state.checkingPoints];
       dataChunks.push(newPoints);
       this.setState(
-        prevState => ({
+        (prevState) => ({
           checkingPoints: dataChunks,
           points: [...prevState.points, ...newPoints],
           elevationScale: 0,
-          fetchingData: false
+          fetchingData: false,
         }),
         () => {
           this.startAnimate();
-        }
+        },
       );
     }
 
@@ -230,37 +230,33 @@ class VizPOIAnalytics extends React.Component {
     // way too closely tied to the layer.
 
     const densityofPointsLayers = checkingPoints.map(
-      (chunk, chunkIndex) =>
-        new HexagonLayer({
+      (chunk, chunkIndex) => new HexagonLayer({
           id: `chunk-${chunkIndex}-densityOfPoints`,
-          getPosition: d => d.position,
+          getPosition: (d) => d.position,
           dataComparator: (newData, oldData) => R.equals(newData, oldData),
           data: chunk,
           visible: settings.showDensityOfPoints,
-          onHover: hover => this.onHover(hover),
+          onHover: (hover) => this.onHover(hover),
           ...settings,
           ...LAYER_PROPERTIES_Op1,
           elevationScale:
-            checkingPoints.length - 1 === chunkIndex ? elevationScale : 5
-        })
+            checkingPoints.length - 1 === chunkIndex ? elevationScale : 5,
+        }),
     );
 
     const showStakedTokens = checkingPoints.map(
-      (chunk, chunkIndex) =>
-        new HexagonLayer({
+      (chunk, chunkIndex) => new HexagonLayer({
           id: `chunk-${chunkIndex}-stakedToken`,
-          getPosition: d => d.position,
+          getPosition: (d) => d.position,
           dataComparator: (newData, oldData) => R.equals(newData, oldData),
           data: chunk,
-          getElevationValue: points =>
-            points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
-          getColorValue: points =>
-            points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
+          getElevationValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
+          getColorValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
           visible: settings.showStakedTokens,
-          onHover: hover => this.onHover(hover),
+          onHover: (hover) => this.onHover(hover),
           ...settings,
-          ...LAYER_PROPERTIES_Op2
-        })
+          ...LAYER_PROPERTIES_Op2,
+        }),
     );
 
     return [densityofPointsLayers, showStakedTokens];
@@ -273,13 +269,13 @@ class VizPOIAnalytics extends React.Component {
       points,
       checkingPoints,
       viewport,
-      fetchingData
+      fetchingData,
     } = this.state;
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
       return (
-        <p>
+        <p style={{ color: 'white' }}>
           Waiting for User Location. If denied, Viz will redirect to FOAM HQ
           City i.e New York
         </p>
@@ -302,7 +298,7 @@ class VizPOIAnalytics extends React.Component {
         <POIAnalyticsControlPanel
           settings={settings}
           controls={CONSTANTS.HEXAGON_CONTROLS}
-          onChange={settings => this.updateLayerSettings(settings)}
+          onChange={(settings) => this.updateLayerSettings(settings)}
         />
         <DeckGL
           layers={layers}
@@ -312,7 +308,7 @@ class VizPOIAnalytics extends React.Component {
           onDragEnd={this.fetchPointsInCurrentViewPort}
         >
           <StaticMap
-            ref={map => {
+            ref={(map) => {
               this.mapRef = map;
             }}
             mapStyle={GLOBAL_CONSTANTS.MAP_STYLE}
