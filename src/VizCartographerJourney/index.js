@@ -89,7 +89,7 @@ class VizCartographerJourney extends React.Component {
         cartographerAddress,
         profileAnalytics,
         timelineMin: min,
-        timelineMax: max,
+        timelineMax: max - 86400000,
         minDate: min,
         maxDate: max,
         globalMax: max,
@@ -106,22 +106,31 @@ class VizCartographerJourney extends React.Component {
   }
 
   filterData = (newMinVal, newMaxVal) => {
-    const { minDate, maxDate, data } = this.state;
+    const {
+      minDate, maxDate, data, timelineMax, globalMax,
+    } = this.state;
 
     const [newMinDate, newMaxDate] = [new Date(newMinVal), new Date(newMaxVal)];
     const [oldMinDate, oldMaxDate] = [minDate, maxDate];
 
-    if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
+    if (timelineMax < globalMax) {
       this.updateViewport().then(() => {
-        this.setState({
-          timelineMin: newMinVal,
-          timelineMax: newMaxVal,
-          minDate: newMinDate,
-          maxDate: newMaxDate,
-          filteredData: [...data]
-            .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
-            .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
-        });
+        if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
+          this.setState({
+            timelineMin: newMinVal,
+            timelineMax: newMaxVal,
+            minDate: newMinDate,
+            maxDate: newMaxDate,
+            filteredData: [...data]
+              .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
+              .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
+          });
+        }
+      });
+    } else {
+      this.toggle();
+      this.setState({
+        timelineMax: globalMax,
       });
     }
   };
