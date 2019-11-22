@@ -1,13 +1,20 @@
 import { ArcLayer, ScatterplotLayer } from 'deck.gl';
+import { equals } from 'ramda';
 import { getColorForArcLayer } from './utils/helper';
 
 const CartographerJourneyRenderLayers = (props) => {
   const { data, onHover } = props;
 
+  console.log('render layer called');
+
   return [
     new ArcLayer({
       id: 'arc-layer',
       data,
+      dataComparator: (newData, oldData) => {
+        const noChangeInData = equals(newData, oldData);
+        return noChangeInData;
+      },
       pickable: true,
       getWidth: 4,
       getSourcePosition: (d) => d.from.position,

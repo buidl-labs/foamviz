@@ -184,7 +184,6 @@ class VizCartographerJourney extends React.Component {
 
     const map = this.mapRefVizTwo.getMap();
     const mapPitch = map.getPitch();
-    console.log(map.getCenter());
 
     let pitch;
     if (pitchMode === '2d') {
