@@ -2,10 +2,20 @@ import React from 'react';
 import { HexagonLayer, DeckGL } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import * as R from 'ramda';
-import POIAnalyticsControlPanel from './components/POIAnalyticsControlPanel';
-import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 
-import Tooltip from './components/Tooltip';
+// Layers
+// Todo Insert Seperate Layer Components
+
+// Interaction Components
+import POIAnalyticsControlPanel from './components/POIAnalyticsControlPanel';
+import Tooltip from './components/ToolTip';
+
+// import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
+
+// Loaders
+import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
+
+// Constants
 import * as CONSTANTS from './utils/constants';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import lightingEffect from './utils/lightingEffects';
@@ -36,6 +46,8 @@ const INTIAL_VIEW_STATE = {
   longitude: null
 };
 
+// const elevationScale = { min: 0, max: 5 };
+
 class VizPOIAnalytics extends React.Component {
   constructor(props) {
     super(props);
@@ -49,12 +61,19 @@ class VizPOIAnalytics extends React.Component {
       checkingPoints: [],
       points: [],
       FOAMTokenInUSD: 0,
-      settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS)
+      settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS),
+      elevationScale: 0,
+      fetchingData: false
     };
 
     this.fetchPointsInCurrentViewPort = this.fetchPointsInCurrentViewPort.bind(
       this
     );
+    this.startAnimationTimer = null;
+    this.intervalTimer = null;
+
+    this.startAnimate = this.startAnimate.bind(this);
+    this.animateHeight = this.animateHeight.bind(this);
   }
 
   async componentDidMount() {
@@ -116,6 +135,26 @@ class VizPOIAnalytics extends React.Component {
     }
   }
 
+  startAnimate() {
+    this.stopAnimate();
+    this.intervalTimer = window.setInterval(this.animateHeight, 20);
+  }
+
+  animateHeight() {
+    const { elevationScale } = this.state;
+    if (elevationScale === 5) {
+      this.stopAnimate();
+    } else {
+      console.log(elevationScale);
+      this.setState({ elevationScale: elevationScale + 0.125 });
+    }
+  }
+
+  stopAnimate() {
+    window.clearTimeout(this.startAnimationTimer);
+    window.clearTimeout(this.intervalTimer);
+  }
+
   dataSanityChecker(pointsFetchedForCurrentViewPort) {
     const pointsAlreadyRendered = [...this.state.points];
     const unionOfOldAndNew = R.unionWith(
@@ -149,6 +188,8 @@ class VizPOIAnalytics extends React.Component {
   }
 
   async fetchPointsInCurrentViewPort() {
+    this.setState({ fetchingData: true });
+
     const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
       this.mapRef.getMap().getBounds()
     );
@@ -162,10 +203,17 @@ class VizPOIAnalytics extends React.Component {
     if (newPoints) {
       const dataChunks = [...this.state.checkingPoints];
       dataChunks.push(newPoints);
-      this.setState(prevState => ({
-        checkingPoints: dataChunks,
-        points: [...prevState.points, ...newPoints]
-      }));
+      this.setState(
+        prevState => ({
+          checkingPoints: dataChunks,
+          points: [...prevState.points, ...newPoints],
+          elevationScale: 0,
+          fetchingData: false
+        }),
+        () => {
+          this.startAnimate();
+        }
+      );
     }
 
     // this.setState({ points: newPoints });
@@ -176,7 +224,7 @@ class VizPOIAnalytics extends React.Component {
   }
 
   renderLayers() {
-    const { settings, checkingPoints } = this.state;
+    const { settings, checkingPoints, elevationScale } = this.state;
 
     // Todo: move each layer and it's settings to a seperate component, settings to be part of the component itself as settings are
     // way too closely tied to the layer.
@@ -191,7 +239,9 @@ class VizPOIAnalytics extends React.Component {
           visible: settings.showDensityOfPoints,
           onHover: hover => this.onHover(hover),
           ...settings,
-          ...LAYER_PROPERTIES_Op1
+          ...LAYER_PROPERTIES_Op1,
+          elevationScale:
+            checkingPoints.length - 1 === chunkIndex ? elevationScale : 5
         })
     );
 
@@ -217,7 +267,14 @@ class VizPOIAnalytics extends React.Component {
   }
 
   render() {
-    const { hover, settings, points, checkingPoints, viewport } = this.state;
+    const {
+      hover,
+      settings,
+      points,
+      checkingPoints,
+      viewport,
+      fetchingData
+    } = this.state;
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
@@ -240,6 +297,7 @@ class VizPOIAnalytics extends React.Component {
     // reflect a more API friendly component design.
     return (
       <div>
+        {fetchingData && <LoaderWhenFetchingData />}
         <Tooltip allHoveredPOIDetails={hover} />
         <POIAnalyticsControlPanel
           settings={settings}
