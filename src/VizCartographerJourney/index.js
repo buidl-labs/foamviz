@@ -18,9 +18,9 @@ import './index.css';
 const INITIAL_VIEWPORT_STATE = {
   longitude: -80,
   latitude: 50,
-  zoom: 1.1,
-  maxZoom: 20,
-  minZoom: 1,
+  zoom: 1.5,
+  maxZoom: 22,
+  minZoom: 0,
   pitch: 50,
   bearing: 15,
   // transitionDuration: 1200,
