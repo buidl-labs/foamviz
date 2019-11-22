@@ -3,6 +3,7 @@ import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import playButton from '../../assets/imgs/play.svg';
 import pauseButton from '../../assets/imgs/pause.svg';
+import resetButton from '../../assets/imgs/undo.svg';
 
 const TimeSeriesSlider = (props) => {
   const {
@@ -18,6 +19,7 @@ const TimeSeriesSlider = (props) => {
     length,
     play,
     isPlayButton,
+    reset,
   } = props;
 
   if (display === false) return null;
@@ -33,6 +35,9 @@ const TimeSeriesSlider = (props) => {
           <div className="play">
             <button type="button" className="button-img-container">
               <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
+            </button>
+            <button type="button" className="button-img-container">
+              <img onClick={reset} className="play-pause-btn" alt="PlayPauseButton" src={resetButton} />
             </button>
             <div>{length > 0 ? (new Date(curMinVal).toLocaleDateString().split(',')[0]) || curMinVal.toLocaleString().split(',')[0] : ''}</div>
           </div>
