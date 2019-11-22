@@ -81,7 +81,7 @@ class VizPOIAnalytics extends React.Component {
     try {
       const userLocationObject = await getCurrentLocation();
 
-      console.log(userLocationObject);
+      // console.log(userLocationObject);
 
       const viewPortObject = {
         latitude: userLocationObject.coords.latitude,
@@ -145,7 +145,6 @@ class VizPOIAnalytics extends React.Component {
     if (elevationScale === 5) {
       this.stopAnimate();
     } else {
-      console.log(elevationScale);
       this.setState({ elevationScale: elevationScale + 0.125 });
     }
   }
@@ -208,13 +207,14 @@ class VizPOIAnalytics extends React.Component {
           checkingPoints: dataChunks,
           points: [...prevState.points, ...newPoints],
           elevationScale: 0,
-          fetchingData: false,
         }),
         () => {
           this.startAnimate();
         },
       );
     }
+
+    this.setState({ fetchingData: false });
 
     // this.setState({ points: newPoints });
   }
