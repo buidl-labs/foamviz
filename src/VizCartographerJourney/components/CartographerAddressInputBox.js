@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 const CartographerAddressInputBox = (props) => {
-  const { display, getCartographerDetails, history } = props;
+  const { display, history } = props;
   let cartographerAddressInput = null;
 
   const getCartographerDetailsWhenPressedEnter = (event) => {

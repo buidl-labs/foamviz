@@ -10,21 +10,21 @@ import ErrorDialogueBox from './components/ErrorDialogueBox';
 import Loading from './components/Loading';
 import {
   fetchCartographerDetailsFromFOAMAPI,
-  getProfileAnalytics
+  getProfileAnalytics,
 } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
 
 const INITIAL_VIEWPORT_STATE = {
-  longitude: 20,
-  latitude: 20,
-  zoom: 1,
-  maxZoom: 20,
-  minZoom: 1,
+  longitude: -80,
+  latitude: 50,
+  zoom: 1.5,
+  maxZoom: 22,
+  minZoom: 0,
   pitch: 50,
-  bearing: -5,
-  transitionDuration: 1200,
-  transitionInterpolator: new FlyToInterpolator()
+  bearing: 15,
+  // transitionDuration: 1200,
+  // transitionInterpolator: new FlyToInterpolator(),
 };
 
 class VizCartographerJourney extends React.Component {
@@ -49,37 +49,36 @@ class VizCartographerJourney extends React.Component {
       hover: {
         x: 0,
         y: 0,
-        hoveredObject: null
+        hoveredObject: null,
       },
       hasError: false,
       errorMessage: '',
-      pitchFor3d: 50
+      pitchFor3d: 50,
     };
   }
 
   componentDidMount() {
     const { match } = this.props;
-    if (match && match.params && match.params.id)
-      this.getCartographerDetails(match.params.id);
+    if (match && match.params && match.params.id) { this.getCartographerDetails(match.params.id); }
   }
 
   async getCartographerDetails(cartographerAddress) {
     try {
       this.setState({ loading: true, showInputBox: false });
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(
-        cartographerAddress
+        cartographerAddress,
       );
 
       const profileAnalytics = await getProfileAnalytics(cartographerAddress);
 
       const min = Math.min.apply(
         null,
-        cartographerDetails.map(x => new Date(x.dateOfMarking))
+        cartographerDetails.map((x) => new Date(x.dateOfMarking)),
       );
 
       const max = Math.max.apply(
         null,
-        cartographerDetails.map(x => new Date(x.dateOfMarking))
+        cartographerDetails.map((x) => new Date(x.dateOfMarking)),
       );
 
       this.setState({
@@ -94,14 +93,14 @@ class VizCartographerJourney extends React.Component {
         minDate: min,
         maxDate: max,
         globalMax: max,
-        loading: false
+        loading: false,
       });
     } catch (error) {
       this.setState({
         hasError: true,
         errorMessage: error.message,
         loading: false,
-        showInputBox: true
+        showInputBox: true,
       });
     }
   }
@@ -113,14 +112,16 @@ class VizCartographerJourney extends React.Component {
     const [oldMinDate, oldMaxDate] = [minDate, maxDate];
 
     if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
-      this.setState({
-        timelineMin: newMinVal,
-        timelineMax: newMaxVal,
-        minDate: newMinDate,
-        maxDate: newMaxDate,
-        filteredData: [...data]
-          .filter(x => new Date(x.dateOfMarking) >= newMinDate)
-          .filter(x => new Date(x.dateOfMarking) <= newMaxDate)
+      this.updateViewport().then(() => {
+        this.setState({
+          timelineMin: newMinVal,
+          timelineMax: newMaxVal,
+          minDate: newMinDate,
+          maxDate: newMaxDate,
+          filteredData: [...data]
+            .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
+            .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
+        });
       });
     }
   };
@@ -128,7 +129,7 @@ class VizCartographerJourney extends React.Component {
   toggle = () => {
     const { isPlayButton } = this.state;
     this.setState({
-      isPlayButton: !isPlayButton
+      isPlayButton: !isPlayButton,
     });
     if (this.showInterval) {
       clearInterval(this.showInterval);
@@ -144,7 +145,7 @@ class VizCartographerJourney extends React.Component {
         timelineMax:
           timelineMax !== globalMax
             ? timelineMax + 86400000
-            : timelineMin + 86400000
+            : timelineMin + 86400000,
       },
       () => {
         if (this.showInterval) clearInterval(this.showInterval);
@@ -152,7 +153,7 @@ class VizCartographerJourney extends React.Component {
           const { timelineMax } = this.state;
           this.filterData(timelineMin, timelineMax + 86400000);
         }, 1000);
-      }
+      },
     );
   };
 
@@ -160,7 +161,7 @@ class VizCartographerJourney extends React.Component {
     const { history } = this.props;
     this.setState({
       hasError: false,
-      errorMessage: ''
+      errorMessage: '',
     });
     history.push('/cartographer-journey');
   };
@@ -173,8 +174,8 @@ class VizCartographerJourney extends React.Component {
           x,
           y,
           hoveredObject: hoveredArcLayer,
-          details: hoveredArcLayer
-        }
+          details: hoveredArcLayer,
+        },
       });
     });
   };
@@ -191,26 +192,23 @@ class VizCartographerJourney extends React.Component {
       pitch = 0;
       pitchFor3d = mapPitch;
     } else if (pitchMode === '3d') {
-      pitch = pitchFor3d || 50;
+      pitch = 50;
     } else {
       pitch = mapPitch;
     }
 
-    return new Promise(resolve => {
-      this.setState(
-        {
-          viewport: {
-            ...viewport,
-            latitude: map.getCenter().lat,
-            longitude: map.getCenter().lng,
-            zoom: map.getZoom(),
-            bearing: map.getBearing(),
-            pitch
-          },
-          pitchFor3d
+    return new Promise((resolve) => {
+      this.setState({
+        viewport: {
+          ...viewport,
+          latitude: map.getCenter().lat,
+          longitude: map.getCenter().lng,
+          zoom: map.getZoom(),
+          bearing: map.getBearing(),
+          pitch,
         },
-        resolve
-      );
+        pitchFor3d,
+      }, resolve);
     });
   }
 
@@ -229,17 +227,17 @@ class VizCartographerJourney extends React.Component {
       hover,
       hasError,
       errorMessage,
-      loading
+      loading,
     } = this.state;
 
     const min = Math.min.apply(
       null,
-      data.map(x => new Date(x.dateOfMarking))
+      data.map((x) => new Date(x.dateOfMarking)),
     );
 
     const max = Math.max.apply(
       null,
-      data.map(x => new Date(x.dateOfMarking))
+      data.map((x) => new Date(x.dateOfMarking)),
     );
 
     return (
@@ -279,14 +277,15 @@ class VizCartographerJourney extends React.Component {
         <DeckGL
           layers={CartographerJourneyRenderLayers({
             data: filteredData,
-            onHover: hover => this.onHover(hover)
+            onHover: (hover) => this.onHover(hover),
           })}
           initialViewState={INITIAL_VIEWPORT_STATE}
           viewState={{ ...viewport }}
+          onViewStateChange={() => { this.updateViewport().then(() => {}); }}
           controller
         >
           <StaticMap
-            ref={map => {
+            ref={(map) => {
               this.mapRefVizTwo = map;
             }}
             mapStyle={GLOBAL_CONSTANTS.MAP_STYLE}

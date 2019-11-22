@@ -1,4 +1,5 @@
 import { ArcLayer, ScatterplotLayer } from 'deck.gl';
+import { equals } from 'ramda';
 import { getColorForArcLayer } from './utils/helper';
 
 const CartographerJourneyRenderLayers = (props) => {
@@ -8,12 +9,16 @@ const CartographerJourneyRenderLayers = (props) => {
     new ArcLayer({
       id: 'arc-layer',
       data,
+      dataComparator: (newData, oldData) => {
+        const noChangeInData = equals(newData, oldData);
+        return noChangeInData;
+      },
       pickable: true,
-      getWidth: 5,
+      getWidth: 4,
       getSourcePosition: (d) => d.from.position,
       getTargetPosition: (d) => d.to.position,
-      getSourceColor: (d) => getColorForArcLayer(d.sourceStatus),
-      getTargetColor: (d) => getColorForArcLayer(d.destinationStatus),
+      getSourceColor: (d) => getColorForArcLayer(1, d.sourceStatus),
+      getTargetColor: (d) => getColorForArcLayer(2, d.destinationStatus),
       onHover,
       autoHighlight: true,
       highlightColor: [101, 105, 237, 250],
@@ -30,9 +35,9 @@ const CartographerJourneyRenderLayers = (props) => {
       radiusMaxPixels: 100,
       lineWidthMinPixels: 1,
       getPosition: (d) => d.from.position,
-      getRadius: (d) => (d.stakedValue * 5),
-      getFillColor: () => [101, 197, 108],
-      getLineColor: () => [0, 0, 0],
+      getRadius: (d) => (d.stakedValue * 10),
+      getFillColor: () => [101, 197, 108, 100],
+      getLineColor: () => [101, 197, 108],
     }),
   ];
 };

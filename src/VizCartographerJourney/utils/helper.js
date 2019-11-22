@@ -126,10 +126,18 @@ export const fetchCartographerDetailsFromFOAMAPI = async (cartographerAddress) =
   }).catch(() => {});
 };
 
-export const getColorForArcLayer = (status) => {
-  if (status === 'applied') return [46, 124, 230, 255]; // blue
-  if (status === 'listing') return [46, 124, 230, 255]; // blue
-  if (status === 'challenged') return [252, 199, 108, 255]; // orange
-  if (status === 'removed') return [87, 172, 96, 255]; // green
-  return [255, 255, 255, 255];
+export const getColorForArcLayer = (code, status) => {
+  if (code === 1) {
+    if (status === 'applied') return [137, 53, 40, 255]; // red
+    if (status === 'listing') return [137, 53, 40, 255]; // blue
+    if (status === 'challenged') return [0, 113, 177, 255]; // orange
+    // if (status === 'removed') return [87, 172, 96, 255]; // green
+  }
+  if (code === 2) {
+    if (status === 'applied') return [255, 165, 43, 255]; // blue
+    if (status === 'listing') return [255, 165, 43, 255]; // blue
+    if (status === 'challenged') return [58, 110, 251, 255]; // orange
+    // if (status === 'removed') return [87, 172, 96, 255]; // green
+  }
+  // return [255, 255, 255, 255];
 };
