@@ -5,8 +5,6 @@ import { getColorForArcLayer } from './utils/helper';
 const CartographerJourneyRenderLayers = (props) => {
   const { data, onHover } = props;
 
-  console.log('render layer called');
-
   return [
     new ArcLayer({
       id: 'arc-layer',

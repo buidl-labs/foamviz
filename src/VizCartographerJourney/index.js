@@ -112,14 +112,16 @@ class VizCartographerJourney extends React.Component {
     const [oldMinDate, oldMaxDate] = [minDate, maxDate];
 
     if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
-      this.setState({
-        timelineMin: newMinVal,
-        timelineMax: newMaxVal,
-        minDate: newMinDate,
-        maxDate: newMaxDate,
-        filteredData: [...data]
-          .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
-          .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
+      this.updateViewport().then(() => {
+        this.setState({
+          timelineMin: newMinVal,
+          timelineMax: newMaxVal,
+          minDate: newMinDate,
+          maxDate: newMaxDate,
+          filteredData: [...data]
+            .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
+            .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
+        });
       });
     }
   };
@@ -190,7 +192,7 @@ class VizCartographerJourney extends React.Component {
       pitch = 0;
       pitchFor3d = mapPitch;
     } else if (pitchMode === '3d') {
-      pitch = pitchFor3d || 50;
+      pitch = 50;
     } else {
       pitch = mapPitch;
     }
@@ -198,9 +200,7 @@ class VizCartographerJourney extends React.Component {
     return new Promise((resolve) => {
       this.setState({
         viewport: {
-          // ...viewport,
-          maxZoom: 20,
-          minZoom: 1,
+          ...viewport,
           latitude: map.getCenter().lat,
           longitude: map.getCenter().lng,
           zoom: map.getZoom(),
@@ -281,6 +281,7 @@ class VizCartographerJourney extends React.Component {
           })}
           initialViewState={INITIAL_VIEWPORT_STATE}
           viewState={{ ...viewport }}
+          onViewStateChange={() => { this.updateViewport().then(() => {}); }}
           controller
         >
           <StaticMap
