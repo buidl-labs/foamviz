@@ -7,14 +7,14 @@ const HEATMAP_COLORS = [
   [216, 254, 181],
   [254, 237, 177],
   [254, 173, 84],
-  [209, 55, 78]
+  [209, 55, 78],
 ];
 
 const material = new PhongMaterial({
   ambient: 0.64,
   diffuse: 0.6,
   shininess: 32,
-  specularColor: [51, 51, 51]
+  specularColor: [51, 51, 51],
 });
 
 const LIGHT_SETTINGS = {
@@ -23,7 +23,7 @@ const LIGHT_SETTINGS = {
   diffuseRatio: 0.6,
   specularRatio: 0.2,
   lightsStrength: [0.8, 0.0, 0.8, 0.0],
-  numberOfLights: 2
+  numberOfLights: 2,
 };
 
 // const elevationRange = [0, 1000];
@@ -36,12 +36,11 @@ export const LAYER_PROPERTIES_Op1 = {
   colorDomain: [0, 30],
   elevationDomain: [0, 30],
   elevationRange: [0, 1000],
-  elevationScale: 5,
   extruded: true,
   opacity: 1,
   pickable: true,
   autoHighlight: true,
-  material
+  material,
 };
 
 // Todo: to be part of Staked Points Layer component
@@ -57,5 +56,5 @@ export const LAYER_PROPERTIES_Op2 = {
   opacity: 1,
   pickable: true,
   autoHighlight: true,
-  material
+  material,
 };
