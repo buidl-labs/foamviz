@@ -5,7 +5,7 @@ const CartographerJourneyTooltip = (props) => {
 
   if (!hoveredObjectDetails.details) return null;
 
-  if(!hoveredObjectDetails.type)
+  if (!hoveredObjectDetails.type) {
     return (
       <div
         className="cartographerJourneyTooltipStyle"
@@ -13,49 +13,65 @@ const CartographerJourneyTooltip = (props) => {
           transform: `translate(${hoveredObjectDetails.x}px, ${hoveredObjectDetails.y}px)`,
         }}
       >
-        <div>
-                Source Name:
+        <div className="tooltip-key">
+          From
           {' '}
-          {hoveredObjectDetails.details.from.name}
+          <span className="tooltip-value">
+            {hoveredObjectDetails.details.from.name}
+          </span>
+          {' '}
+          to
+          {' '}
+          <span className="tooltip-value">
+            {hoveredObjectDetails.details.to.name}
+          </span>
         </div>
-        <div>
-                Source Status:
+        <br />
+        <div className="tooltip-key">
+                Source Status
           {' '}
-          {hoveredObjectDetails.details.sourceStatus}
+          <span className="tooltip-value">
+            {hoveredObjectDetails.details.sourceStatus}
+          </span>
         </div>
-        <div>
-                Destination Name:
+        <div className="tooltip-key">
+                Destination Status
           {' '}
-          {hoveredObjectDetails.details.to.name}
-        </div>
-        <div>
-                Destination Status:
-          {' '}
-          {hoveredObjectDetails.details.destinationStatus}
+          <span className="tooltip-value">
+            {hoveredObjectDetails.details.destinationStatus}
+          </span>
         </div>
       </div>
     );
+  }
 
-  if(hoveredObjectDetails.type)
-    return(
+  if (hoveredObjectDetails.type) {
+    return (
       <div
         className="cartographerJourneyTooltipStyle"
         style={{
           transform: `translate(${hoveredObjectDetails.x}px, ${hoveredObjectDetails.y}px)`,
         }}
       >
-        <div>
-                Name:
+        <div className="tooltip-key">
+                Place
           {' '}
-          {hoveredObjectDetails.details.from.name}
+          <span className="tooltip-value">
+            {hoveredObjectDetails.details.from.name}
+          </span>
         </div>
-        <div>
-                Stacked Value:
+        <div className="tooltip-key">
+                Staked Value
           {' '}
-          {hoveredObjectDetails.details.stakedValue}
+          <span className="tooltip-value">
+            {hoveredObjectDetails.details.stakedValue.toFixed(2)}
+            {' '}
+            FOAM tokens
+          </span>
         </div>
       </div>
     );
+  }
 };
 
 export default CartographerJourneyTooltip;
