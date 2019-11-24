@@ -50,6 +50,7 @@ class VizCartographerJourney extends React.Component {
         x: 0,
         y: 0,
         hoveredObject: null,
+        type: null
       },
       hasError: false,
       errorMessage: '',
@@ -184,15 +185,16 @@ class VizCartographerJourney extends React.Component {
     history.push('/cartographer-journey');
   };
 
-  onHover = ({ object, x, y }) => {
-    const hoveredArcLayer = object || null;
+  onHover = ({ object, x, y }, type) => {
+    const hoveredData = object || null;
     this.updateViewport().then(() => {
       this.setState({
         hover: {
           x,
           y,
-          hoveredObject: hoveredArcLayer,
-          details: hoveredArcLayer,
+          hoveredObject: hoveredData,
+          details: hoveredData,
+          type
         },
       });
     });
@@ -296,7 +298,8 @@ class VizCartographerJourney extends React.Component {
         <DeckGL
           layers={CartographerJourneyRenderLayers({
             data: filteredData,
-            onHover: (hover) => this.onHover(hover),
+            onArcHover: (hover) => this.onHover(hover, 0),
+            onPOIHover: (hover) => this.onHover(hover, 1),
           })}
           initialViewState={INITIAL_VIEWPORT_STATE}
           viewState={{ ...viewport }}

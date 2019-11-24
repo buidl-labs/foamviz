@@ -3,7 +3,7 @@ import { equals } from 'ramda';
 import { getColorForArcLayer } from './utils/helper';
 
 const CartographerJourneyRenderLayers = (props) => {
-  const { data, onHover } = props;
+  const { data, onArcHover, onPOIHover } = props;
 
   return [
     new ArcLayer({
@@ -19,7 +19,7 @@ const CartographerJourneyRenderLayers = (props) => {
       getTargetPosition: (d) => d.to.position,
       getSourceColor: (d) => getColorForArcLayer(1, d.sourceStatus),
       getTargetColor: (d) => getColorForArcLayer(2, d.destinationStatus),
-      onHover,
+      onHover: onArcHover,
       autoHighlight: true,
       highlightColor: [101, 105, 237, 250],
     }),
@@ -38,6 +38,7 @@ const CartographerJourneyRenderLayers = (props) => {
       getRadius: (d) => (d.stakedValue * 10),
       getFillColor: () => [101, 197, 108, 100],
       getLineColor: () => [101, 197, 108],
+      onHover: onPOIHover
     }),
   ];
 };
