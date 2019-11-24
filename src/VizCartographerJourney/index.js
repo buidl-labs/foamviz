@@ -41,8 +41,6 @@ class VizCartographerJourney extends React.Component {
       cartographerAddress: '',
       profileAnalytics: {},
       filteredData: [],
-      minDate: null,
-      maxDate: null,
       timelineMin: null,
       timelineMax: null,
       isPlayButton: true,
@@ -72,15 +70,7 @@ class VizCartographerJourney extends React.Component {
 
       const profileAnalytics = await getProfileAnalytics(cartographerAddress);
 
-      const min = Math.min.apply(
-        null,
-        cartographerDetails.map((x) => new Date(x.dateOfMarking)),
-      );
-
-      const max = Math.max.apply(
-        null,
-        cartographerDetails.map((x) => new Date(x.dateOfMarking)),
-      );
+      const [min, max] = [0, cartographerDetails.length - 1];
 
       this.setState({
         data: cartographerDetails,
@@ -90,9 +80,7 @@ class VizCartographerJourney extends React.Component {
         cartographerAddress,
         profileAnalytics,
         timelineMin: min,
-        timelineMax: max - 86400000 * 2,
-        minDate: min,
-        maxDate: max,
+        timelineMax: max,
         globalMax: max,
         loading: false,
       });
@@ -107,49 +95,29 @@ class VizCartographerJourney extends React.Component {
   }
 
   filterData = (newMinVal, newMaxVal) => {
-    const {
-      minDate, maxDate, data, timelineMax, globalMax,
-    } = this.state;
+    const { timelineMin, timelineMax, data } = this.state;
 
-    const [newMinDate, newMaxDate] = [new Date(newMinVal), new Date(newMaxVal)];
-    const [oldMinDate, oldMaxDate] = [minDate, maxDate];
-
-    if (timelineMax < globalMax - 86400000) {
+    if (newMinVal !== timelineMin || newMaxVal !== timelineMax) {
       this.updateViewport().then(() => {
-        if (oldMinDate !== newMinDate || oldMaxDate !== newMaxDate) {
-          this.setState({
-            timelineMin: newMinVal,
-            timelineMax: newMaxVal,
-            minDate: newMinDate,
-            maxDate: newMaxDate,
-            filteredData: [...data]
-              .filter((x) => new Date(x.dateOfMarking) >= newMinDate)
-              .filter((x) => new Date(x.dateOfMarking) <= newMaxDate),
-          });
-        }
-      });
-    } else {
-      this.toggle();
-      this.setState({
-        timelineMax: globalMax - 86400000 * 2,
+        this.setState({
+          timelineMin: newMinVal,
+          timelineMax: newMaxVal,
+          filteredData: data.slice(newMinVal, newMaxVal),
+        });
       });
     }
   };
 
   reset = () => {
-    const { timelineMax, timelineMin, globalMax } = this.state;
-
-    this.setState({
-      timelineMin,
-      timelineMax: timelineMin + 86400000,
-    });
+    const { data, isPlayButton } = this.state;
+    if (!isPlayButton) this.toggle();
+    this.filterData(0, data.length - 1);
   }
 
   toggle = () => {
     const { isPlayButton } = this.state;
-    this.setState({
-      isPlayButton: !isPlayButton,
-    });
+    this.setState({ isPlayButton: !isPlayButton });
+
     if (this.showInterval) {
       clearInterval(this.showInterval);
       this.showInterval = !this.showInterval;
@@ -163,14 +131,14 @@ class VizCartographerJourney extends React.Component {
         timelineMin,
         timelineMax:
           timelineMax !== globalMax
-            ? timelineMax + 86400000
-            : timelineMin + 86400000,
+            ? timelineMax + 1
+            : timelineMin + 1,
       },
       () => {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
           const { timelineMax } = this.state;
-          this.filterData(timelineMin, timelineMax + 86400000);
+          this.filterData(timelineMin, timelineMax + 1);
         }, 1000);
       },
     );
@@ -236,11 +204,11 @@ class VizCartographerJourney extends React.Component {
     const {
       viewport,
       data,
+      filteredData,
       showInputBox,
       showProfilePanel,
       cartographerAddress,
       profileAnalytics,
-      filteredData,
       timelineMax,
       timelineMin,
       isPlayButton,
@@ -250,15 +218,7 @@ class VizCartographerJourney extends React.Component {
       loading,
     } = this.state;
 
-    const min = Math.min.apply(
-      null,
-      data.map((x) => new Date(x.dateOfMarking)),
-    );
-
-    const max = Math.max.apply(
-      null,
-      data.map((x) => new Date(x.dateOfMarking)),
-    );
+    const [min, max] = [0, data.length - 1];
 
     return (
       <div>
@@ -276,11 +236,13 @@ class VizCartographerJourney extends React.Component {
         <TimeSeriesSlider
           display={showProfilePanel}
           count={2}
-          length={2}
+          length={data.length || 0}
           minRange={min}
           maxRange={max}
           curMinVal={timelineMin}
           curMaxVal={timelineMax}
+          curMinDate={data[timelineMin] && data[timelineMin].dateOfMarking}
+          curMaxDate={data[timelineMax] && data[timelineMax].dateOfMarking}
           initialMinValue={min}
           initialMaxValue={max}
           filterData={this.filterData}
@@ -303,7 +265,7 @@ class VizCartographerJourney extends React.Component {
           })}
           initialViewState={INITIAL_VIEWPORT_STATE}
           viewState={{ ...viewport }}
-          onViewStateChange={() => { this.updateViewport().then(() => {}); }}
+          onViewStateChange={() => { this.updateViewport().then(() => { }); }}
           controller
         >
           <StaticMap
