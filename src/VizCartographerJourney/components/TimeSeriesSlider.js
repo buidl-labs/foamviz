@@ -14,6 +14,8 @@ const TimeSeriesSlider = (props) => {
     initialMaxValue,
     curMinVal,
     curMaxVal,
+    curMinDate,
+    curMaxDate,
     count,
     filterData,
     length,
@@ -39,10 +41,10 @@ const TimeSeriesSlider = (props) => {
             <button type="button" className="button-img-container">
               <img onClick={reset} className="play-pause-btn" alt="PlayPauseButton" src={resetButton} />
             </button>
-            <div>{length > 0 ? (new Date(curMinVal).toLocaleDateString().split(',')[0]) || curMinVal.toLocaleString().split(',')[0] : ''}</div>
+            <div>{length > 0 ? (new Date(curMinDate).toLocaleDateString().split(',')[0]) : ''}</div>
           </div>
         </div>
-        <div>{length > 0 ? (new Date(curMaxVal).toLocaleDateString().split(',')[0]) || curMaxVal.toLocaleString().split(',')[0] : ''}</div>
+        <div>{length > 0 ? (new Date(curMaxDate).toLocaleDateString().split(',')[0]) : ''}</div>
       </div>
       <Range
         onChange={filterDate}
