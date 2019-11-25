@@ -1,6 +1,7 @@
 import React from 'react';
 import DeckGL, { FlyToInterpolator } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
+import { Helmet } from 'react-helmet';
 import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
 import CartographerProfilePanel from './components/CartographerProfilePanel';
@@ -48,7 +49,7 @@ class VizCartographerJourney extends React.Component {
         x: 0,
         y: 0,
         hoveredObject: null,
-        type: null
+        type: null,
       },
       hasError: false,
       errorMessage: '',
@@ -137,7 +138,7 @@ class VizCartographerJourney extends React.Component {
       () => {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
-          const { timelineMax } = this.state;
+          const { timelineMin, timelineMax } = this.state;
           this.filterData(timelineMin, timelineMax + 1);
         }, 1000);
       },
@@ -162,7 +163,7 @@ class VizCartographerJourney extends React.Component {
           y,
           hoveredObject: hoveredData,
           details: hoveredData,
-          type
+          type,
         },
       });
     });
@@ -222,6 +223,9 @@ class VizCartographerJourney extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>FOAMViz - Cartographer Journey</title>
+        </Helmet>
         <Loading display={loading} />
         <ErrorDialogueBox
           display={hasError}
