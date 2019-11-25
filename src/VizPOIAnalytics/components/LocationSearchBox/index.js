@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import '../../index.css';
 import { fetchLocationFromMapboxAPI } from '../../utils/helper';
 
-const LocationSearchBox = () => {
+const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
 
   const [searchedPlaces, setSearchedPlace] = useState([]);
+  const inputRef = useRef();
 
   const onSearch = async (e) => {
     const { value } = e.target;
@@ -15,16 +16,19 @@ const LocationSearchBox = () => {
       return;
     }
     const places = [];
-    await fetchLocationFromMapboxAPI(value).then(result => result.map(p =>
+    await fetchLocationFromMapboxAPI(value).then(result => result.forEach(p => {
       places.push({
-        name: p.place_name
-      }))
+        name: p.place_name,
+        coordinates: p.geometry.coordinates,
+      })})
     );
     setSearchedPlace(places);
   };
 
   const navigateMap = (place) => {
-    console.log(place)
+    setSearchedPlace([]);
+    onLocationSelect(place.coordinates);
+    inputRef.current.value = '';
   }
 
   return (
@@ -35,12 +39,14 @@ const LocationSearchBox = () => {
         type="text"
         placeholder="Enter Location to Navigate"
         onChange={onSearch}
+        ref={inputRef}
         />
       </div>
-      <div>
+      <div className="search-result-box">
         {
           searchedPlaces.map((place, key) => (
-              <p key={key} className="searchResults" onClick={navigateMap(place.name)}>{place.name}</p>
+              <p
+                key={key} className="searchResults" onClick={() => navigateMap(place)}>{place.name}</p>
             )
           )
         }

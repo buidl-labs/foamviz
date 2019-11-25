@@ -75,6 +75,7 @@ class VizPOIAnalytics extends React.Component {
     this.startAnimationTimer = null;
     this.intervalTimer = null;
 
+    this.setViewport = this.setViewport.bind(this);
     this.startAnimate = this.startAnimate.bind(this);
     this.animateHeight = this.animateHeight.bind(this);
   }
@@ -189,37 +190,65 @@ class VizPOIAnalytics extends React.Component {
     return newPoints.length !== 0 ? newPoints : false;
   }
 
-  async fetchPointsInCurrentViewPort() {
-    this.setState({ fetchingData: true });
-
-    const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
-      this.mapRef.getMap().getBounds(),
-    );
-
-    const pointsFetchedForCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(
-      boundingBoxDetailsFromCurrentViewPort,
-    );
-
-    const newPoints = this.dataSanityChecker(pointsFetchedForCurrentViewPort);
-
-    if (newPoints) {
-      const dataChunks = [...this.state.checkingPoints];
-      dataChunks.push(newPoints);
-      this.setState(
-        (prevState) => ({
-          checkingPoints: dataChunks,
-          points: [...prevState.points, ...newPoints],
-          elevationScale: 0,
-        }),
-        () => {
-          this.startAnimate();
-        },
+  fetchPointsInCurrentViewPort() {
+    const { viewport } = this.state;
+    const map = this.mapRef.getMap();
+    const center = map.getCenter();
+    
+    this.setState({
+      fetchingData: true,
+      viewport: {
+        ...viewport,
+        latitude: center.lat,
+        longitude: center.lng,
+      }
+    }, async () => {
+      const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
+        map.getBounds(),
       );
-    }
-
-    this.setState({ fetchingData: false });
+  
+      const pointsFetchedForCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(
+        boundingBoxDetailsFromCurrentViewPort,
+      );
+  
+      const newPoints = this.dataSanityChecker(pointsFetchedForCurrentViewPort);
+  
+      if (newPoints) {
+        const dataChunks = [...this.state.checkingPoints];
+        dataChunks.push(newPoints);
+        this.setState(
+          (prevState) => ({
+            checkingPoints: dataChunks,
+            points: [...prevState.points, ...newPoints],
+            elevationScale: 0,
+          }),
+          () => {
+            this.startAnimate();
+          },
+        );
+      }
+  
+      this.setState({ fetchingData: false });
+    });
 
     // this.setState({ points: newPoints });
+  }
+
+  setViewport(coordinates) {
+    const map = this.mapRef.getMap();
+    map.flyTo({ center: coordinates, duration: 1200 });
+    map.once('moveend', () => {
+      const { viewport } = this.state;
+      this.setState({
+        viewport: {
+          ...viewport,
+          longitude: coordinates[0],
+          latitude: coordinates[1],
+        }
+      }, () => {
+        this.fetchPointsInCurrentViewPort();
+      });
+    });
   }
 
   updateLayerSettings(settings) {
@@ -306,11 +335,12 @@ class VizPOIAnalytics extends React.Component {
           controls={CONSTANTS.HEXAGON_CONTROLS}
           onChange={(settings) => this.updateLayerSettings(settings)}
         />
-        <LocationSearchBox />
+        <LocationSearchBox onLocationSelect={this.setViewport} />
         <DeckGL
           layers={layers}
           effects={[lightingEffect]}
-          initialViewState={{ ...viewport }}
+          initialViewState={INTIAL_VIEW_STATE}
+          viewState={{ ...viewport }}
           controller
           onDragEnd={debounce(this.fetchPointsInCurrentViewPort, 1200)}
         >
