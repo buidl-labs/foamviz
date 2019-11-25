@@ -170,10 +170,6 @@ class VizCartographerJourney extends React.Component {
     });
   };
 
-  componentDidCatch(error) {
-    console.log(error);
-  }
-
   updateViewport(pitchMode = null) {
     const { viewport } = this.state;
     let { pitchFor3d } = this.state;
