@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useRef } from 'react';
-
 import '../../index.css';
 import { fetchLocationFromMapboxAPI } from '../../utils/helper';
 

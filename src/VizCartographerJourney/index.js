@@ -138,7 +138,7 @@ class VizCartographerJourney extends React.Component {
       () => {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
-          const { timelineMax } = this.state;
+          const { timelineMin, timelineMax } = this.state;
           this.filterData(timelineMin, timelineMax + 1);
         }, 1000);
       },
