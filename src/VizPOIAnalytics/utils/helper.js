@@ -1,5 +1,6 @@
 import Geohash from 'latlon-geohash';
 import axios from 'axios';
+import { MAP_BOX_BASE_URL } from '../../common-utils/constants';
 
 export const getPointCoords = (geohash) => {
   const coords = Geohash.decode(geohash);
@@ -106,3 +107,13 @@ export const fetchPOIDetailsFromFOAMAPI = async (boundingBox) => {
     console.log(error);
   }
 };
+
+export const fetchLocationFromMapboxAPI = async (place) => {
+  const url = `${MAP_BOX_BASE_URL}geocoding/v5/mapbox.places/${place}.json?access_token=${process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}`;
+  try {
+    const response = await axios.get(url);
+    return response.data.features;
+  } catch (error) {
+    console.log(error);
+  }
+}

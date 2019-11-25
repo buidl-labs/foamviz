@@ -8,6 +8,7 @@ import * as R from 'ramda';
 
 // Interaction Components
 import POIAnalyticsControlPanel from './components/POIAnalyticsControlPanel';
+import LocationSearchBox from './components/LocationSearchBox';
 import Tooltip from './components/ToolTip';
 
 // import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
@@ -300,6 +301,7 @@ class VizPOIAnalytics extends React.Component {
           controls={CONSTANTS.HEXAGON_CONTROLS}
           onChange={(settings) => this.updateLayerSettings(settings)}
         />
+        <LocationSearchBox />
         <DeckGL
           layers={layers}
           effects={[lightingEffect]}
