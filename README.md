@@ -20,14 +20,24 @@ These tools + visualizations would help all users - including power users - to g
 **Steps to run the project locally in development mode are:**
 
 ```
-1. npm install
+1. Installing dependencies
+
+> npm install
 
 Clone the repository and cd into `/foamviz` folder.
 Run `npm install` to install all the dependencies.
 
-2. npm start
+2. Setting up .env file
+
+Go to root of the project and setup an .env file with content:
+
+REACT_APP_MAPBOX_ACCESS_TOKEN = <YOUR_MAPBOX_TOKEN> 
+
+3. Starting the local server 
+
+> npm start
 
 This will start the server.
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open `http://localhost:3000` to view it in the browser.
 The page will reload if you make edits.
 ```

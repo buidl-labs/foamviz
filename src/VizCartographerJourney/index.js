@@ -49,7 +49,7 @@ class VizCartographerJourney extends React.Component {
         x: 0,
         y: 0,
         hoveredObject: null,
-        type: null
+        type: null,
       },
       hasError: false,
       errorMessage: '',
@@ -163,7 +163,7 @@ class VizCartographerJourney extends React.Component {
           y,
           hoveredObject: hoveredData,
           details: hoveredData,
-          type
+          type,
         },
       });
     });
