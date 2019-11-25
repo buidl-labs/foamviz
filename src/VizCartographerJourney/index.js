@@ -1,6 +1,7 @@
 import React from 'react';
 import DeckGL, { FlyToInterpolator } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
+import { Helmet } from 'react-helmet';
 import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
 import CartographerProfilePanel from './components/CartographerProfilePanel';
@@ -222,6 +223,9 @@ class VizCartographerJourney extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>FOAMViz - Cartographer Journey</title>
+        </Helmet>
         <Loading display={loading} />
         <ErrorDialogueBox
           display={hasError}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { HexagonLayer, DeckGL } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
+import debounce from 'lodash/debounce';
+import { Helmet } from 'react-helmet';
 import * as R from 'ramda';
 
 // Layers
@@ -294,6 +296,9 @@ class VizPOIAnalytics extends React.Component {
     // reflect a more API friendly component design.
     return (
       <div>
+        <Helmet>
+          <title>FOAMViz - POI Analytics</title>
+        </Helmet>
         {fetchingData && <LoaderWhenFetchingData />}
         <Tooltip allHoveredPOIDetails={hover} />
         <POIAnalyticsControlPanel
@@ -307,7 +312,7 @@ class VizPOIAnalytics extends React.Component {
           effects={[lightingEffect]}
           initialViewState={{ ...viewport }}
           controller
-          onDragEnd={this.fetchPointsInCurrentViewPort}
+          onDragEnd={debounce(this.fetchPointsInCurrentViewPort, 1200)}
         >
           <StaticMap
             ref={(map) => {

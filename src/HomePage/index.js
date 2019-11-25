@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
+import { Helmet } from 'react-helmet';
 
 const useStyles = createUseStyles({
   root: {
@@ -22,6 +23,9 @@ const HomePage = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>FOAMViz Project</title>
+      </Helmet>
       <h1>FOAMViz Project</h1>
       <p className={classes.subInfo}>
         Current visualizations to study FOAM's TCR data are live on the
