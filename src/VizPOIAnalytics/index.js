@@ -66,6 +66,7 @@ class VizPOIAnalytics extends React.Component {
       settings: getInitialControlPanelSettings(CONSTANTS.HEXAGON_CONTROLS),
       elevationScale: 0,
       fetchingData: false,
+      showCurrentLayer: true,
     };
 
     this.fetchPointsInCurrentViewPort = this.fetchPointsInCurrentViewPort.bind(
@@ -126,8 +127,8 @@ class VizPOIAnalytics extends React.Component {
           details: allHoveredPOIDetails ? getTooltipFormattedDetails(
             allHoveredPOIDetails,
             FOAMTokenInUSD,
-          ) : null
-        }
+          ) : null,
+        },
       });
     });
   }
@@ -190,22 +191,23 @@ class VizPOIAnalytics extends React.Component {
 
     this.setState({
       fetchingData: true,
+      showCurrentLayer: true,
       viewport: {
         ...viewport,
         latitude: center.lat,
         longitude: center.lng,
-      }
+      },
     }, async () => {
       const boundingBoxDetailsFromCurrentViewPort = getBoundingBoxDetailsFromCurrentViewport(
         map.getBounds(),
       );
-  
+
       const pointsFetchedForCurrentViewPort = await fetchPOIDetailsFromFOAMAPI(
         boundingBoxDetailsFromCurrentViewPort,
       );
-  
+
       const newPoints = this.dataSanityChecker(pointsFetchedForCurrentViewPort);
-  
+
       if (newPoints) {
         const dataChunks = [...this.state.checkingPoints];
         dataChunks.push(newPoints);
@@ -220,7 +222,7 @@ class VizPOIAnalytics extends React.Component {
           },
         );
       }
-  
+
       this.setState({ fetchingData: false });
     });
 
@@ -246,7 +248,7 @@ class VizPOIAnalytics extends React.Component {
 
   setViewport(coordinates) {
     const map = this.mapRef.getMap();
-    this.setState({ fetchingData: true });
+    this.setState({ fetchingData: true, showCurrentLayer: false });
     map.flyTo({ center: coordinates, duration: 1000 });
     map.once('moveend', () => {
       const { viewport } = this.state;
@@ -255,7 +257,7 @@ class VizPOIAnalytics extends React.Component {
           ...viewport,
           longitude: coordinates[0],
           latitude: coordinates[1],
-        }
+        },
       }, () => {
         this.fetchPointsInCurrentViewPort();
       });
@@ -267,39 +269,41 @@ class VizPOIAnalytics extends React.Component {
   }
 
   renderLayers() {
-    const { settings, checkingPoints, elevationScale } = this.state;
+    const {
+      settings, checkingPoints, elevationScale, showCurrentLayer,
+    } = this.state;
 
     // Todo: move each layer and it's settings to a seperate component, settings to be part of the component itself as settings are
     // way too closely tied to the layer.
 
     const densityofPointsLayers = checkingPoints.map(
       (chunk, chunkIndex) => new HexagonLayer({
-          id: `chunk-${chunkIndex}-densityOfPoints`,
-          getPosition: (d) => d.position,
-          dataComparator: (newData, oldData) => R.equals(newData, oldData),
-          data: chunk,
-          visible: settings.showDensityOfPoints,
-          onHover: (hover) => this.onHover(hover),
-          ...settings,
-          ...LAYER_PROPERTIES_Op1,
-          elevationScale:
+        id: `chunk-${chunkIndex}-densityOfPoints`,
+        getPosition: (d) => d.position,
+        dataComparator: (newData, oldData) => R.equals(newData, oldData),
+        data: chunk,
+        visible: settings.showDensityOfPoints && showCurrentLayer,
+        onHover: (hover) => this.onHover(hover),
+        ...settings,
+        ...LAYER_PROPERTIES_Op1,
+        elevationScale:
             checkingPoints.length - 1 === chunkIndex ? elevationScale : 5,
-        }),
+      }),
     );
 
     const showStakedTokens = checkingPoints.map(
       (chunk, chunkIndex) => new HexagonLayer({
-          id: `chunk-${chunkIndex}-stakedToken`,
-          getPosition: (d) => d.position,
-          dataComparator: (newData, oldData) => R.equals(newData, oldData),
-          data: chunk,
-          getElevationValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
-          getColorValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
-          visible: settings.showStakedTokens,
-          onHover: (hover) => this.onHover(hover),
-          ...settings,
-          ...LAYER_PROPERTIES_Op2,
-        }),
+        id: `chunk-${chunkIndex}-stakedToken`,
+        getPosition: (d) => d.position,
+        dataComparator: (newData, oldData) => R.equals(newData, oldData),
+        data: chunk,
+        getElevationValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
+        getColorValue: (points) => points.reduce((prevvalue, cur) => prevvalue + cur.stakedvalue, 0),
+        visible: settings.showStakedTokens && showCurrentLayer,
+        onHover: (hover) => this.onHover(hover),
+        ...settings,
+        ...LAYER_PROPERTIES_Op2,
+      }),
     );
 
     return [densityofPointsLayers, showStakedTokens];
@@ -325,7 +329,7 @@ class VizPOIAnalytics extends React.Component {
       );
     }
 
-    const layers = fetchingData ? [] : this.renderLayers();
+    const layers = this.renderLayers();
 
     // console.log(settings);
     // console.log('Checking Points', checkingPoints);
