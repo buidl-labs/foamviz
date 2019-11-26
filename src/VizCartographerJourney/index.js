@@ -54,6 +54,7 @@ class VizCartographerJourney extends React.Component {
       hasError: false,
       errorMessage: '',
       pitchFor3d: 50,
+      timeSliderAtEnd: false
     };
   }
 
@@ -116,12 +117,13 @@ class VizCartographerJourney extends React.Component {
   }
 
   toggle = () => {
-    const { isPlayButton } = this.state;
+    const { isPlayButton, timeSliderAtEnd } = this.state;
     this.setState({ isPlayButton: !isPlayButton });
 
     if (this.showInterval) {
       clearInterval(this.showInterval);
       this.showInterval = !this.showInterval;
+      this.setState({ timeSliderAtEnd: true });
       return;
     }
 
@@ -218,6 +220,7 @@ class VizCartographerJourney extends React.Component {
       hasError,
       errorMessage,
       loading,
+      timeSliderAtEnd
     } = this.state;
 
     const [min, max] = [0, data.length - 1];
@@ -254,6 +257,7 @@ class VizCartographerJourney extends React.Component {
           play={this.toggle}
           reset={this.reset}
           isPlayButton={isPlayButton}
+          timeSliderAtEnd={timeSliderAtEnd}
         />
         <CartographerProfilePanel
           display={showProfilePanel}

@@ -25,6 +25,7 @@ const TimeSeriesSlider = (props) => {
     play,
     isPlayButton,
     reset,
+    timeSliderAtEnd
   } = props;
 
   if (display === false) return null;
@@ -38,7 +39,12 @@ const TimeSeriesSlider = (props) => {
   const resetState = () => {
     changeResetButtonState(true);
     reset();
-  }
+  };
+
+  const playState = () => {
+    changeResetButtonState(false);
+    play();
+  };
 
   const changeResetButtonState = (state) => setState(state);
 
@@ -48,7 +54,7 @@ const TimeSeriesSlider = (props) => {
         <div>
           <div className="play">
             <button type="button" className="button-img-container">
-              <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
+              <img onClick={playState} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
             </button>
             <button type="button" className="button-img-container">
               <img onClick={!disableReset ? resetState : () => {}} className={!disableReset ? "play-pause-btn" : "disable-reset-btn"} alt="PlayPauseButton" src={!disableReset ? resetButton : disabledResetButton} />
