@@ -1,7 +1,6 @@
 import React from 'react';
 import { HexagonLayer, DeckGL } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
-import debounce from 'lodash/debounce';
 import { Helmet } from 'react-helmet';
 import * as R from 'ramda';
 
@@ -115,28 +114,22 @@ class VizPOIAnalytics extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    // console.log(this.state);
-  }
-
   onHover({ x, y, object }) {
     const allHoveredPOIDetails = object;
-    const { FOAMTokenInUSD } = this.state;
-    if (allHoveredPOIDetails) {
+    const { FOAMTokenInUSD, hover: { details } } = this.state;
+    this.updateViewport().then(() => {
       this.setState({
         hover: {
           x,
           y,
           hoveredObject: allHoveredPOIDetails,
-          details: getTooltipFormattedDetails(
+          details: allHoveredPOIDetails ? getTooltipFormattedDetails(
             allHoveredPOIDetails,
             FOAMTokenInUSD,
-          ),
-        },
+          ) : null
+        }
       });
-    } else {
-      this.setState({ hover: { x, y, hoveredObject: allHoveredPOIDetails } });
-    }
+    });
   }
 
   startAnimate() {
@@ -194,7 +187,7 @@ class VizPOIAnalytics extends React.Component {
     const { viewport } = this.state;
     const map = this.mapRef.getMap();
     const center = map.getCenter();
-    
+
     this.setState({
       fetchingData: true,
       viewport: {
@@ -234,9 +227,27 @@ class VizPOIAnalytics extends React.Component {
     // this.setState({ points: newPoints });
   }
 
+  updateViewport(coordinates = []) {
+    const { viewport } = this.state;
+    const map = this.mapRef.getMap();
+    return new Promise((resolve) => {
+      this.setState({
+        viewport: {
+          ...viewport,
+          latitude: coordinates[1] || map.getCenter().lat,
+          longitude: coordinates[0] || map.getCenter().lng,
+          zoom: map.getZoom(),
+          bearing: map.getBearing(),
+          pitch: map.getPitch(),
+        },
+      }, resolve);
+    });
+  }
+
   setViewport(coordinates) {
     const map = this.mapRef.getMap();
-    map.flyTo({ center: coordinates, duration: 1200 });
+    this.setState({ fetchingData: true });
+    map.flyTo({ center: coordinates, duration: 1000 });
     map.once('moveend', () => {
       const { viewport } = this.state;
       this.setState({
@@ -314,7 +325,7 @@ class VizPOIAnalytics extends React.Component {
       );
     }
 
-    const layers = this.renderLayers();
+    const layers = fetchingData ? [] : this.renderLayers();
 
     // console.log(settings);
     // console.log('Checking Points', checkingPoints);
@@ -341,8 +352,16 @@ class VizPOIAnalytics extends React.Component {
           effects={[lightingEffect]}
           initialViewState={INTIAL_VIEW_STATE}
           viewState={{ ...viewport }}
+          onViewStateChange={(ev) => {
+            const { viewState, interactionState } = ev;
+            const { isDragging, isPanning } = interactionState;
+            const { longitude, latitude } = viewState;
+            if (!isDragging && !isPanning) {
+              this.updateViewport([longitude, latitude]).then(() => this.fetchPointsInCurrentViewPort());
+            }
+          }}
           controller
-          onDragEnd={debounce(this.fetchPointsInCurrentViewPort, 1200)}
+          onDragEnd={this.fetchPointsInCurrentViewPort}
         >
           <StaticMap
             ref={(map) => {
