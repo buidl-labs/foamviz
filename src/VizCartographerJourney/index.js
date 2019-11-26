@@ -54,7 +54,7 @@ class VizCartographerJourney extends React.Component {
       hasError: false,
       errorMessage: '',
       pitchFor3d: 50,
-      timeSliderAtEnd: false
+      disableReset: true
     };
   }
 
@@ -108,22 +108,28 @@ class VizCartographerJourney extends React.Component {
         });
       });
     }
+
+    if(newMinVal === 0 && newMaxVal === data.length - 1) {
+      this.setState({ disableReset: true });
+    } else {
+      this.setState({ disableReset: false });
+    }
   };
 
   reset = () => {
     const { data, isPlayButton } = this.state;
     if (!isPlayButton) this.toggle();
     this.filterData(0, data.length - 1);
+    this.setState({ disableReset: true });
   }
 
   toggle = () => {
-    const { isPlayButton, timeSliderAtEnd } = this.state;
+    const { isPlayButton } = this.state;
     this.setState({ isPlayButton: !isPlayButton });
 
     if (this.showInterval) {
       clearInterval(this.showInterval);
       this.showInterval = !this.showInterval;
-      this.setState({ timeSliderAtEnd: true });
       return;
     }
 
@@ -141,7 +147,10 @@ class VizCartographerJourney extends React.Component {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
           const { timelineMin, timelineMax } = this.state;
-          if (timelineMax === globalMax) return this.toggle();
+          if (timelineMax === globalMax) {
+            this.setState({ disableReset: true });
+            return this.toggle();
+          }
           this.filterData(timelineMin, timelineMax + 1);
         }, 1000);
       },
@@ -220,7 +229,7 @@ class VizCartographerJourney extends React.Component {
       hasError,
       errorMessage,
       loading,
-      timeSliderAtEnd
+      disableReset
     } = this.state;
 
     const [min, max] = [0, data.length - 1];
@@ -257,7 +266,7 @@ class VizCartographerJourney extends React.Component {
           play={this.toggle}
           reset={this.reset}
           isPlayButton={isPlayButton}
-          timeSliderAtEnd={timeSliderAtEnd}
+          disableReset={disableReset}
         />
         <CartographerProfilePanel
           display={showProfilePanel}
