@@ -54,6 +54,7 @@ class VizCartographerJourney extends React.Component {
       hasError: false,
       errorMessage: '',
       pitchFor3d: 50,
+      disableReset: true
     };
   }
 
@@ -107,12 +108,19 @@ class VizCartographerJourney extends React.Component {
         });
       });
     }
+
+    if(newMinVal === 0 && newMaxVal === data.length - 1) {
+      this.setState({ disableReset: true });
+    } else {
+      this.setState({ disableReset: false });
+    }
   };
 
   reset = () => {
     const { data, isPlayButton } = this.state;
     if (!isPlayButton) this.toggle();
     this.filterData(0, data.length - 1);
+    this.setState({ disableReset: true });
   }
 
   toggle = () => {
@@ -139,6 +147,10 @@ class VizCartographerJourney extends React.Component {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
           const { timelineMin, timelineMax } = this.state;
+          if (timelineMax === globalMax) {
+            this.setState({ disableReset: true });
+            return this.toggle();
+          }
           this.filterData(timelineMin, timelineMax + 1);
         }, 1000);
       },
@@ -217,6 +229,7 @@ class VizCartographerJourney extends React.Component {
       hasError,
       errorMessage,
       loading,
+      disableReset
     } = this.state;
 
     const [min, max] = [0, data.length - 1];
@@ -253,6 +266,7 @@ class VizCartographerJourney extends React.Component {
           play={this.toggle}
           reset={this.reset}
           isPlayButton={isPlayButton}
+          disableReset={disableReset}
         />
         <CartographerProfilePanel
           display={showProfilePanel}

@@ -4,8 +4,10 @@ import 'rc-slider/assets/index.css';
 import playButton from '../../assets/imgs/play.svg';
 import pauseButton from '../../assets/imgs/pause.svg';
 import resetButton from '../../assets/imgs/undo.svg';
+import disabledResetButton from '../../assets/imgs/disableUndo.svg';
 
 const TimeSeriesSlider = (props) => {
+
   const {
     display,
     minRange,
@@ -22,6 +24,7 @@ const TimeSeriesSlider = (props) => {
     play,
     isPlayButton,
     reset,
+    disableReset
   } = props;
 
   if (display === false) return null;
@@ -39,7 +42,7 @@ const TimeSeriesSlider = (props) => {
               <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
             </button>
             <button type="button" className="button-img-container">
-              <img onClick={reset} className="play-pause-btn" alt="PlayPauseButton" src={resetButton} />
+              <img onClick={!disableReset ? reset : () => {}} className={!disableReset ? "play-pause-btn" : "disable-reset-btn"} alt="PlayPauseButton" src={!disableReset ? resetButton : disabledResetButton} />
             </button>
             <div>{length > 0 ? (new Date(curMinDate).toLocaleDateString().split(',')[0]) : ''}</div>
           </div>

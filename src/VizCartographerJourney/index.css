@@ -106,6 +106,13 @@
     cursor: pointer;
 }
 
+.disable-reset-btn {
+  height: 1rem;
+  margin-left: -10px;
+  margin-right: 0.5rem;
+  cursor: not-allowed;
+}
+
 .button-img-container {
     background: transparent;
     border: none;

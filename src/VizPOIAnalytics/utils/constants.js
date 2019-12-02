@@ -31,14 +31,6 @@ export const HEXAGON_CONTROLS = {
     min: 0,
     max: 1,
   },
-  upperPercentile: {
-    displayName: 'Upper Percentile',
-    type: 'range',
-    value: 100,
-    step: 0.1,
-    min: 0,
-    max: 100,
-  },
 };
 
 // Todo: this should be part of control panel and be sent as a prop to lengend component, since control panel parent component
