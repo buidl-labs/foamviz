@@ -43,6 +43,11 @@ const HomePage = () => {
               Journey of a Cartographer
             </Link>
           </li>
+          <li>
+            <Link to="/data-globe" className={classes.link}>
+              Data over the Globe since inception of FOAM
+            </Link>
+          </li>
         </ul>
       </div>
     </div>

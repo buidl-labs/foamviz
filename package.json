@@ -12,6 +12,7 @@
     "rc-slider": "^8.7.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "react-globe.gl": "^2.4.4",
     "react-helmet": "^5.2.1",
     "react-image": "^2.2.1",
     "react-jss": "^10.0.0",
