@@ -18,8 +18,7 @@ function getColor({ sumWeight }) {
 export default ({ data, pointWeight, maxAltVal }) => (
 	<Globe
 		globeImageUrl={earthNight}
-		// bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
-		bumpImageUrl={earthNight}
+		bumpImageUrl={earthPlane}
 		hexBinPointsData={data}
 		hexBinPointLat={(d) => d.lat}
 		hexBinPointLng={(d) => d.lng}

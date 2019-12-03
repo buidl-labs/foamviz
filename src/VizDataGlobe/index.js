@@ -33,7 +33,7 @@ class VizDataGlobe extends React.Component {
       data: [],
       filteredData: [],
       loading: true,
-      totalStackedValue: null,
+      totalStakedValue: null,
       foamUSDRate: null,
     };
 
@@ -62,7 +62,7 @@ class VizDataGlobe extends React.Component {
       timelineMin: 0,
       timelineMax: dataDateChunks.length - 1,
       globalMax: dataDateChunks.length - 1,
-      totalStackedValue: data
+      totalStakedValue: data
         .map(d => d.stakedvalue)
         .reduce((a, b) => a + b, 0)
         .toFixed(2),
@@ -81,7 +81,7 @@ class VizDataGlobe extends React.Component {
         timelineMin: newMinVal,
         timelineMax: newMaxVal,
         filteredData,
-        totalStackedValue: filteredData
+        totalStakedValue: filteredData
           .map(d => d.stakedvalue)
           .reduce((a, b) => a + b, 0)
           .toFixed(2),
@@ -134,7 +134,7 @@ class VizDataGlobe extends React.Component {
       dataDateChunks,
       timelineMin,
       timelineMax,
-      totalStackedValue,
+      totalStakedValue,
       foamUSDRate
     } = this.state;
 
@@ -146,7 +146,7 @@ class VizDataGlobe extends React.Component {
       <div>
         <Analytics
           display
-          stackedValue={totalStackedValue}
+          stakedValue={totalStakedValue}
           USDRate={foamUSDRate} />
         <Globe
           data={filteredData}
