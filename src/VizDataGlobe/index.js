@@ -1,5 +1,6 @@
 import React from 'react';
 import Geohash from 'latlon-geohash';
+import debounce from 'lodash/debounce';
 import Globe from './components/globe';
 import Analytics from './components/analytics';
 import TimeSeries from './components/timeseries';
@@ -35,24 +36,26 @@ class VizDataGlobe extends React.Component {
       loading: true,
       totalStakedValue: null,
       foamUSDRate: null,
+      pastAnalyticsValue: 0,
     };
 
     this.reset = this.reset.bind(this);
     this.toggle = this.toggle.bind(this);
     this.filterData = this.filterData.bind(this);
+    this.updateDataOnGlobe = debounce(this.updateDataOnGlobe.bind(this), 500);
   }
 
   async componentDidMount() {
-    window.onresize = function(e) {
+    window.onresize = () => {
       if (window.RT) clearTimeout(window.RT);
-      window.RT = setTimeout(function()
-      { this.location.reload(false); }, 10)
-    }
+      window.RT = setTimeout(() => window.location.reload(false), 10);
+    };
+
     const response = await fetch('https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=10000&offset=0&sort=oldest').then(res => res.json());
     const data = transformData(response);
     const dataDateChunks = Object.values(getDataDateChunks(data));
     const foamUSDResponse = await fetch('https://poloniex.com/public?command=returnTicker').then(res => res.json());
-    const {BTC_FOAM, USDC_BTC } = foamUSDResponse;
+    const { BTC_FOAM, USDC_BTC } = foamUSDResponse;
 
     this.setState({
       loading: false,
@@ -70,21 +73,33 @@ class VizDataGlobe extends React.Component {
     });
   }
 
-  filterData(newMinVal, newMaxVal) {
-    const { timelineMin, timelineMax, dataDateChunks } = this.state;
+  updateDataOnGlobe(newMinVal, newMaxVal) {
+    const { dataDateChunks, totalStakedValue, foamUSDRate } = this.state;
     const filteredData = dataDateChunks
-    .slice(newMinVal, newMaxVal)
-    .reduce((a, b) => a.concat(b), []);
+      .slice(newMinVal, newMaxVal)
+      .reduce((a, b) => a.concat(b), []);
+
+    this.setState({
+      filteredData,
+      filtering: false,
+      pastAnalyticsValue: Number(totalStakedValue * foamUSDRate).toFixed(2),
+      totalStakedValue: filteredData
+        .map(d => d.stakedvalue)
+        .reduce((a, b) => a + b, 0)
+        .toFixed(2),
+    });
+  }
+
+  filterData(newMinVal, newMaxVal) {
+    const { timelineMin, timelineMax } = this.state;
 
     if (newMinVal !== timelineMin || newMaxVal !== timelineMax) {
       this.setState({
         timelineMin: newMinVal,
         timelineMax: newMaxVal,
-        filteredData,
-        totalStakedValue: filteredData
-          .map(d => d.stakedvalue)
-          .reduce((a, b) => a + b, 0)
-          .toFixed(2),
+        filtering: true,
+      }, () => {
+        this.updateDataOnGlobe(newMinVal, newMaxVal);
       });
     }
   }
@@ -135,7 +150,9 @@ class VizDataGlobe extends React.Component {
       timelineMin,
       timelineMax,
       totalStakedValue,
-      foamUSDRate
+      pastAnalyticsValue,
+      foamUSDRate,
+      filtering,
     } = this.state;
 
     if (loading) return <p>loading...</p>;
@@ -147,15 +164,19 @@ class VizDataGlobe extends React.Component {
         <Analytics
           display
           stakedValue={totalStakedValue}
-          USDRate={foamUSDRate} />
+          USDRate={foamUSDRate}
+          pastValue={pastAnalyticsValue}
+        />
         <Globe
           data={filteredData}
           pointWeight="stakedvalue"
           maxAltVal={10e3}
+          interactive={!filtering}
         />
         <TimeSeries
           display={true}
           count={2}
+          resetEnabled={!(timelineMin === 0 && timelineMax === dataDateChunks.length - 1)}
           length={filteredData.length || 0}
           minRange={min}
           maxRange={max}

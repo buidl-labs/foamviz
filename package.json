@@ -11,6 +11,7 @@
     "ramda": "^0.26.1",
     "rc-slider": "^8.7.1",
     "react": "^16.10.2",
+    "react-countup": "^4.2.3",
     "react-dom": "^16.10.2",
     "react-globe.gl": "^2.4.4",
     "react-helmet": "^5.2.1",

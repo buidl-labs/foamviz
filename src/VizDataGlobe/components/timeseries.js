@@ -4,10 +4,12 @@ import 'rc-slider/assets/index.css';
 import playButton from '../imgs/play.svg';
 import pauseButton from '../imgs/pause.svg';
 import resetButton from '../imgs/undo.svg';
+import resetBlackButton from '../../assets/imgs/disableUndo.svg';
 
 const TimeSeriesSlider = (props) => {
   const {
     display,
+    resetEnabled,
     minRange,
     maxRange,
     initialMinValue,
@@ -50,7 +52,7 @@ const TimeSeriesSlider = (props) => {
               <img onClick={play} className="play-pause-btn" alt="PlayPauseButton" src={isPlayButton ? playButton : pauseButton} />
             </button>
             <button type="button" className="button-img-container">
-              <img onClick={reset} className="play-pause-btn" alt="PlayPauseButton" src={resetButton} />
+              <img onClick={resetEnabled ? reset : (() => {})} style={{ cursor: resetEnabled ? null : 'not-allowed' }} className="play-pause-btn" alt="PlayPauseButton" src={resetEnabled ? resetButton : resetBlackButton} />
             </button>
             <div>{length > 0 ? formatDate(curMinDate) : ''}</div>
           </div>

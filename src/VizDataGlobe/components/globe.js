@@ -15,7 +15,7 @@ function getColor({ sumWeight }) {
 	}
 }
 
-export default ({ data, pointWeight, maxAltVal }) => (
+export default ({ data, pointWeight, maxAltVal, interactive }) => (
 	<Globe
 		globeImageUrl={earthNight}
 		bumpImageUrl={earthPlane}
@@ -31,6 +31,14 @@ export default ({ data, pointWeight, maxAltVal }) => (
 		hexSideColor={getColor}
 		hexTopColor={getColor}
 		hexTransitionDuration={1000}
+		resumeAnimation={interactive}
+		pauseAnimation={!interactive}
+		enablePointerInteraction={interactive}
+		rendererConfig={{
+			alpha: false,
+			antialias: false,
+			powerPreference: 'high-performance'
+		}}
 		hexLabel={(d) => {
 			const k = d.points.reduce((acc, val) => acc + val.stakedvalue ,0)
 			return `Staked Value: ${k} \n Points: ${d.sumWeight}`;
