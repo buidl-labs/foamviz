@@ -4,6 +4,8 @@ import debounce from 'lodash/debounce';
 import Globe from './components/globe';
 import Analytics from './components/analytics';
 import TimeSeries from './components/timeseries';
+import { store } from '../global-store';
+import fetchViz3Data from '../utils/helper';
 import './index.css';
 
 const transformData = data => data
@@ -41,8 +43,46 @@ class VizDataGlobe extends React.Component {
 
     this.reset = this.reset.bind(this);
     this.toggle = this.toggle.bind(this);
+    this.getData = this.getData.bind(this);
     this.filterData = this.filterData.bind(this);
     this.updateDataOnGlobe = debounce(this.updateDataOnGlobe.bind(this), 500);
+  }
+
+  getData() {
+    console.log(store);
+    return new Promise((resolve, reject) => {
+      try {
+        const dataFromStorage = JSON.parse(localStorage.getItem('viz3data'));
+        // const loading = localStorage.getItem('loading');
+        if (dataFromStorage) {
+          resolve(dataFromStorage);
+          console.log('state1');
+        } else if (store.loading) {
+          console.log('state2');
+          // show fetching new data
+          // add listener to check if new data is there and update data and remove text
+          this.setState({ fetchingNewData: true });
+          const localDataInterval = setInterval(() => {
+            if (!store.loading) {
+              const newDataFromStorage = JSON.parse(localStorage.getItem('viz3data'));
+              store.loading = false;
+              clearInterval(localDataInterval);
+              resolve(newDataFromStorage);
+              this.setState({ fetchingNewData: false });
+            }
+          }, 200);
+        } else {
+          console.log('state3');
+          // fetch data and add to storage
+          // user has directly jumped here on this url
+          const newData = await fetchViz3Data();
+          localStorage.setItem('viz3data', JSON.stringify(newData));
+          resolve(newData);
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   async componentDidMount() {
@@ -51,7 +91,7 @@ class VizDataGlobe extends React.Component {
       window.RT = setTimeout(() => window.location.reload(false), 10);
     };
 
-    const response = await fetch('https://map-api-direct.foam.space/poi/filtered?swLng=-180&swLat=-90&neLng=180&neLat=90&limit=10000&offset=0&sort=oldest').then(res => res.json());
+    const response = await this.getData();
     const data = transformData(response);
     const dataDateChunks = Object.values(getDataDateChunks(data));
     const foamUSDResponse = await fetch('https://poloniex.com/public?command=returnTicker').then(res => res.json());

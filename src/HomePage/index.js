@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createUseStyles } from 'react-jss';
 import { Helmet } from 'react-helmet';
+import { store } from '../global-store';
+import fetchViz3Data from '../utils/helper';
 
 const useStyles = createUseStyles({
   root: {
@@ -21,6 +23,14 @@ const useStyles = createUseStyles({
 
 const HomePage = () => {
   const classes = useStyles();
+  useEffect(() => {
+    console.log('state0');
+    store.loading = true;
+    fetchViz3Data().then((data) => {
+      store.loading = false;
+      localStorage.setItem('viz3data', JSON.stringify(data));
+    });
+  }, []);
   return (
     <div className={classes.root}>
       <Helmet>
