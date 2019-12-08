@@ -8,7 +8,7 @@ import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
 import './index.css';
 
-const transformData = data => data
+const transformData = (data) => data
   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
   .map((item) => ({
     createdAt: item.state.createdAt,
@@ -17,9 +17,9 @@ const transformData = data => data
     stakedvalue: parseFloat((parseInt(item.state.deposit, 16) * 10 ** -18).toFixed(2)),
   }));
 
-const getDataDateChunks = data => {
+const getDataDateChunks = (data) => {
   const chunks = {};
-  data.forEach(p => {
+  data.forEach((p) => {
     const date = new Date(p.createdAt);
     const id = `${date.getFullYear()}-${date.getMonth()}`;
     if (!chunks[id]) chunks[id] = [];
@@ -29,7 +29,6 @@ const getDataDateChunks = data => {
 };
 
 class VizDataGlobe extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -39,21 +38,32 @@ class VizDataGlobe extends React.Component {
       totalStakedValue: null,
       foamUSDRate: null,
       pastAnalyticsValue: 0,
-      isRotateState: false
+      isRotateState: false,
     };
 
     this.reset = this.reset.bind(this);
     this.toggle = this.toggle.bind(this);
     this.getData = this.getData.bind(this);
     this.filterData = this.filterData.bind(this);
+    this.initComponent = this.initComponent.bind(this);
     this.updateDataOnGlobe = debounce(this.updateDataOnGlobe.bind(this), 500);
     this.toggleRotate = this.toggleRotate.bind(this);
   }
 
+  async componentDidMount() {
+    // window.onresize = () => {
+    //   if (window.RT) clearTimeout(window.RT);
+    //   window.RT = setTimeout(() => window.location.reload(false), 10);
+    // };
+
+    const response = await this.getData();
+    this.initComponent(response);
+  }
+
   getData() {
-    console.log(store);
     return new Promise((resolve, reject) => {
       try {
+        let refreshed = false;
         const dataFromStorage = JSON.parse(localStorage.getItem('viz3data'));
         // const loading = localStorage.getItem('loading');
         if (dataFromStorage) {
@@ -63,23 +73,37 @@ class VizDataGlobe extends React.Component {
           console.log('state2');
           // show fetching new data
           // add listener to check if new data is there and update data and remove text
-          this.setState({ fetchingNewData: true });
           const localDataInterval = setInterval(() => {
             if (!store.loading) {
               const newDataFromStorage = JSON.parse(localStorage.getItem('viz3data'));
               store.loading = false;
               clearInterval(localDataInterval);
               resolve(newDataFromStorage);
-              this.setState({ fetchingNewData: false });
             }
           }, 200);
         } else {
           console.log('state3');
           // fetch data and add to storage
           // user has directly jumped here on this url
-          const newData = await fetchViz3Data();
-          localStorage.setItem('viz3data', JSON.stringify(newData));
-          resolve(newData);
+          refreshed = true;
+          fetchViz3Data().then((newData) => {
+            localStorage.setItem('viz3data', JSON.stringify(newData));
+            resolve(newData);
+          });
+        }
+
+        if (!refreshed) {
+          console.log('refreshing...');
+          this.setState({ fetchingNewData: true });
+          fetchViz3Data().then((newData) => {
+            const oldData = JSON.parse(localStorage.getItem('viz3data'));
+            if (newData.length !== oldData.length) {
+              localStorage.setItem('viz3data', JSON.stringify(newData));
+              alert('new data udpated!');
+              this.initComponent(newData);
+            }
+            this.setState({ fetchingNewData: false });
+          });
         }
       } catch (error) {
         reject(error);
@@ -87,16 +111,10 @@ class VizDataGlobe extends React.Component {
     });
   }
 
-  async componentDidMount() {
-    window.onresize = () => {
-      if (window.RT) clearTimeout(window.RT);
-      window.RT = setTimeout(() => window.location.reload(false), 10);
-    };
-
-    const response = await this.getData();
+  async initComponent(response) {
     const data = transformData(response);
     const dataDateChunks = Object.values(getDataDateChunks(data));
-    const foamUSDResponse = await fetch('https://poloniex.com/public?command=returnTicker').then(res => res.json());
+    const foamUSDResponse = await fetch('https://poloniex.com/public?command=returnTicker').then((res) => res.json());
     const { BTC_FOAM, USDC_BTC } = foamUSDResponse;
 
     this.setState({
@@ -108,10 +126,10 @@ class VizDataGlobe extends React.Component {
       timelineMax: dataDateChunks.length - 1,
       globalMax: dataDateChunks.length - 1,
       totalStakedValue: data
-        .map(d => d.stakedvalue)
+        .map((d) => d.stakedvalue)
         .reduce((a, b) => a + b, 0)
         .toFixed(2),
-      foamUSDRate: BTC_FOAM.last * USDC_BTC.last
+      foamUSDRate: BTC_FOAM.last * USDC_BTC.last,
     });
   }
 
@@ -126,7 +144,7 @@ class VizDataGlobe extends React.Component {
       filtering: false,
       pastAnalyticsValue: Number(totalStakedValue * foamUSDRate).toFixed(2),
       totalStakedValue: filteredData
-        .map(d => d.stakedvalue)
+        .map((d) => d.stakedvalue)
         .reduce((a, b) => a + b, 0)
         .toFixed(2),
     });
@@ -199,7 +217,7 @@ class VizDataGlobe extends React.Component {
       pastAnalyticsValue,
       foamUSDRate,
       filtering,
-      isRotateState
+      isRotateState,
     } = this.state;
 
     if (loading) return <p>loading...</p>;
@@ -223,7 +241,7 @@ class VizDataGlobe extends React.Component {
           rotationStatus={isRotateState}
         />
         <TimeSeries
-          display={true}
+          display
           count={2}
           resetEnabled={!(timelineMin === 0 && timelineMax === dataDateChunks.length - 1)}
           length={filteredData.length || 0}

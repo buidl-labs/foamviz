@@ -12,7 +12,6 @@ import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
 import vizPOIImage from '../assets/imgs/viz-poi.png';
 
 const HomePage = () => {
-  const classes = useStyles();
   useEffect(() => {
     console.log('state0');
     store.loading = true;
