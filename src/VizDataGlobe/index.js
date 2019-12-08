@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 import Globe from './components/globe';
 import Analytics from './components/analytics';
 import TimeSeries from './components/timeseries';
+import Loader from './components/Loader';
 import './index.css';
 
 const transformData = data => data
@@ -162,7 +163,7 @@ class VizDataGlobe extends React.Component {
       isRotateState
     } = this.state;
 
-    if (loading) return <p>loading...</p>;
+    if(loading) return <Loader display={loading} />
 
     const [min, max] = [0, dataDateChunks.length - 1];
 

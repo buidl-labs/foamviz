@@ -10,38 +10,6 @@ import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
 import vizPOIImage from '../assets/imgs/viz-poi.png';
 
 const HomePage = () => {
-  // const classes = useStyles();
-  // return (
-  //   <div className={classes.root}>
-  //     <Helmet>
-  //       <title>FOAMViz Project</title>
-  //     </Helmet>
-  //     <h1>FOAMViz Project</h1>
-  //     <p className={classes.subInfo}>
-  //       Current visualizations to study FOAM's TCR data are live on the
-  //       following links:
-  //     </p>
-  //     <div>
-  //       <ul>
-  //         <li>
-  //           <Link to="/poi-analytics" className={classes.link}>
-  //             Analytics around density of POI's
-  //           </Link>
-  //         </li>
-  //         <li>
-  //           <Link to="/cartographer-journey" className={classes.link}>
-  //             Journey of a Cartographer
-  //           </Link>
-  //         </li>
-  //         <li>
-  //           <Link to="/data-globe" className={classes.link}>
-  //             Data over the Globe since inception of FOAM
-  //           </Link>
-  //         </li>
-  //       </ul>`
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <div>
