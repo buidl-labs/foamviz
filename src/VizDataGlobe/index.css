@@ -170,3 +170,25 @@ input:checked + .rotation-slider:before {
   color: #adadad;
   line-height: 1.25;
 }
+
+.tooltipStyle {
+  position: absolute;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 12px;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.tooltip-key {
+  color: grey;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tooltip-value {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}

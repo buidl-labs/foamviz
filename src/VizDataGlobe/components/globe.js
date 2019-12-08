@@ -3,7 +3,7 @@ import Globe from 'react-globe.gl';
 import earthNight from '../imgs/earth-night.jpg';
 import earthPlane from '../imgs/earth-plane.jpg';
 
-function getColor({ sumWeight }) {
+const getColor = ({ sumWeight }) => {
 	if (sumWeight <= 2000) {
 		return '#52B2F5';
 	} else if (sumWeight <= 5000) {
@@ -13,6 +13,28 @@ function getColor({ sumWeight }) {
 	} else {
 		return '#E50538';
 	}
+}
+
+const tooltipInfo = (d) => {
+  const k = d.points.reduce((acc, val) => acc + val.stakedvalue ,0)
+  return (
+    `
+      <div
+        class="tooltipStyle"
+        style="position: 'absolute'; z-index: 1;"
+      >
+        <div class="tooltip-key">
+          Staked Value <span class="tooltip-value"> ${k} </span>
+        </div>
+        <div class="tooltip-key">
+          Points
+          <span class="tooltip-value">
+            ${d.sumWeight}
+          </span>
+        </div>
+      </div>
+    `
+  )
 }
 
 export default ({ data, pointWeight, maxAltVal, interactive, rotationStatus }) => {
@@ -49,10 +71,7 @@ export default ({ data, pointWeight, maxAltVal, interactive, rotationStatus }) =
         antialias: false,
         powerPreference: 'high-performance'
       }}
-      hexLabel={(d) => {
-        const k = d.points.reduce((acc, val) => acc + val.stakedvalue ,0)
-        return `Staked Value: ${k} \n Points: ${d.sumWeight}`;
-      }}
+      hexLabel={(d) => tooltipInfo(d)}
     />
   )
 };
