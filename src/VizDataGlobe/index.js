@@ -39,6 +39,7 @@ class VizDataGlobe extends React.Component {
       totalStakedValue: null,
       foamUSDRate: null,
       pastAnalyticsValue: 0,
+      isRotateState: false
     };
 
     this.reset = this.reset.bind(this);
@@ -46,6 +47,7 @@ class VizDataGlobe extends React.Component {
     this.getData = this.getData.bind(this);
     this.filterData = this.filterData.bind(this);
     this.updateDataOnGlobe = debounce(this.updateDataOnGlobe.bind(this), 500);
+    this.toggleRotate = this.toggleRotate.bind(this);
   }
 
   getData() {
@@ -181,6 +183,10 @@ class VizDataGlobe extends React.Component {
     this.filterData(0, dataDateChunks.length - 1);
   }
 
+  toggleRotate() {
+    this.setState({ isRotateState: !this.state.isRotateState });
+  }
+
   render() {
     const {
       loading,
@@ -193,6 +199,7 @@ class VizDataGlobe extends React.Component {
       pastAnalyticsValue,
       foamUSDRate,
       filtering,
+      isRotateState
     } = this.state;
 
     if (loading) return <p>loading...</p>;
@@ -206,12 +213,14 @@ class VizDataGlobe extends React.Component {
           stakedValue={totalStakedValue}
           USDRate={foamUSDRate}
           pastValue={pastAnalyticsValue}
+          toggleRotate={this.toggleRotate}
         />
         <Globe
           data={filteredData}
           pointWeight="stakedvalue"
           maxAltVal={10e3}
           interactive={!filtering}
+          rotationStatus={isRotateState}
         />
         <TimeSeries
           display={true}
