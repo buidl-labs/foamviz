@@ -12,7 +12,7 @@ export default ({ display, stakedValue, USDRate, pastValue }) => {
         end={stakedValue}
         duration={1}
         decimals={2}
-        prefix="$ "
+        formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) }
       >
         {({ countUpRef }) => (<h1 ref={countUpRef} />)}
       </CountUp>
@@ -22,10 +22,9 @@ export default ({ display, stakedValue, USDRate, pastValue }) => {
         delay={0}
         preserveValue
         end={Number(stakedValue * USDRate).toFixed(2)}
-        // formattingFn: (value) => { value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }
         duration={1}
         decimals={2}
-        prefix="$ "
+        formattingFn={(value) => ('$ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")) }
       >
         {({ countUpRef }) => (<h1 ref={countUpRef} />)}
       </CountUp>
