@@ -6,6 +6,7 @@ import Analytics from './components/analytics';
 import TimeSeries from './components/timeseries';
 import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
+import Loader from './components/Loader';
 import './index.css';
 
 const transformData = (data) => data
@@ -51,10 +52,10 @@ class VizDataGlobe extends React.Component {
   }
 
   async componentDidMount() {
-    // window.onresize = () => {
-    //   if (window.RT) clearTimeout(window.RT);
-    //   window.RT = setTimeout(() => window.location.reload(false), 10);
-    // };
+    window.onresize = () => {
+      if (window.RT) clearTimeout(window.RT);
+      window.RT = setTimeout(() => window.location.reload(false), 10);
+    };
 
     const response = await this.getData();
     this.initComponent(response);
@@ -68,9 +69,9 @@ class VizDataGlobe extends React.Component {
         // const loading = localStorage.getItem('loading');
         if (dataFromStorage) {
           resolve(dataFromStorage);
-          console.log('state1');
+          // console.log('state1');
         } else if (store.loading) {
-          console.log('state2');
+          // console.log('state2');
           // show fetching new data
           // add listener to check if new data is there and update data and remove text
           const localDataInterval = setInterval(() => {
@@ -82,7 +83,7 @@ class VizDataGlobe extends React.Component {
             }
           }, 200);
         } else {
-          console.log('state3');
+          // console.log('state3');
           // fetch data and add to storage
           // user has directly jumped here on this url
           refreshed = true;
@@ -93,13 +94,13 @@ class VizDataGlobe extends React.Component {
         }
 
         if (!refreshed) {
-          console.log('refreshing...');
+          // console.log('refreshing...');
           this.setState({ fetchingNewData: true });
           fetchViz3Data().then((newData) => {
             const oldData = JSON.parse(localStorage.getItem('viz3data'));
             if (newData.length !== oldData.length) {
               localStorage.setItem('viz3data', JSON.stringify(newData));
-              alert('new data udpated!');
+              // alert('new data udpated!');
               this.initComponent(newData);
             }
             this.setState({ fetchingNewData: false });
@@ -220,7 +221,7 @@ class VizDataGlobe extends React.Component {
       isRotateState,
     } = this.state;
 
-    if (loading) return <p>loading...</p>;
+    if (loading) return <Loader display={loading} />;
 
     const [min, max] = [0, dataDateChunks.length - 1];
 
