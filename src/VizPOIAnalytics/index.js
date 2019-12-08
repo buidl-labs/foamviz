@@ -354,7 +354,7 @@ class VizPOIAnalytics extends React.Component {
         <DeckGL
           layers={layers}
           effects={[lightingEffect]}
-          initialViewState={{...INTIAL_VIEW_STATE}}
+          initialViewState={{ ...INTIAL_VIEW_STATE }}
           viewState={{ ...viewport }}
           onViewStateChange={(ev) => {
             const { viewState, interactionState } = ev;
