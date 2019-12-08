@@ -1,7 +1,7 @@
 import React from 'react';
 import CountUp from 'react-countup';
 
-export default ({ display, stakedValue, USDRate, pastValue }) => {
+export default ({ display, stakedValue, USDRate, pastValue, toggleRotate }) => {
   if (!display) return null;
 
   return (
@@ -31,6 +31,15 @@ export default ({ display, stakedValue, USDRate, pastValue }) => {
       <h2>Net Value Staked</h2>
       <br />
       <p className="viz-description">This globe represents an aggregate of all points from FOAMs inception till now</p>
+      <div className="rotation-container">
+        <div className="rotation">Rotation:</div>
+        <div>
+          <label className="switch">
+            <input type="checkbox" onChange={toggleRotate} />
+            <span className="slider round"></span>
+          </label>
+        </div>
+      </div>
     </div>
   );    
 };

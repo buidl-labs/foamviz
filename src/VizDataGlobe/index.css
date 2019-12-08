@@ -11,7 +11,7 @@
   background: black;
   border: none;
   padding: 1.5rem;
-  width: calc(100vw - 5rem);
+  width: calc(100vw - 32rem);
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
@@ -84,4 +84,89 @@ h2 {
 
 .text-white {
   color: white;
+}
+
+/* styles used by timeseries */
+.abs-container-bottom-viz3 {
+  z-index: 7;
+  position: absolute;
+  top: calc(5vh + 100vh - 9rem - 2.8rem);
+  left: 50%;
+  transform: translate(-50%, -10%);
+}
+
+.main-container-bottom-viz3 {
+  background: black;
+  border: none;
+  padding: 1.5rem;
+  width: calc(100vw - 5rem);
+  border-radius: 0.2rem;
+  outline: transparent;
+  color: #ffffff;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 39px;
+  height: 19px;
+  margin-right: 40px;
+  margin-top: 0px;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  height: 19px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(17px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.rotation-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rotation {
+  font-weight: 600;
+  color: #adadad;
+  line-height: 1.25;
 }

@@ -15,33 +15,44 @@ function getColor({ sumWeight }) {
 	}
 }
 
-export default ({ data, pointWeight, maxAltVal, interactive }) => (
-	<Globe
-		globeImageUrl={earthNight}
-		bumpImageUrl={earthPlane}
-		hexBinPointsData={data}
-		hexBinPointLat={(d) => d.lat}
-		hexBinPointLng={(d) => d.lng}
-		hexBinResolution={4}
-		hexBinPointWeight={pointWeight}
-		hexAltitude={(d) => {
-			const sum = Math.min(d.sumWeight, maxAltVal);
-			return sum / (maxAltVal + 100);
-		}}
-		hexSideColor={getColor}
-		hexTopColor={getColor}
-		hexTransitionDuration={1000}
-		resumeAnimation={interactive}
-		pauseAnimation={!interactive}
-		enablePointerInteraction={interactive}
-		rendererConfig={{
-			alpha: false,
-			antialias: false,
-			powerPreference: 'high-performance'
-		}}
-		hexLabel={(d) => {
-			const k = d.points.reduce((acc, val) => acc + val.stakedvalue ,0)
-			return `Staked Value: ${k} \n Points: ${d.sumWeight}`;
-		}}
-	/>
-);
+export default ({ data, pointWeight, maxAltVal, interactive, rotationStatus }) => {
+
+  const globeEl = React.useRef();
+
+  React.useEffect(() => {
+    globeEl.current.controls().autoRotate = rotationStatus ? true : false;
+    globeEl.current.controls().autoRotateSpeed = 0.1;
+  }, [rotationStatus]);
+
+  return (
+    <Globe
+      ref={globeEl}
+      globeImageUrl={earthNight}
+      bumpImageUrl={earthPlane}
+      hexBinPointsData={data}
+      hexBinPointLat={(d) => d.lat}
+      hexBinPointLng={(d) => d.lng}
+      hexBinResolution={4}
+      hexBinPointWeight={pointWeight}
+      hexAltitude={(d) => {
+        const sum = Math.min(d.sumWeight, maxAltVal);
+        return sum / (maxAltVal + 100);
+      }}
+      hexSideColor={getColor}
+      hexTopColor={getColor}
+      hexTransitionDuration={1000}
+      resumeAnimation={interactive}
+      pauseAnimation={!interactive}
+      enablePointerInteraction={interactive}
+      rendererConfig={{
+        alpha: false,
+        antialias: false,
+        powerPreference: 'high-performance'
+      }}
+      hexLabel={(d) => {
+        const k = d.points.reduce((acc, val) => acc + val.stakedvalue ,0)
+        return `Staked Value: ${k} \n Points: ${d.sumWeight}`;
+      }}
+    />
+  )
+};
