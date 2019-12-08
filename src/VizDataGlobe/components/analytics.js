@@ -36,7 +36,7 @@ export default ({ display, stakedValue, USDRate, pastValue, toggleRotate }) => {
         <div>
           <label className="switch">
             <input type="checkbox" onChange={toggleRotate} />
-            <span className="slider round"></span>
+            <span className="rotation-slider round"></span>
           </label>
         </div>
       </div>

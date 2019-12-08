@@ -113,7 +113,7 @@ h2 {
   margin-right: 40px;
   margin-top: 0px;
 }
-.slider {
+.rotation-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -126,7 +126,7 @@ h2 {
   height: 19px;
 }
 
-.slider:before {
+.rotation-slider:before {
   position: absolute;
   content: "";
   height: 13px;
@@ -138,24 +138,24 @@ h2 {
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked + .rotation-slider {
   background-color: #2196F3;
 }
 
-input:focus + .slider {
+input:focus + .rotation-slider {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider:before {
+input:checked + .rotation-slider:before {
   transform: translateX(17px);
 }
 
-/* Rounded sliders */
-.slider.round {
+/* Rounded rotation-sliders */
+.rotation-slider.round {
   border-radius: 34px;
 }
 
-.slider.round:before {
+.rotation-slider.round:before {
   border-radius: 50%;
 }
 
