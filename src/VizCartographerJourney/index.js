@@ -6,12 +6,16 @@ import CartographerJourneyRenderLayers from './CartographerJourneyRenderLayer';
 import CartographerAddressInputBox from './components/CartographerAddressInputBox';
 import CartographerProfilePanel from './components/CartographerProfilePanel';
 import CartographerJourneyTooltip from './components/CartographerJourneyTooltip';
+import TopCartographersDetail from './components/TopCartographersDetail';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import ErrorDialogueBox from './components/ErrorDialogueBox';
 import Loading from './components/Loading';
+import axios from 'axios';
+
 import {
   fetchCartographerDetailsFromFOAMAPI,
   getProfileAnalytics,
+  getTopCartographers
 } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
@@ -38,6 +42,7 @@ class VizCartographerJourney extends React.Component {
       loading: false,
       data: [],
       showInputBox: true,
+      showTopCartographers: true,
       showProfilePanel: false,
       cartographerAddress: '',
       profileAnalytics: {},
@@ -54,7 +59,8 @@ class VizCartographerJourney extends React.Component {
       hasError: false,
       errorMessage: '',
       pitchFor3d: 50,
-      disableReset: true
+      disableReset: true,
+      topCartographers: []
     };
   }
 
@@ -65,7 +71,7 @@ class VizCartographerJourney extends React.Component {
 
   async getCartographerDetails(cartographerAddress) {
     try {
-      this.setState({ loading: true, showInputBox: false });
+      this.setState({ loading: true, showInputBox: false, showTopCartographers: false });
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(
         cartographerAddress,
       );
@@ -94,6 +100,15 @@ class VizCartographerJourney extends React.Component {
         showInputBox: true,
       });
     }
+  }
+
+  async getTopCartographersDetails() {
+    try {
+    const allCartographers = await axios.get(
+      `https://api.blocklytics.org/foam/v0/cartographers?sort=points_on_map&key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0`
+    );
+    return allCartographers.data.slice(0, 5);
+    } catch(e) { console.log(e) }
   }
 
   filterData = (newMinVal, newMaxVal) => {
@@ -229,7 +244,9 @@ class VizCartographerJourney extends React.Component {
       hasError,
       errorMessage,
       loading,
-      disableReset
+      disableReset,
+      showTopCartographers,
+      topCartographers
     } = this.state;
 
     const [min, max] = [0, data.length - 1];
@@ -248,6 +265,11 @@ class VizCartographerJourney extends React.Component {
         <CartographerAddressInputBox
           display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}
+        />
+        <TopCartographersDetail
+          display={showTopCartographers}
+          topCartographers={this.getTopCartographersDetails}
+          getCartographerDetails={this.getCartographerDetails}          
         />
         <CartographerJourneyTooltip hoveredObjectDetails={hover} />
         <TimeSeriesSlider
