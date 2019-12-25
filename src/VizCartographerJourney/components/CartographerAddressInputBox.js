@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import FoamNavbar from './FoamNavbar';
 
 const CartographerAddressInputBox = (props) => {
   const { display, history } = props;
@@ -18,7 +19,9 @@ const CartographerAddressInputBox = (props) => {
   if (display === false) return null;
 
   return (
-    <div className="abs-container">
+    <div className="abs-container input-container">
+    <FoamNavbar />
+    <div className=""></div>
       <input
         id="cartographer-address"
         ref={(input) => {

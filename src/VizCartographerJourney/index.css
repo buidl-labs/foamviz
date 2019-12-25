@@ -33,7 +33,7 @@
 }
 
 .profile-container {
-    height: calc(100vh - 9rem);
+    height: calc(100vh - 13rem);
 }
 
 .divider {
@@ -64,6 +64,17 @@
       background: black !important;
   }
 
+  .address-input-box:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+}
+
+  .address-input-box:-webkit-autofill,
+  .address-input-box:-webkit-autofill:hover,
+  .address-input-box:-webkit-autofill:focus,
+  .address-input-box:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
 .cartographer-profile-pic {
     height: 8rem;
     border-radius: 4rem;
@@ -71,7 +82,7 @@
 
 .profile-panel {
     text-align: center;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     margin-bottom: 1rem;
 }
 
@@ -326,4 +337,42 @@
       opacity: 0;
     }
   }
-  
+
+  .top-c-container {
+      z-index: 7;
+      position: absolute;
+      top: 5vh;
+      left: calc(100vw - 30rem);
+  }
+
+  .top-c {
+    border: grey 0.5px solid !important;
+    cursor: pointer;
+    width: 28vw !important;
+    margin-bottom: 20px;
+  }
+
+  .nav-container {
+    background: #282828;
+    padding: 25px 15px;
+  }
+
+  .nav-heading {
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    color: white
+  }
+
+  .nav-subheading {
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+    padding-top: 6px;
+  }
+
