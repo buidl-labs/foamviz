@@ -29,7 +29,7 @@ const tooltipInfo = (d) => {
         <div class="tooltip-key">
           Points
           <span class="tooltip-value">
-            ${d.sumWeight}
+            ${d.points.length}
           </span>
         </div>
       </div>
