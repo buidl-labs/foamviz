@@ -225,6 +225,23 @@ class VizDataGlobe extends React.Component {
 
     const [min, max] = [0, dataDateChunks.length - 1];
 
+    const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const marks = {};
+    const markStyle = {
+      color: 'white',
+      background: 'black',
+      width: 56,
+      wordWrap: 'break-word',
+      height: 20,
+    };
+    for (let i = 0; i < dataDateChunks.length; i += 1) {
+      const date = new Date(dataDateChunks[i][0].createdAt);
+      marks[i] = {
+        label: `${months[date.getMonth()]} ${date.getFullYear()}`,
+        style: markStyle,
+      };
+    }
+
     return (
       <div>
         <Analytics
@@ -248,6 +265,7 @@ class VizDataGlobe extends React.Component {
           length={filteredData.length || 0}
           minRange={min}
           maxRange={max}
+          marks={marks}
           curMinVal={timelineMin}
           curMaxVal={timelineMax}
           curMinDate={dataDateChunks[timelineMin][0].createdAt}

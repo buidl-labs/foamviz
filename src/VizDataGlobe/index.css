@@ -99,6 +99,7 @@ h2 {
   background: black;
   border: none;
   padding: 1.5rem;
+  height: 98px;
   width: calc(100vw - 5rem);
   border-radius: 0.2rem;
   outline: transparent;
@@ -191,4 +192,10 @@ input:checked + .rotation-slider:before {
   color: #fff;
   font-size: 14px;
   font-weight: 700;
+}
+
+.rc-slider-dot {
+  border: none !important;
+  width: 1px;
+  margin-left: -2px;
 }

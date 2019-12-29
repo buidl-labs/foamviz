@@ -12,6 +12,7 @@ const TimeSeriesSlider = (props) => {
     resetEnabled,
     minRange,
     maxRange,
+    marks,
     initialMinValue,
     initialMaxValue,
     curMinVal,
@@ -54,15 +55,14 @@ const TimeSeriesSlider = (props) => {
             <button type="button" className="button-img-container">
               <img onClick={resetEnabled ? reset : (() => {})} style={{ cursor: resetEnabled ? null : 'not-allowed' }} className="play-pause-btn" alt="PlayPauseButton" src={resetEnabled ? resetButton : resetBlackButton} />
             </button>
-            <div>{length > 0 ? formatDate(curMinDate) : ''}</div>
           </div>
         </div>
-        <div>{length > 0 ? formatDate(curMaxDate) : ''}</div>
       </div>
       <Range
         onChange={filterDate}
         min={minRange}
         max={maxRange}
+        marks={marks}
         value={[curMinVal, curMaxVal]}
         count={count}
         defaultValue={[initialMinValue, initialMaxValue]}
