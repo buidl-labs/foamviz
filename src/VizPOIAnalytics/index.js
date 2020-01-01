@@ -36,6 +36,7 @@ import {
   getCurrentLocation,
   getFOAMUSDRate,
 } from './utils/helper';
+import LoaderWhileFetchingLocation from './components/LoaderWhileFetchingLocation';
 
 // Todo: All Control panel settings need to become part of this initital state
 const INTIAL_VIEW_STATE = {
@@ -321,12 +322,7 @@ class VizPOIAnalytics extends React.Component {
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
-      return (
-        <p style={{ color: 'white' }}>
-          Waiting for User Location. If denied, Viz will redirect to FOAM HQ
-          City i.e New York
-        </p>
-      );
+     return <LoaderWhileFetchingLocation />
     }
 
     const layers = this.renderLayers();
@@ -343,7 +339,7 @@ class VizPOIAnalytics extends React.Component {
         <Helmet>
           <title>FOAMViz - POI Analytics</title>
         </Helmet>
-        {fetchingData && <LoaderWhenFetchingData />}
+        {fetchingData}
         <Tooltip allHoveredPOIDetails={hover} />
         <POIAnalyticsControlPanel
           settings={settings}

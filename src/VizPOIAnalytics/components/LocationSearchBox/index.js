@@ -20,7 +20,8 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
         name: p.place_name,
         coordinates: p.geometry.coordinates,
       })})
-    );
+    )
+    .catch(e => console.log(e));
     setSearchedPlace(places);
   };
 
