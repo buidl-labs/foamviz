@@ -1,19 +1,34 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../index.css';
 import { fetchLocationFromMapboxAPI } from '../../utils/helper';
 
 const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
 
   const [searchedPlaces, setSearchedPlace] = useState([]);
+  const [curSelected, setCurrentKey] = useState(-1);
   const inputRef = useRef();
 
-  const onSearch = async (e) => {
-    const { value } = e.target;
+  const navigateMap = (place) => {
+    setSearchedPlace([]);
+    onLocationSelect(place.coordinates);
+    inputRef.current.value = '';
+  }
+
+  const onSearch = async ({ target: { value }, keyCode}) => {
     if(!value) {
       setSearchedPlace([]);
       return;
     }
+    
+    if (keyCode ==  38) {
+      return setCurrentKey(Math.max(0, curSelected - 1));
+    } else if (keyCode == 40) {
+      return setCurrentKey(Math.min(searchedPlaces.length - 1, curSelected + 1));
+    } else if (keyCode == 13) {
+      return navigateMap(searchedPlaces[curSelected]);
+    }
+
     const places = [];
     await fetchLocationFromMapboxAPI(value).then(result => result.forEach(p => {
       places.push({
@@ -25,12 +40,6 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
     setSearchedPlace(places);
   };
 
-  const navigateMap = (place) => {
-    setSearchedPlace([]);
-    onLocationSelect(place.coordinates);
-    inputRef.current.value = '';
-  }
-
   return (
     <div className="searchBoxControl">
       <div className="container">
@@ -38,7 +47,7 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
         className="location-input-box box-container"
         type="text"
         placeholder="Enter Location to Navigate"
-        onChange={onSearch}
+        onKeyUp={onSearch}
         ref={inputRef}
         />
       </div>
@@ -46,7 +55,7 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
         {
           searchedPlaces.map((place, key) => (
               <p
-                key={key} className="searchResults" onClick={() => navigateMap(place)}>{place.name}</p>
+                key={key} className={key === curSelected ? "searchResults search-navigate": "searchResults"} onClick={() => navigateMap(place)}>{place.name}</p>
             )
           )
         }

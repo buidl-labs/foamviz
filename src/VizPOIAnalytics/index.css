@@ -174,6 +174,10 @@ label {
   cursor: pointer;
 }
 
+.search-navigate {
+  background: rgb(51, 51, 51);
+}
+
 .container {
   padding: 12px;
 }
