@@ -338,18 +338,38 @@
     }
   }
 
+  .top-c-main-container {
+    z-index: 7;
+    position: absolute;
+    top: 5vh;
+    left: calc(100vw - 35rem);
+    padding: 10px;
+    border: 1px rgb(133, 133, 133) solid;
+  }
+
   .top-c-container {
       z-index: 7;
-      position: absolute;
-      top: 5vh;
-      left: calc(100vw - 30rem);
+  }
+
+  .top-c-heading {
+    color: white;
+    text-align: center;
   }
 
   .top-c {
-    border: grey 0.5px solid !important;
+    /* border: grey 0.5px solid !important; */
     cursor: pointer;
-    width: 28vw !important;
+    width: 33vw !important;
     margin-bottom: 20px;
+  }
+
+  .info-container {
+    display: flex;
+    justify-content: space-between
+  }
+
+  .address {
+    margin-left: 20px;
   }
 
   .nav-container {
@@ -376,3 +396,11 @@
     padding-top: 6px;
   }
 
+  .top-c-photo-container {
+    text-align: center;
+  }
+
+  .top-cartographer-profile-pic {
+    height: 3rem;
+    border-radius: 2rem;
+}
