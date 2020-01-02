@@ -196,6 +196,7 @@ input:checked + .rotation-slider:before {
 
 .rc-slider-dot {
   border: none !important;
-  width: 1px;
+  width: 3px;
   margin-left: -2px;
+  border-radius: 0;
 }
