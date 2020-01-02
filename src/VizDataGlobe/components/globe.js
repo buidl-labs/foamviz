@@ -69,7 +69,7 @@ export default ({ data, pointWeight, maxAltVal, interactive, rotationStatus }) =
       rendererConfig={{
         alpha: false,
         antialias: false,
-        powerPreference: 'high-performance'
+        powerPreference: 'high-performance',
       }}
       hexLabel={(d) => tooltipInfo(d)}
     />

@@ -151,7 +151,7 @@ class VizDataGlobe extends React.Component {
     });
   }
 
-  filterData(newMinVal, newMaxVal) {
+  filterData(newMinVal, newMaxVal, cb = () => {}) {
     const { timelineMin, timelineMax } = this.state;
 
     if (newMinVal !== timelineMin || newMaxVal !== timelineMax) {
@@ -161,6 +161,7 @@ class VizDataGlobe extends React.Component {
         filtering: true,
       }, () => {
         this.updateDataOnGlobe(newMinVal, newMaxVal);
+        cb();
       });
     }
   }
@@ -177,14 +178,8 @@ class VizDataGlobe extends React.Component {
 
     const { timelineMax, timelineMin, globalMax } = this.state;
 
-    this.setState(
-      {
-        timelineMin,
-        timelineMax:
-          timelineMax !== globalMax
-            ? timelineMax + 1
-            : timelineMin + 1,
-      },
+    this.filterData(
+      timelineMin, timelineMax !== globalMax ? timelineMax + 1 : timelineMin + 1,
       () => {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
