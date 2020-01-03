@@ -37,7 +37,14 @@ const tooltipInfo = (d) => {
   )
 }
 
-export default ({ data, pointWeight, maxAltVal, interactive, rotationStatus }) => {
+export default ({
+  data,
+  pointWeight,
+  maxAltVal,
+  interactive,
+  rotationStatus,
+  resolution = 4,
+}) => {
 
   const globeEl = React.useRef();
 
@@ -54,7 +61,7 @@ export default ({ data, pointWeight, maxAltVal, interactive, rotationStatus }) =
       hexBinPointsData={data}
       hexBinPointLat={(d) => d.lat}
       hexBinPointLng={(d) => d.lng}
-      hexBinResolution={4}
+      hexBinResolution={resolution}
       hexBinPointWeight={pointWeight}
       hexAltitude={(d) => {
         const sum = Math.min(d.sumWeight, maxAltVal);

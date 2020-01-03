@@ -214,6 +214,7 @@ class VizDataGlobe extends React.Component {
       foamUSDRate,
       filtering,
       isRotateState,
+      globeResolution,
     } = this.state;
 
     if (loading) return <Loader display={loading} />;
@@ -245,12 +246,16 @@ class VizDataGlobe extends React.Component {
           USDRate={foamUSDRate}
           pastValue={pastAnalyticsValue}
           toggleRotate={this.toggleRotate}
+          updateResolution={(v) => {
+            this.setState({ globeResolution: v });
+          }}
         />
         <Globe
           data={filteredData}
           pointWeight="stakedvalue"
           maxAltVal={10e3}
           interactive={!filtering}
+          resolution={globeResolution}
           rotationStatus={isRotateState}
         />
         <TimeSeries

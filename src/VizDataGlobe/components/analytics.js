@@ -1,8 +1,11 @@
 import React from 'react';
 import CountUp from 'react-countup';
+import Slider from 'rc-slider';
 
-export default ({ display, stakedValue, USDRate, pastValue, toggleRotate }) => {
+export default ({ display, stakedValue, USDRate, pastValue, toggleRotate, updateResolution }) => {
   if (!display) return null;
+
+  const [resolution, setResolution] = React.useState(4);
 
   return (
     <div className="analytics-panel abs-container-top main-container-top">
@@ -40,6 +43,19 @@ export default ({ display, stakedValue, USDRate, pastValue, toggleRotate }) => {
           </label>
         </div>
       </div>
+      <div className="rotation" style={{ marginTop: 28 }}>Hex Resolution:</div>
+      <br />
+      <Slider
+        min={2}
+        max={7}
+        step={1}
+        dots
+        value={resolution}
+        onChange={(r) => {
+          setResolution(r);
+          updateResolution(r);
+        }}
+      />
     </div>
-  );    
+  );
 };
