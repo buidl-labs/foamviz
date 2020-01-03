@@ -21,8 +21,9 @@ const LoaderWhileFetchingLocation = () => (
       style={{
         width: '50rem',
         color: 'white',
-        marginTop: '18rem',
-        marginLeft: 'calc(100vw - 45em)'
+        textAlign: 'center',
+        margin: 'auto',
+        marginTop: '30vh'
       }}
     >
       Waiting for User Location. If denied, Viz will redirect to FOAM HQ City
