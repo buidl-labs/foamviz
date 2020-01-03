@@ -342,9 +342,10 @@
     z-index: 7;
     position: absolute;
     top: 5vh;
-    left: calc(100vw - 35rem);
+    right: 2.5vw;
     padding: 10px;
     border: 1px rgb(133, 133, 133) solid;
+    background: black;
   }
 
   .top-c-container {
@@ -361,6 +362,7 @@
     cursor: pointer;
     width: 33vw !important;
     margin-bottom: 20px;
+    background: #282828 !important;
   }
 
   .info-container {

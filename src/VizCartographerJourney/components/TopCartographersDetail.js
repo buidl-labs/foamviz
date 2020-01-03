@@ -5,28 +5,24 @@ import { getCartographerProfile } from '../utils/helper';
 
 const TopCartographersDetails = props => {
   const { display, topCartographers, getCartographerDetails } = props;
-
-  React.useEffect(() => {
-    topCartographers().then(data => setCartographers(data));
-  }, []);
-
+  
   const [top5Cartographers, setCartographers] = React.useState([]);
-  const [cartographerProfilePic, updateProfilePic] = React.useState('#');
 
   React.useEffect(() => {
-    if (top5Cartographers.length) {
-      top5Cartographers.forEach(c => {
-        getCartographerProfile(c.user)
-          .then(details => {
-            const cartographerProfilePic = `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`;
-            updateProfilePic(cartographerProfilePic);
-          })
-          .catch(error => {
-            console.log('error in getting', error);
+    topCartographers().then(data => {
+      const promise = Promise.all(data.map(c => {
+        return getCartographerProfile(c.user).then(details => {
+          return Promise.resolve({
+            ...c,
+            pic: `https://ipfs.infura.io:5001/api/v0/cat?arg=${details.image[0].contentUrl['/']}`
           });
+        }).catch(() => Promise.resolve(c))
+      }));
+      promise.then((cartographers) => {
+        setCartographers(cartographers);
       });
-    }
-  }, [top5Cartographers]);
+    });
+  }, [topCartographers]);
 
   if (!display) return null;
 
@@ -46,7 +42,7 @@ const TopCartographersDetails = props => {
                   <div className="top-c-photo-container">
                     <Img
                       className="top-cartographer-profile-pic"
-                      src={cartographerProfilePic}
+                      src={(c && c.pic) || ''}
                       loader={
                         <div className="lds-spinner">
                           <div />
@@ -73,7 +69,7 @@ const TopCartographersDetails = props => {
                     />
                   </div>
                   <div className="address">
-                    <div>{c.user}</div>
+                    <div>{c && c.user}</div>
                     <div>Points on map: {c.points_on_map}</div>
                   </div>
                 </div>

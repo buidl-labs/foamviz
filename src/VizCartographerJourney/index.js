@@ -70,6 +70,8 @@ class VizCartographerJourney extends React.Component {
   }
 
   async getCartographerDetails(cartographerAddress) {
+    const { history } = this.props;
+    if(history) history.push(`/cartographer-journey/${cartographerAddress}`);
     try {
       this.setState({ loading: true, showInputBox: false, showTopCartographers: false });
       const cartographerDetails = await fetchCartographerDetailsFromFOAMAPI(
