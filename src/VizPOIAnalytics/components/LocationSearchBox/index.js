@@ -15,13 +15,22 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
     inputRef.current.value = '';
   }
 
-  const onSearch = async ({ target: { value }, keyCode}) => {
-    if(!value) {
+  const keyUp = (e) => {
+    if(!e.target.value) {
       setSearchedPlace([]);
       return;
     }
-    
-    if (keyCode ==  38) {
+  }
+
+  const onSearch = async (e) => {
+    const { target, keyCode, key } = e;
+    if(!target.value) {
+      setSearchedPlace([]);
+      return;
+    }
+
+    if (keyCode ==  38 && key == "ArrowUp") {
+      e.preventDefault();
       return setCurrentKey(Math.max(0, curSelected - 1));
     } else if (keyCode == 40) {
       return setCurrentKey(Math.min(searchedPlaces.length - 1, curSelected + 1));
@@ -30,7 +39,7 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
     }
 
     const places = [];
-    await fetchLocationFromMapboxAPI(value).then(result => result.forEach(p => {
+    await fetchLocationFromMapboxAPI(target.value).then(result => result.forEach(p => {
       places.push({
         name: p.place_name,
         coordinates: p.geometry.coordinates,
@@ -47,7 +56,8 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
         className="location-input-box box-container"
         type="text"
         placeholder="Enter Location to Navigate"
-        onKeyUp={onSearch}
+        onKeyDown={onSearch}
+        onKeyUp={keyUp}
         ref={inputRef}
         />
       </div>
