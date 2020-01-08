@@ -2,6 +2,7 @@ import React from 'react';
 import Img from 'react-image';
 import { getCartographerProfile } from '../utils/helper';
 import placeholder from '../../assets/imgs/person.jpeg';
+import FoamNavbar from './FoamNavbar';
 
 const CartographerProfilePanel = (props) => {
   const {
@@ -32,6 +33,7 @@ const CartographerProfilePanel = (props) => {
 
   return (
     <div className="abs-container">
+    <FoamNavbar />
       <div className="main-container profile-container">
         <div className="profile-panel">
           <Img
