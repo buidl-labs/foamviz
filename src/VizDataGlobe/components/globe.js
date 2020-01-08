@@ -4,19 +4,18 @@ import earthNight from '../imgs/earth-night.jpg';
 import earthPlane from '../imgs/earth-plane.jpg';
 
 const getColor = ({ sumWeight }) => {
-	if (sumWeight <= 2000) {
-		return '#52B2F5';
-	} else if (sumWeight <= 5000) {
-		return '#7AF85B';
-	} else if (sumWeight <= 10000) {
-		return '#E1953E';
-	} else {
-		return '#E50538';
-	}
-}
+  if (sumWeight <= 2000) {
+    return '#52B2F5';
+  } if (sumWeight <= 5000) {
+    return '#7AF85B';
+  } if (sumWeight <= 10000) {
+    return '#E1953E';
+  }
+  return '#E50538';
+};
 
 const tooltipInfo = (d) => {
-  const k = d.points.reduce((acc, val) => acc + val.stakedvalue ,0)
+  const k = d.points.reduce((acc, val) => acc + val.stakedvalue, 0);
   return (
     `
       <div
@@ -34,8 +33,8 @@ const tooltipInfo = (d) => {
         </div>
       </div>
     `
-  )
-}
+  );
+};
 
 export default ({
   data,
@@ -45,11 +44,10 @@ export default ({
   rotationStatus,
   resolution = 4,
 }) => {
-
   const globeEl = React.useRef();
 
   React.useEffect(() => {
-    globeEl.current.controls().autoRotate = rotationStatus ? true : false;
+    globeEl.current.controls().autoRotate = !!rotationStatus;
     globeEl.current.controls().autoRotateSpeed = 0.1;
   }, [rotationStatus]);
 
@@ -80,5 +78,5 @@ export default ({
       }}
       hexLabel={(d) => tooltipInfo(d)}
     />
-  )
+  );
 };
