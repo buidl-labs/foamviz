@@ -33,7 +33,7 @@ const TimeSeriesSlider = (props) => {
     filterData(event[0], event[1]);
   };
 
-  const formatDate = dateStr => {
+  const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     return (
@@ -66,7 +66,7 @@ const TimeSeriesSlider = (props) => {
         value={[curMinVal, curMaxVal]}
         count={count}
         defaultValue={[initialMinValue, initialMaxValue]}
-        allowCross={false}
+        allowCross
         pushable={1}
         trackStyle={[{ backgroundColor: '#363636' }]}
         handleStyle={[

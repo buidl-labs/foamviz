@@ -179,7 +179,7 @@ class VizDataGlobe extends React.Component {
     const { timelineMax, timelineMin, globalMax } = this.state;
 
     this.filterData(
-      timelineMin, timelineMax !== globalMax ? timelineMax + 1 : timelineMin + 1,
+      timelineMin, timelineMax !== globalMax ? timelineMax + 1 : timelineMin,
       () => {
         if (this.showInterval) clearInterval(this.showInterval);
         this.showInterval = setInterval(() => {
