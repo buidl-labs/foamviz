@@ -5,6 +5,7 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import HomePage from './HomePage';
 import VizPOIAnalytics from './VizPOIAnalytics';
 import VizCartographerJourney from './VizCartographerJourney';
+import VizDataGlobe from './VizDataGlobe';
 
 const App = () => (
   <Router>
@@ -19,6 +20,7 @@ const App = () => (
       path="/cartographer-journey/:id"
       component={VizCartographerJourney}
     />
+    <Route exact path="/data-globe" component={VizDataGlobe} />
   </Router>
 );
 
