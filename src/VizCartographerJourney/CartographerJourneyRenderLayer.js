@@ -38,7 +38,7 @@ const CartographerJourneyRenderLayers = (props) => {
       getRadius: (d) => (d.stakedValue * 10),
       getFillColor: () => [101, 197, 108, 100],
       getLineColor: () => [101, 197, 108],
-      onHover: onPOIHover
+      onHover: onPOIHover,
     }),
   ];
 };
