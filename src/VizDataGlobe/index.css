@@ -1,0 +1,202 @@
+
+/* styles used by timeseries */
+.abs-container-bottom {
+  z-index: 7;
+  position: absolute;
+  top: calc(5vh + 100vh - 9rem - 2.8rem);
+  right: 2vw;
+}
+
+.main-container-bottom {
+  background: black;
+  border: none;
+  padding: 1.5rem;
+  width: calc(100vw - 32rem);
+  border-radius: 0.2rem;
+  outline: transparent;
+  color: #ffffff;
+}
+
+
+.date-row {
+  margin-top: 0px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  color: #7D7D7D;
+  font-size: 14px;
+}
+
+.play {
+  display: flex;
+}
+
+.play-pause-btn {
+  height: 1rem;
+  margin-left: -10px;
+  color: white;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.button-img-container {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.rc-slider-rail {
+  background-color: grey !important;
+}
+
+/* css for analytics panel */
+.abs-container-top {
+  z-index: 7;
+  position: absolute;
+  top: 5vh;
+  left: 2vw;
+  background: black !important;
+}
+
+.main-container-top {
+  background: transparent;
+  border: none;
+  padding: 1.5rem;
+  width: 16rem;
+  border-radius: 0.2rem;
+  outline: transparent;
+  color: #ffffff;
+}
+
+h1 {
+  margin-bottom: 0.5rem
+}
+
+h2 {
+  margin-top: 0; 
+}
+
+.viz-description {
+  font-weight: 600;
+  color: #808080;
+  line-height: 1.25;
+}
+
+.text-white {
+  color: white;
+}
+
+/* styles used by timeseries */
+.abs-container-bottom-viz3 {
+  z-index: 7;
+  position: absolute;
+  top: calc(5vh + 100vh - 9rem - 2.8rem);
+  left: 50%;
+  transform: translate(-50%, -10%);
+}
+
+.main-container-bottom-viz3 {
+  background: black;
+  border: none;
+  padding: 1.5rem;
+  height: 98px;
+  width: calc(100vw - 5rem);
+  border-radius: 0.2rem;
+  outline: transparent;
+  color: #ffffff;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 39px;
+  height: 19px;
+  margin-right: 40px;
+  margin-top: 0px;
+}
+.rotation-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  height: 19px;
+}
+
+.rotation-slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .rotation-slider {
+  background-color: #2196F3;
+}
+
+input:focus + .rotation-slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .rotation-slider:before {
+  transform: translateX(17px);
+}
+
+/* Rounded rotation-sliders */
+.rotation-slider.round {
+  border-radius: 34px;
+}
+
+.rotation-slider.round:before {
+  border-radius: 50%;
+}
+
+.rotation-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rotation {
+  font-weight: 600;
+  color: #adadad;
+  line-height: 1.25;
+}
+
+.tooltipStyle {
+  position: absolute;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 12px;
+  z-index: 7;
+  pointer-events: none;
+}
+
+.tooltip-key {
+  color: grey;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tooltip-value {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.rc-slider-dot {
+  border: none !important;
+  width: 3px;
+  margin-left: -2px;
+  border-radius: 0;
+}

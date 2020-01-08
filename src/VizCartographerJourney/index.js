@@ -54,7 +54,7 @@ class VizCartographerJourney extends React.Component {
       hasError: false,
       errorMessage: '',
       pitchFor3d: 50,
-      disableReset: true
+      disableReset: true,
     };
   }
 
@@ -109,7 +109,7 @@ class VizCartographerJourney extends React.Component {
       });
     }
 
-    if(newMinVal === 0 && newMaxVal === data.length - 1) {
+    if (newMinVal === 0 && newMaxVal === data.length - 1) {
       this.setState({ disableReset: true });
     } else {
       this.setState({ disableReset: false });
@@ -229,7 +229,7 @@ class VizCartographerJourney extends React.Component {
       hasError,
       errorMessage,
       loading,
-      disableReset
+      disableReset,
     } = this.state;
 
     const [min, max] = [0, data.length - 1];

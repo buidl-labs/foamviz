@@ -14,18 +14,37 @@ const Tooltip = props => {
         transform: `translate(${allHoveredPOIDetails.x}px, ${allHoveredPOIDetails.y}px)`
       }}
     >
-      <div className="">
-        <div>Latitude: {allHoveredPOIDetails.details.latitude}</div>
-        <div>Longitude: {allHoveredPOIDetails.details.longitude}</div>
-        <div>POI&apos;s: {allHoveredPOIDetails.details.numOfPoints}</div>
-        <div>
-          Accumulated sum of FOAM tokens:{' '}
+      <div className="tooltip-key">Latitude
+        {' '}
+        <span className="tooltip-value">
+          {allHoveredPOIDetails.details.latitude}
+        </span>
+      </div>
+      <div className="tooltip-key">Longitude
+        {' '}
+        <span className="tooltip-value">
+          {allHoveredPOIDetails.details.longitude}
+        </span>
+      </div>
+      <div className="tooltip-key">POI&apos;s
+        {' '}
+        <span className="tooltip-value">
+          {allHoveredPOIDetails.details.numOfPoints}
+        </span>
+      </div>
+      <div className="tooltip-key">
+        Accumulated sum of FOAM tokens
+        {' '}
+        <span className="tooltip-value">
           {allHoveredPOIDetails.details.sumOfFoamTokens}
-        </div>
-        <div>
-          Accumulated value of FOAM tokens: $
-          {allHoveredPOIDetails.details.sumValInUSD}
-        </div>
+        </span>
+      </div>
+      <div className="tooltip-key">
+        Accumulated value of FOAM tokens
+        {' '}
+        <span className="tooltip-value">
+          ${allHoveredPOIDetails.details.sumValInUSD}
+        </span>
       </div>
     </div>
   );
