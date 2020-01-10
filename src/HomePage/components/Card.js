@@ -1,17 +1,15 @@
 import React from 'react';
 
 const Card = (props) => {
-  const { imageSrc, title, description } = props;
+  const { imageSrc } = props;
 
-  return <div className="card-body">
-    <div className="card-img-container">
-      <img className="card-img" src={imageSrc} />
+  return (
+    <div className="card-body">
+      <div className="card-img-container">
+        <img className="card-img" alt="img" src={imageSrc} />
+      </div>
     </div>
-    <div className="card-inner-body">
-      <span className="card-title">{title}</span>
-      <p className="card-desc">{description}</p>
-    </div>
-  </div>
-}
+  );
+};
 
 export default Card;

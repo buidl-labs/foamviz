@@ -3,7 +3,8 @@
 body {
   font-family: 'Roboto Mono', cursive;
   margin: 0;
-  overflow: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
   background: #191a1a;
 }
 
