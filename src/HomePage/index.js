@@ -28,11 +28,11 @@ const HomePage = () => {
         <title>FOAMViz Project</title>
       </Helmet>
       <div className="head-container">
-        {/* <div className="main-title-container">
+        <div className="main-title-container">
           <p className="above-main-title">THE</p>
           <p className="main-title">FOAMVIZ</p>
           <p className="below-main-title">PROJECT</p>
-        </div> */}
+        </div>
         <img alt="bg" src={neonWorldBG} width="100%" height="100vh" />
       </div>
       <section className="hero is-success is-fullheight">
