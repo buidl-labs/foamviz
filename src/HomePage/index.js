@@ -9,7 +9,7 @@ import './index.css';
 
 import vizGlobeImage from '../assets/imgs/viz-globe.png';
 import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
-import vizPOIImage from '../assets/imgs/viz-poi.png';
+import vizPOIImage from '../assets/imgs/viz-one.png';
 import neonWorldBG from '../assets/imgs/background.png';
 
 const HomePage = () => {
