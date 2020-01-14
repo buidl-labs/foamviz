@@ -27,7 +27,7 @@ const HomePage = () => {
       <Helmet>
         <title>FOAMViz Project</title>
       </Helmet>
-      <div className="head-container">
+      <div className="head-container mb-7">
         <div className="main-title-container">
           <p className="above-main-title">THE</p>
           <p className="main-title">FOAMVIZ</p>
@@ -35,7 +35,7 @@ const HomePage = () => {
         </div>
         <img alt="bg" src={neonWorldBG} width="100%" height="100vh" />
       </div>
-      <section className="hero is-success is-fullheight">
+      <section className="hero is-success is-fullheight bg-one">
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
@@ -43,7 +43,7 @@ const HomePage = () => {
                 <h1 className="title">
         VizPOIAnalytics
                 </h1>
-                <h2 className="subtitle">
+                <h2 className="subtitle subinfo">
                 Shows aggreagated POIs according to density or staked value
                 </h2>
               </div>
@@ -58,7 +58,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <section className="hero is-info is-fullheight">
+      <section className="hero is-info is-fullheight bg-two">
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
@@ -66,7 +66,7 @@ const HomePage = () => {
                 <h1 className="title">
         VizCartoJourney
                 </h1>
-                <h2 className="subtitle">
+                <h2 className="subtitle subinfo">
                 Shows journey of a cartographer in terms of their plotting on the map
                 </h2>
               </div>
@@ -81,7 +81,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <section className="hero is-link is-fullheight">
+      <section className="hero is-link is-fullheight bg-three">
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
@@ -89,7 +89,7 @@ const HomePage = () => {
                 <h1 className="title">
         VizDataGlobe
                 </h1>
-                <h2 className="subtitle">
+                <h2 className="subtitle subinfo">
                 Shows all POIs since inception of FOAM on a globe for a bird eye's view
                 </h2>
               </div>
