@@ -3,18 +3,24 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import Card from './components/Card';
 import './index.css';
 
 import vizGlobeImage from '../assets/imgs/viz-globe.png';
+import vizGlobeGIF from '../assets/gifs/three.gif';
 import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
+import vizCartoJourneyGif from '../assets/gifs/two.gif';
 import vizPOIImage from '../assets/imgs/viz-one.png';
+import vizPOIGif from '../assets/gifs/one.gif';
 import neonWorldBG from '../assets/imgs/background.png';
 
 const HomePage = () => {
   useEffect(() => {
     console.log('state0');
+    AOS.init();
     store.loading = true;
     fetchViz3Data().then((data) => {
       store.loading = false;
@@ -39,7 +45,7 @@ const HomePage = () => {
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
-              <div className="column is-4">
+              <div data-aos="fade-right" className="column is-4">
                 <h1 className="title">
         VizPOIAnalytics
                 </h1>
@@ -51,6 +57,7 @@ const HomePage = () => {
                 <Link to="/poi-analytics" className="card-link">
                   <Card
                     imageSrc={vizPOIImage}
+                    gifSrc={vizPOIGif}
                   />
                 </Link>
               </div>
@@ -62,7 +69,7 @@ const HomePage = () => {
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
-              <div className="column is-4">
+              <div data-aos="fade-right" className="column is-4">
                 <h1 className="title">
         VizCartoJourney
                 </h1>
@@ -74,6 +81,7 @@ const HomePage = () => {
                 <Link to="/cartographer-journey" className="card-link">
                   <Card
                     imageSrc={vizCartoJourneyImage}
+                    gifSrc={vizCartoJourneyGif}
                   />
                 </Link>
               </div>
@@ -85,7 +93,7 @@ const HomePage = () => {
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
-              <div className="column is-4">
+              <div data-aos="fade-right" className="column is-4">
                 <h1 className="title">
         VizDataGlobe
                 </h1>
@@ -97,6 +105,7 @@ const HomePage = () => {
                 <Link to="/data-globe" className="card-link">
                   <Card
                     imageSrc={vizGlobeImage}
+                    gifSrc={vizGlobeGIF}
                   />
                 </Link>
               </div>
