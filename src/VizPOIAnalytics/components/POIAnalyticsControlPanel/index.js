@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useState } from 'react';
 
 // Components Imports
 import Selector from './components/Selector';
@@ -9,6 +9,7 @@ import FoamNavbar from '../../../common-utils/components/FoamNavbar';
 
 // Constant Imports
 import { LEGEND_COLORS } from '../../utils/constants';
+import menuBtn from '../../../assets/imgs/play.svg'
 
 import '../../index.css';
 
@@ -48,12 +49,27 @@ const onValueChange = (settingName, newValue, props) => {
 
 const POIAnalyticsControlPanel = (props) => {
   const { settings, controls } = props;
+
+  const [mobile, toggleView] = useState(0);
+
+  const changeView = (event) => {
+    console.log(675878)
+    toggleView(!mobile)
+  };
+
   return (
     <div className="layercontrol">
+      <div 
+      className="menu-btn-container"
+      onClick={changeView}
+      >
+        <img className="menu" src={menuBtn} />
+      </div>
       <FoamNavbar
         title="VizPOIAnalytics"
         info="Part of FOAMviz project"
       />
+      <div id="viz-one-cp" className={mobile ? "show" : "dn"}>
       <div className="control-panel-top">
         <p>SELECTED</p>
         <h2 className="m-top-10">
@@ -96,6 +112,7 @@ const POIAnalyticsControlPanel = (props) => {
           ),
         )}
         <Legend legendColors={LEGEND_COLORS} />
+      </div>
       </div>
     </div>
   );
