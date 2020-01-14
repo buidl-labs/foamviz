@@ -1,3 +1,7 @@
+#view-child-default-view-0 {
+  background: #191a1a !important;
+}
+
 .abs-container {
     z-index: 7;
     position: absolute;
@@ -26,8 +30,7 @@
     background: black;
     border: none;
     padding: 1.5rem;
-    width: 16rem;
-    border-radius: 0.2rem;
+    width: 100%;
     outline: transparent;
     color: #ffffff;
 }
@@ -344,7 +347,6 @@
     top: 5vh;
     right: 2.5vw;
     padding: 10px;
-    border: 1px rgb(133, 133, 133) solid;
     background: black;
   }
 
@@ -360,7 +362,8 @@
   .top-c {
     /* border: grey 0.5px solid !important; */
     cursor: pointer;
-    width: 33vw !important;
+    width: 20vw !important;
+    min-width: 300px;
     margin-bottom: 20px;
     background: #282828 !important;
   }

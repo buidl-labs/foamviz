@@ -69,7 +69,7 @@ const TopCartographersDetails = props => {
                     />
                   </div>
                   <div className="address">
-                    <div>{c && c.user}</div>
+                    <div>{c && c.user.substr(0,10) + '...'}</div>
                     <div>Points on map: {c.points_on_map}</div>
                   </div>
                 </div>
