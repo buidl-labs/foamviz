@@ -5,6 +5,7 @@ import React from 'react';
 import Selector from './components/Selector';
 import Slider from './components/Slider';
 import Legend from './components/Legend';
+import FoamNavbar from '../../../common-utils/components/FoamNavbar';
 
 // Constant Imports
 import { LEGEND_COLORS } from '../../utils/constants';
@@ -28,9 +29,9 @@ const Setting = (props) => {
 const onValueChange = (settingName, newValue, props) => {
   const { settings, onChange } = props;
   if (settings[settingName] !== newValue) {
-    const altsettingName =      settingName === 'showDensityOfPoints'
-        ? 'showStakedTokens'
-        : 'showDensityOfPoints';
+    const altsettingName = settingName === 'showDensityOfPoints'
+      ? 'showStakedTokens'
+      : 'showDensityOfPoints';
     const newSettings = {
       ...settings,
       [settingName]: newValue,
@@ -49,6 +50,10 @@ const POIAnalyticsControlPanel = (props) => {
   const { settings, controls } = props;
   return (
     <div className="layercontrol">
+      <FoamNavbar
+        title="VizPOIAnalytics"
+        info="Part of FOAMviz project"
+      />
       <div className="control-panel-top">
         <p>SELECTED</p>
         <h2 className="m-top-10">
@@ -59,17 +64,17 @@ const POIAnalyticsControlPanel = (props) => {
         <p>OPTIONS</p>
         {Object.keys(settings).map(
           (key) => controls[key].type === 'boolean' && (
-              <div key={key} className="dflex-sbtw cursor-pointer m-2">
-                <div>
-                  <Setting
-                    settingName={key}
-                    value={settings[key]}
-                    controls={controls[key]}
-                    onChange={(p1, p2) => onValueChange(p1, p2, props)}
-                  />
-                </div>
-              </div>
-            ),
+          <div key={key} className="dflex-sbtw cursor-pointer m-2">
+            <div>
+              <Setting
+                settingName={key}
+                value={settings[key]}
+                controls={controls[key]}
+                onChange={(p1, p2) => onValueChange(p1, p2, props)}
+              />
+            </div>
+          </div>
+          ),
         )}
       </div>
       <hr className="control-panel-divider" />
@@ -77,18 +82,18 @@ const POIAnalyticsControlPanel = (props) => {
         <p>CONTROL PANEL</p>
         {Object.keys(settings).map(
           (key) => controls[key].type === 'range' && (
-              <div key={key} className="dflex-sbtw cursor-pointer m-2">
-                <p className="m-0">{controls[key].displayName}</p>
-                <div>
-                  <Setting
-                    settingName={key}
-                    value={settings[key]}
-                    controls={controls[key]}
-                    onChange={(p1, p2) => onValueChange(p1, p2, props)}
-                  />
-                </div>
-              </div>
-            ),
+          <div key={key} className="dflex-sbtw cursor-pointer m-2">
+            <p className="m-0">{controls[key].displayName}</p>
+            <div>
+              <Setting
+                settingName={key}
+                value={settings[key]}
+                controls={controls[key]}
+                onChange={(p1, p2) => onValueChange(p1, p2, props)}
+              />
+            </div>
+          </div>
+          ),
         )}
         <Legend legendColors={LEGEND_COLORS} />
       </div>

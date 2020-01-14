@@ -3,10 +3,35 @@
 body {
   font-family: 'Roboto Mono', cursive;
   margin: 0;
-  overflow: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
   background: #191a1a;
 }
 
 code {
   font-family: 'Roboto Mono', cursive;
+}
+
+.nav-container {
+  background: #282828;
+  padding: 25px 15px;
+}
+
+.nav-heading {
+  font-family: Roboto Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 23px;
+  color: white
+}
+
+.nav-subheading {
+  font-family: Roboto Mono;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: #FFFFFF;
+  padding-top: 6px;
 }
