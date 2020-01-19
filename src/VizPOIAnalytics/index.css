@@ -179,6 +179,8 @@ label {
   outline: transparent;
   color: #ffffff;
   width: 100%;
+  padding-left: 10px;
+    padding-bottom: 10px;
 }
 
 .searchResults:hover {
@@ -194,16 +196,8 @@ label {
   padding: 12px;
 }
 
-.search-result-box {
-  padding-left: 10px;
-}
-
 .menu {
   display: none;
-}
-
-.menu-btn-container {
-  /* padding: 10px; */
 }
 
 .dn {
@@ -212,7 +206,7 @@ label {
 
 @media screen and (max-width: 700px) {
   .layercontrol {
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     font-size: 12px;
     line-height: 1.833;
@@ -225,28 +219,74 @@ label {
     color: white;
   }
 
+  .tooltipStyle {
+    position: absolute;
+    z-index: 1;
+    top: 65px;
+    transform: none !important;
+    left: 2.5%;
+    width: 95% !important;
+    max-width: none !important;
+    border-radius: 4px;
+  }
+
   .searchBoxControl {
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     font-size: 12px;
     line-height: 1.833;
-    width: 100%;
+    width: 95%;
     height: 50px;
     position: absolute;
-    top: calc(100vh - 50px);
-    left: 0;
+    top: 10px;
+    left: 2.5%;
     z-index: 100;
     background: black;
     color: white;
   }
 
-  .menu {
-    display: block;
-    position: absolute;
-    top: 30px;
-    right: 15px;
-    color: white;
-    height: 30px;
-    width: 30px;
+  .dm-none {
+    display: none !important;
   }
+
+  .m-show {
+    display: block !important;
+  }
+
+  .m-pb-3 {
+    padding-bottom: 3rem;
+  }
+
+  .m-nav {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+
+  .w-80 {
+    width: 80%;
+  }
+
+  .ReactSwipeableBottomSheet--open {
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+  }
+  .ReactSwipeableBottomSheet--closed {
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+  }
+
+  .m-text-center {
+    text-align: center;
+  }
+
+  .pull-out {
+    height: 4px;
+    width: 6%;
+    margin-left: 47%;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: #4a4a4a;
+  }
+
 }

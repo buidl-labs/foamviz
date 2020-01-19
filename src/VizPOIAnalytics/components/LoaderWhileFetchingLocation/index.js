@@ -17,19 +17,19 @@ const LoaderWhileFetchingLocation = () => (
       <div />
     </div>
     <h2
-      className
+      className="w-80"
       style={{
-        width: '50rem',
-        color: 'white',
-        textAlign: 'center',
-        margin: 'auto',
-        marginTop: '30vh'
-      }}
-    >
-      Waiting for User Location. If denied, Viz will redirect to FOAM HQ City
-      i.e New York
+        // minWidth: '50rem',
+    color: 'white',
+    textAlign: 'center',
+    margin: 'auto',
+    marginTop: '30vh'
+  }}
+>
+  Waiting for User Location. If denied, Viz will redirect to FOAM HQ City
+  i.e New York
     </h2>
-  </div>
+  </div >
 );
 
 export default LoaderWhileFetchingLocation;

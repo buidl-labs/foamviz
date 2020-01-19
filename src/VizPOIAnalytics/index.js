@@ -3,6 +3,7 @@ import { HexagonLayer, DeckGL } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { Helmet } from 'react-helmet';
 import * as R from 'ramda';
+import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
 // Layers
 // Todo Insert Seperate Layer Components
@@ -288,7 +289,7 @@ class VizPOIAnalytics extends React.Component {
         ...settings,
         ...LAYER_PROPERTIES_Op1,
         elevationScale:
-            checkingPoints.length - 1 === chunkIndex ? elevationScale : 5,
+          checkingPoints.length - 1 === chunkIndex ? elevationScale : 5,
       }),
     );
 
@@ -322,7 +323,7 @@ class VizPOIAnalytics extends React.Component {
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
-     return <LoaderWhileFetchingLocation />
+      return <LoaderWhileFetchingLocation />
     }
 
     const layers = this.renderLayers();
@@ -341,11 +342,29 @@ class VizPOIAnalytics extends React.Component {
         </Helmet>
         {fetchingData}
         <Tooltip allHoveredPOIDetails={hover} />
-        <POIAnalyticsControlPanel
-          settings={settings}
-          controls={CONSTANTS.HEXAGON_CONTROLS}
-          onChange={(settings) => this.updateLayerSettings(settings)}
-        />
+        <div className="dm-none">
+          <POIAnalyticsControlPanel
+            settings={settings}
+            controls={CONSTANTS.HEXAGON_CONTROLS}
+            onChange={(settings) => this.updateLayerSettings(settings)}
+          />
+        </div>
+        <div className="dn m-show">
+          <SwipeableBottomSheet
+            overflowHeight={100}
+            marginTop={128}
+            defaultOpen
+            style={{ zIndex: 1 }}
+          >
+            <div style={{ height: '440px' }}>
+              <POIAnalyticsControlPanel
+                settings={settings}
+                controls={CONSTANTS.HEXAGON_CONTROLS}
+                onChange={(settings) => this.updateLayerSettings(settings)}
+              />
+            </div>
+          </SwipeableBottomSheet>
+        </div>
         <LocationSearchBox onLocationSelect={this.setViewport} />
         <DeckGL
           layers={layers}
