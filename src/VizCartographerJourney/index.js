@@ -11,6 +11,8 @@ import TopCartographersDetail from './components/TopCartographersDetail';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import ErrorDialogueBox from './components/ErrorDialogueBox';
 import Loading from './components/Loading';
+import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
+import FoamNavbar from '../common-utils/components/FoamNavbar';
 
 import {
   fetchCartographerDetailsFromFOAMAPI,
@@ -268,11 +270,33 @@ class VizCartographerJourney extends React.Component {
           display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}
         />
-        <TopCartographersDetail
-          display={showTopCartographers}
-          topCartographers={this.getTopCartographersDetails}
-          getCartographerDetails={this.getCartographerDetails}
-        />
+        <div className="dm-none">
+          <TopCartographersDetail
+            display={showTopCartographers}
+            topCartographers={this.getTopCartographersDetails}
+            getCartographerDetails={this.getCartographerDetails}
+          />
+        </div>
+        if(showTopCartographers) return <div className="dn m-show">
+          <SwipeableBottomSheet
+            overflowHeight={100}
+            marginTop={128}
+            defaultOpen
+            style={{ zIndex: 1 }}
+          >
+            <div style={{ height: '440px', backgroundColor: '#000' }}>
+              <FoamNavbar
+                title="VizCartographerJourney"
+                info="Part of FOAMviz project"
+              />
+              <TopCartographersDetail
+                display={showTopCartographers}
+                topCartographers={this.getTopCartographersDetails}
+                getCartographerDetails={this.getCartographerDetails}
+              />
+            </div>
+          </SwipeableBottomSheet>
+        </div>
         <CartographerJourneyTooltip hoveredObjectDetails={hover} />
         <TimeSeriesSlider
           display={showProfilePanel}
@@ -292,13 +316,37 @@ class VizCartographerJourney extends React.Component {
           isPlayButton={isPlayButton}
           disableReset={disableReset}
         />
-        <CartographerProfilePanel
-          display={showProfilePanel}
-          cartographerAddress={cartographerAddress}
-          profileAnalytics={profileAnalytics}
-          displayMode2D={viewport.pitch === 0}
-          changeMapView={this.updateViewport}
-        />
+        <div className="dm-none">
+          <CartographerProfilePanel
+            display={showProfilePanel}
+            cartographerAddress={cartographerAddress}
+            profileAnalytics={profileAnalytics}
+            displayMode2D={viewport.pitch === 0}
+            changeMapView={this.updateViewport}
+          />
+        </div>
+        <div className="dn m-show">
+          <SwipeableBottomSheet
+            overflowHeight={100}
+            marginTop={128}
+            defaultOpen
+            style={{ zIndex: 1 }}
+          >
+            <div style={{ height: '640px', backgroundColor: '#000' }}>
+              <FoamNavbar
+                title="VizCartographerJourney"
+                info="Part of FOAMviz project"
+              />
+              <CartographerProfilePanel
+                display={showProfilePanel}
+                cartographerAddress={cartographerAddress}
+                profileAnalytics={profileAnalytics}
+                displayMode2D={viewport.pitch === 0}
+                changeMapView={this.updateViewport}
+              />
+            </div>
+          </SwipeableBottomSheet>
+        </div>
         <DeckGL
           layers={CartographerJourneyRenderLayers({
             data: filteredData,

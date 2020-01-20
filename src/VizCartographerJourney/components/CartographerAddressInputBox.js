@@ -20,10 +20,12 @@ const CartographerAddressInputBox = (props) => {
 
   return (
     <div className="abs-container input-container">
-      <FoamNavbar
-        title="VizCartographerJourney"
-        info="Part of FOAMviz project"
-      />
+      <div className="dm-none">
+        <FoamNavbar
+          title="VizCartographerJourney"
+          info="Part of FOAMviz project"
+        />
+      </div>
       <div className="" />
       <input
         id="cartographer-address"

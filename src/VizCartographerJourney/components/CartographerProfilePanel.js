@@ -33,10 +33,12 @@ const CartographerProfilePanel = (props) => {
 
   return (
     <div className="abs-container">
-      <FoamNavbar
-        title="VizCartographerJourney"
-        info="Part of FOAMviz project"
-      />
+      <div className="dm-none">
+        <FoamNavbar
+          title="VizCartographerJourney"
+          info="Part of FOAMviz project"
+        />
+      </div>
       <div className="main-container profile-container">
         <div className="profile-panel">
           <Img

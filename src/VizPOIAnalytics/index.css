@@ -200,10 +200,6 @@ label {
   display: none;
 }
 
-.dn {
-  display: none;
-}
-
 @media screen and (max-width: 700px) {
   .layercontrol {
     border-radius: 4px;
@@ -243,50 +239,6 @@ label {
     z-index: 100;
     background: black;
     color: white;
-  }
-
-  .dm-none {
-    display: none !important;
-  }
-
-  .m-show {
-    display: block !important;
-  }
-
-  .m-pb-3 {
-    padding-bottom: 3rem;
-  }
-
-  .m-nav {
-    border-top-right-radius: 10px;
-    border-top-left-radius: 10px;
-  }
-
-  .w-80 {
-    width: 80%;
-  }
-
-  .ReactSwipeableBottomSheet--open {
-    border-top-right-radius: 10px !important;
-    border-top-left-radius: 10px !important;
-  }
-  .ReactSwipeableBottomSheet--closed {
-    border-top-right-radius: 10px !important;
-    border-top-left-radius: 10px !important;
-  }
-
-  .m-text-center {
-    text-align: center;
-  }
-
-  .pull-out {
-    height: 4px;
-    width: 6%;
-    margin-left: 47%;
-    margin-top: -15px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    background: #4a4a4a;
   }
 
 }
