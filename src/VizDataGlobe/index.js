@@ -244,7 +244,7 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
-        <div className="m-top-info">
+        <div className="m-top-info dn m-show">
           {!displayValueMobile ? (<div className="m-foam-token">
             <CountUp
               delay={0}

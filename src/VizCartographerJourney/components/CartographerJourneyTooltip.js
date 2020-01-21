@@ -8,7 +8,7 @@ const CartographerJourneyTooltip = (props) => {
   if (!hoveredObjectDetails.type) {
     return (
       <div
-        className="cartographerJourneyTooltipStyle"
+        className="cartographerJourneyTooltipStyle m-tooltip"
         style={{
           transform: `translate(${hoveredObjectDetails.x}px, ${hoveredObjectDetails.y}px)`,
         }}

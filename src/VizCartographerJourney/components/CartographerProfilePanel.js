@@ -40,7 +40,7 @@ const CartographerProfilePanel = (props) => {
         />
       </div>
       <div className="main-container profile-container">
-        <div className="profile-panel">
+        <div className="profile-panel m-ml1">
           <Img
             className="cartographer-profile-pic"
             src={cartographerProfilePic}
@@ -96,12 +96,12 @@ const CartographerProfilePanel = (props) => {
           <p className="analytic-title">ANALYTICS</p>
           <br />
           <div className="analytic-title">
-            <span className="big-int">{profileAnalytics.pointsAdded}</span>
+            <span className="big-int m-big-int">{profileAnalytics.pointsAdded}</span>
             <p className="analytic-value-title">points added</p>
           </div>
           <br />
           <div className="analytic-title">
-            <span className="big-int">{profileAnalytics.pointsChallenged}</span>
+            <span className="big-int m-big-int">{profileAnalytics.pointsChallenged}</span>
             <p className="analytic-value-title">points challenged</p>
           </div>
         </div>

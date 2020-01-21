@@ -212,7 +212,7 @@
   display: inline-block;
   position: absolute;
   top: 20vh;
-  left: 50vw;
+  left: 40vw;
   width: 20vw;
   height: 80px;
   z-index: 9;
@@ -251,6 +251,7 @@
   margin-top: 100px;
   position: relative;
   left: -30%;
+  min-width: 250px;
 }
 
 .placeholder-img {
@@ -410,6 +411,19 @@
     left: 2.5%;
     border-radius: 4px;
   }
+  .m-abs-bottom {
+    z-index: 7;
+    position: absolute !important;
+    top: 100px !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+  .loader-text {
+    margin-top: 100px;
+    position: relative;
+    left: -100% !important;
+    min-width: 250px;
+  }
   .top-c-main-container {
     z-index: 7;
     position: relative;
@@ -436,5 +450,46 @@
   .info-container {
     display: flex;
     justify-content: space-around;
+  }
+  .m-tooltip {
+    width: 90% !important;
+    max-width: none !important;
+    position: absolute !important;
+    left: 5% !important;
+    top: 2.5% !important;
+    border-radius: 4px !important;
+    transform: none !important;
+  }
+  .profile-container {
+    height: calc(100vh - 13rem);
+    position: absolute !important;
+    top: 200px !important;
+  }
+  .cartographer-analytics {
+    position: absolute;
+    top: -4rem;
+    left: 14rem;
+  }
+  .analytic-title {
+    margin-bottom: 0.75rem;
+  }
+  .cartographer-analytics {
+    line-height: 16px;
+    margin-top: 6rem;
+  }
+  .mapview-title {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .divider {
+    display: none;
+  }
+  .m-ml1 {
+    margin-left: 1rem;
+    width: 50%;
+  }
+  .m-big-int {
+    font-weight: 500 !important;
+    font-size: 2rem !important;
   }
 }
