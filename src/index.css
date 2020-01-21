@@ -39,6 +39,12 @@ code {
 .dn {
   display: none;
 }
+.rc-slider-handle-2 {
+  transition: all 0.2s;
+}
+.rc-slider-handle {
+  transition: all 0.2s;
+}
 
 @media screen and (max-width: 700px) {
   .dm-none {

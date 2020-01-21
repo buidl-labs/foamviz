@@ -8,6 +8,8 @@ import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
 import Loader from './components/Loader';
 import './index.css';
+import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
+import CountUp from 'react-countup';
 
 const transformData = (data) => data
   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
@@ -40,6 +42,7 @@ class VizDataGlobe extends React.Component {
       foamUSDRate: null,
       pastAnalyticsValue: 0,
       isRotateState: false,
+      displayValueMobile: true
     };
 
     this.reset = this.reset.bind(this);
@@ -52,10 +55,10 @@ class VizDataGlobe extends React.Component {
   }
 
   async componentDidMount() {
-    window.onresize = () => {
-      if (window.RT) clearTimeout(window.RT);
-      window.RT = setTimeout(() => window.location.reload(false), 10);
-    };
+    // window.onresize = () => {
+    //   if (window.RT) clearTimeout(window.RT);
+    //   window.RT = setTimeout(() => window.location.reload(false), 10);
+    // };
 
     const response = await this.getData();
     this.initComponent(response);
@@ -151,7 +154,7 @@ class VizDataGlobe extends React.Component {
     });
   }
 
-  filterData(newMinVal, newMaxVal, cb = () => {}) {
+  filterData(newMinVal, newMaxVal, cb = () => { }) {
     const { timelineMin, timelineMax } = this.state;
 
     if (newMinVal !== timelineMin || newMaxVal !== timelineMax) {
@@ -215,6 +218,7 @@ class VizDataGlobe extends React.Component {
       filtering,
       isRotateState,
       globeResolution,
+      displayValueMobile,
     } = this.state;
 
     if (loading) return <Loader display={loading} />;
@@ -240,16 +244,90 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
-        <Analytics
-          display
-          stakedValue={totalStakedValue}
-          USDRate={foamUSDRate}
-          pastValue={pastAnalyticsValue}
-          toggleRotate={this.toggleRotate}
-          updateResolution={(v) => {
-            this.setState({ globeResolution: v });
-          }}
-        />
+        <div className="m-top-info">
+          {!displayValueMobile ? (<div className="m-foam-token">
+            <CountUp
+              delay={0}
+              preserveValue
+              end={totalStakedValue}
+              duration={1}
+              decimals={2}
+              formattingFn={(value) => (`${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`)}
+            >
+              {({ countUpRef }) => (<h1 className="mt-0 m-num-title" ref={countUpRef} />)}
+            </CountUp>
+            <h2 className="m-num-sub">FOAM Tokens Staked</h2>
+          </div>) :
+            (<div className="m-foam-value">
+              <CountUp
+                delay={0}
+                preserveValue
+                end={Number(totalStakedValue * foamUSDRate).toFixed(2)}
+                duration={1}
+                decimals={2}
+                formattingFn={(value) => (`$ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`)}
+              >
+                {({ countUpRef }) => (<h1 className="m-num-title" ref={countUpRef} />)}
+              </CountUp>
+              <h2 className="m-num-sub">Net Value Staked</h2>
+            </div>)}
+          <button
+            className="m-button"
+            onClick={() => this.setState({ displayValueMobile: !displayValueMobile })}
+          >{displayValueMobile ? 'Show FOAM Tokens Staked' : 'Show Net Value Staked'}</button>
+        </div>
+        <div className="dm-none">
+          <Analytics
+            display
+            stakedValue={totalStakedValue}
+            USDRate={foamUSDRate}
+            pastValue={pastAnalyticsValue}
+            toggleRotate={this.toggleRotate}
+            updateResolution={(v) => {
+              this.setState({ globeResolution: v });
+            }}
+          />
+        </div>
+        <div className="dn m-show">
+          <SwipeableBottomSheet
+            overflowHeight={90}
+            marginTop={128}
+            defaultOpen
+            style={{ zIndex: 1 }}
+          >
+            <div style={{ height: '440px' }}>
+              <Analytics
+                display
+                stakedValue={totalStakedValue}
+                USDRate={foamUSDRate}
+                pastValue={pastAnalyticsValue}
+                toggleRotate={this.toggleRotate}
+                updateResolution={(v) => {
+                  this.setState({ globeResolution: v });
+                }}
+              />
+              <TimeSeries
+                display
+                count={2}
+                resetEnabled={!(timelineMin === 0 && timelineMax === dataDateChunks.length - 1)}
+                length={filteredData.length || 0}
+                minRange={min}
+                maxRange={max}
+                marks={marks}
+                curMinVal={timelineMin}
+                curMaxVal={timelineMax}
+                curMinDate={dataDateChunks[timelineMin][0].createdAt}
+                curMaxDate={dataDateChunks[timelineMax][0].createdAt}
+                initialMinValue={min}
+                initialMaxValue={max}
+                filterData={this.filterData}
+                play={this.toggle}
+                reset={this.reset}
+                isPlayButton={!playing}
+              />
+            </div>
+          </SwipeableBottomSheet>
+        </div>
         <Globe
           data={filteredData}
           pointWeight="stakedvalue"
@@ -258,25 +336,27 @@ class VizDataGlobe extends React.Component {
           resolution={globeResolution}
           rotationStatus={isRotateState}
         />
-        <TimeSeries
-          display
-          count={2}
-          resetEnabled={!(timelineMin === 0 && timelineMax === dataDateChunks.length - 1)}
-          length={filteredData.length || 0}
-          minRange={min}
-          maxRange={max}
-          marks={marks}
-          curMinVal={timelineMin}
-          curMaxVal={timelineMax}
-          curMinDate={dataDateChunks[timelineMin][0].createdAt}
-          curMaxDate={dataDateChunks[timelineMax][0].createdAt}
-          initialMinValue={min}
-          initialMaxValue={max}
-          filterData={this.filterData}
-          play={this.toggle}
-          reset={this.reset}
-          isPlayButton={!playing}
-        />
+        <div className="dm-none">
+          <TimeSeries
+            display
+            count={2}
+            resetEnabled={!(timelineMin === 0 && timelineMax === dataDateChunks.length - 1)}
+            length={filteredData.length || 0}
+            minRange={min}
+            maxRange={max}
+            marks={marks}
+            curMinVal={timelineMin}
+            curMaxVal={timelineMax}
+            curMinDate={dataDateChunks[timelineMin][0].createdAt}
+            curMaxDate={dataDateChunks[timelineMax][0].createdAt}
+            initialMinValue={min}
+            initialMaxValue={max}
+            filterData={this.filterData}
+            play={this.toggle}
+            reset={this.reset}
+            isPlayButton={!playing}
+          />
+        </div>
       </div>
     );
   }
