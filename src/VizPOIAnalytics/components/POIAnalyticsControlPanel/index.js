@@ -47,13 +47,14 @@ const onValueChange = (settingName, newValue, props) => {
 };
 
 const POIAnalyticsControlPanel = (props) => {
-  const { settings, controls } = props;
+  const { settings, controls, arrowUp } = props;
 
   return (
     <div className="layercontrol">
       <FoamNavbar
         title="VizPOIAnalytics"
         info="Part of FOAMviz project"
+        arrowUp={arrowUp}
       />
       <div id="viz-one-cp" className="show m-pb-3">
         <div className="control-panel-top">

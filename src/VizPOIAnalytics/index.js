@@ -69,6 +69,7 @@ class VizPOIAnalytics extends React.Component {
       elevationScale: 0,
       fetchingData: false,
       showCurrentLayer: true,
+      arrowUp: true,
     };
 
     this.fetchPointsInCurrentViewPort = this.fetchPointsInCurrentViewPort.bind(
@@ -319,6 +320,7 @@ class VizPOIAnalytics extends React.Component {
       checkingPoints,
       viewport,
       fetchingData,
+      arrowUp,
     } = this.state;
 
     // Todo: Move this to seperate component and design a good loading state.
@@ -353,11 +355,12 @@ class VizPOIAnalytics extends React.Component {
           <SwipeableBottomSheet
             overflowHeight={100}
             marginTop={128}
-            defaultOpen
-            style={{ zIndex: 1 }}
+            style={{ zIndex: 5 }}
+            onChange={() => this.setState({ arrowUp: !arrowUp})}
           >
             <div style={{ height: '440px' }}>
               <POIAnalyticsControlPanel
+                arrowUp={arrowUp}
                 settings={settings}
                 controls={CONSTANTS.HEXAGON_CONTROLS}
                 onChange={(settings) => this.updateLayerSettings(settings)}

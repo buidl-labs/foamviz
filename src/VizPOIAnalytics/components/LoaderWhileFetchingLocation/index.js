@@ -19,7 +19,7 @@ const LoaderWhileFetchingLocation = () => (
     <h2
       className="w-80"
       style={{
-        // minWidth: '50rem',
+    maxWidth: '428px',
     color: 'white',
     textAlign: 'center',
     margin: 'auto',
