@@ -116,6 +116,12 @@ h2 {
   margin-top: 0px;
 }
 
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
 .rotation-slider {
   position: absolute;
   cursor: pointer;
@@ -164,7 +170,7 @@ input:checked+.rotation-slider:before {
 }
 
 .rotation-container {
-  margin-top: 40px;
+  margin-top: 2rem;
   display: flex;
   justify-content: space-between;
 }
@@ -178,6 +184,7 @@ input:checked+.rotation-slider:before {
 
 .tooltipStyle {
   position: absolute;
+  min-width: 180px;
   padding: 14px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
@@ -285,5 +292,32 @@ input:checked+.rotation-slider:before {
     border-radius: 25px;
     outline: none;
     text-align: center;
+  }
+  .rotation-container {
+    margin-top: 8rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .m-tooltip-globe {
+    position: absolute;
+    top: 50px !important;
+    left: calc(50% - 90px) !important;
+    transform: none !important;
+    z-index: 3;
+  }
+  .scene-tooltip {
+    position: absolute;
+    top: 50px !important;
+    left: 50% !important;
+    transform: none !important;
+    z-index: 3;
+  }
+  .dollar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
   }
 }

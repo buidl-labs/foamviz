@@ -39,6 +39,18 @@ code {
   display: none;
 }
 
+.md-1 {
+  margin-bottom: 1rem;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
 .rc-slider-handle-2 {
   transition: all 0.2s;
 }
@@ -101,7 +113,7 @@ code {
     border-top-left-radius: 10px;
   }
   .w-80 {
-    width: 80%;
+    width: 80% !important;
   }
   .ReactSwipeableBottomSheet--open {
     border-top-right-radius: 10px !important;

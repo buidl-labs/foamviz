@@ -4,7 +4,7 @@ import Slider from 'rc-slider';
 import FoamNavbar from '../../common-utils/components/FoamNavbar';
 
 export default ({
-  display, stakedValue, USDRate, pastValue, toggleRotate, updateResolution,
+  display, stakedValue, USDRate, pastValue, toggleRotate, updateResolution, arrowUp,
 }) => {
   if (!display) return null;
 
@@ -16,20 +16,10 @@ export default ({
         <FoamNavbar
           title="VizDataGlobe"
           info="Part of FOAMviz project"
+          arrowUp={arrowUp}
         />
         <div className="main-container-top m-main-container-top">
           <div className="dm-none">
-            <CountUp
-              delay={0}
-              preserveValue
-              end={stakedValue}
-              duration={1}
-              decimals={2}
-              formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
-            >
-              {({ countUpRef }) => (<h1 className="mt-0" ref={countUpRef} />)}
-            </CountUp>
-            <h2>FOAM Tokens Staked</h2>
             <CountUp
               delay={0}
               preserveValue
@@ -38,11 +28,21 @@ export default ({
               decimals={2}
               formattingFn={(value) => (`$ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`)}
             >
-              {({ countUpRef }) => (<h1 ref={countUpRef} />)}
+              {({ countUpRef }) => (<p className="fs-22" ref={countUpRef} />)}
             </CountUp>
-            <h2>Net Value Staked</h2>
+            <p className="md-1 fs-14 tooltip-key">Net Value Staked</p>
+            <CountUp
+              delay={0}
+              preserveValue
+              end={stakedValue}
+              duration={1}
+              decimals={2}
+              formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
+            >
+              {({ countUpRef }) => (<p className="mt-0 fs-22" ref={countUpRef} />)}
+            </CountUp>
+            <p className="fs-14 tooltip-key">FOAM Tokens Staked</p>
           </div>
-          <p className="viz-description mob-mtop5">This globe represents an aggregate of all points from FOAMs inception till now</p>
           <div className="rotation-container">
             <div className="rotation">Rotation:</div>
             <div>

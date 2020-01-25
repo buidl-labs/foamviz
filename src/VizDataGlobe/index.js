@@ -42,7 +42,8 @@ class VizDataGlobe extends React.Component {
       foamUSDRate: null,
       pastAnalyticsValue: 0,
       isRotateState: false,
-      displayValueMobile: true
+      displayValueMobile: true,
+      arrowUp: true,
     };
 
     this.reset = this.reset.bind(this);
@@ -219,6 +220,7 @@ class VizDataGlobe extends React.Component {
       isRotateState,
       globeResolution,
       displayValueMobile,
+      arrowUp,
     } = this.state;
 
     if (loading) return <Loader display={loading} />;
@@ -252,20 +254,21 @@ class VizDataGlobe extends React.Component {
               end={totalStakedValue}
               duration={1}
               decimals={2}
-              formattingFn={(value) => (`${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`)}
+              formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
             >
               {({ countUpRef }) => (<h1 className="mt-0 m-num-title" ref={countUpRef} />)}
             </CountUp>
             <h2 className="m-num-sub">FOAM Tokens Staked</h2>
           </div>) :
             (<div className="m-foam-value">
+              <p className="dollar">$</p>
               <CountUp
                 delay={0}
                 preserveValue
                 end={Number(totalStakedValue * foamUSDRate).toFixed(2)}
                 duration={1}
                 decimals={2}
-                formattingFn={(value) => (`$ ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`)}
+                formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
               >
                 {({ countUpRef }) => (<h1 className="m-num-title" ref={countUpRef} />)}
               </CountUp>
@@ -290,14 +293,15 @@ class VizDataGlobe extends React.Component {
         </div>
         <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={90}
+            overflowHeight={220}
             marginTop={128}
-            defaultOpen
-            style={{ zIndex: 1 }}
+            style={{ zIndex: 5 }}
+            onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '440px' }}>
+            <div style={{ height: '360px' }}>
               <Analytics
                 display
+                arrowUp={arrowUp}
                 stakedValue={totalStakedValue}
                 USDRate={foamUSDRate}
                 pastValue={pastAnalyticsValue}
