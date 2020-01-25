@@ -63,6 +63,7 @@ class VizCartographerJourney extends React.Component {
       pitchFor3d: 50,
       disableReset: true,
       topCartographers: [],
+      arrowUp: true,
     };
   }
 
@@ -251,6 +252,7 @@ class VizCartographerJourney extends React.Component {
       disableReset,
       showTopCartographers,
       topCartographers,
+      arrowUp
     } = this.state;
 
     const [min, max] = [0, data.length - 1];
@@ -279,15 +281,16 @@ class VizCartographerJourney extends React.Component {
         </div>
         {!loading && <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={100}
+            overflowHeight={200}
             marginTop={128}
-            defaultOpen
-            style={{ zIndex: 1 }}
+            style={{ zIndex: 5 }}
+            onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '540px', backgroundColor: '#000' }}>
+            <div style={{ height: '400px', backgroundColor: '#000' }}>
               <FoamNavbar
                 title="VizCartographerJourney"
                 info="Part of FOAMviz project"
+                arrowUp={arrowUp}
               />
               <TimeSeriesSlider
                 display={showProfilePanel}
