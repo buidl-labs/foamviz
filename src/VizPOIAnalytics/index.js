@@ -3,6 +3,7 @@ import { HexagonLayer, DeckGL } from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { Helmet } from 'react-helmet';
 import * as R from 'ramda';
+import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 
 // Layers
 // Todo Insert Seperate Layer Components
@@ -68,6 +69,7 @@ class VizPOIAnalytics extends React.Component {
       elevationScale: 0,
       fetchingData: false,
       showCurrentLayer: true,
+      arrowUp: true,
     };
 
     this.fetchPointsInCurrentViewPort = this.fetchPointsInCurrentViewPort.bind(
@@ -288,7 +290,7 @@ class VizPOIAnalytics extends React.Component {
         ...settings,
         ...LAYER_PROPERTIES_Op1,
         elevationScale:
-            checkingPoints.length - 1 === chunkIndex ? elevationScale : 5,
+          checkingPoints.length - 1 === chunkIndex ? elevationScale : 5,
       }),
     );
 
@@ -318,11 +320,12 @@ class VizPOIAnalytics extends React.Component {
       checkingPoints,
       viewport,
       fetchingData,
+      arrowUp,
     } = this.state;
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
-     return <LoaderWhileFetchingLocation />
+      return <LoaderWhileFetchingLocation />
     }
 
     const layers = this.renderLayers();
@@ -341,11 +344,30 @@ class VizPOIAnalytics extends React.Component {
         </Helmet>
         {fetchingData}
         <Tooltip allHoveredPOIDetails={hover} />
-        <POIAnalyticsControlPanel
-          settings={settings}
-          controls={CONSTANTS.HEXAGON_CONTROLS}
-          onChange={(settings) => this.updateLayerSettings(settings)}
-        />
+        <div className="dm-none">
+          <POIAnalyticsControlPanel
+            settings={settings}
+            controls={CONSTANTS.HEXAGON_CONTROLS}
+            onChange={(settings) => this.updateLayerSettings(settings)}
+          />
+        </div>
+        <div className="dn m-show">
+          <SwipeableBottomSheet
+            overflowHeight={100}
+            marginTop={128}
+            style={{ zIndex: 5 }}
+            onChange={() => this.setState({ arrowUp: !arrowUp})}
+          >
+            <div style={{ height: '440px' }}>
+              <POIAnalyticsControlPanel
+                arrowUp={arrowUp}
+                settings={settings}
+                controls={CONSTANTS.HEXAGON_CONTROLS}
+                onChange={(settings) => this.updateLayerSettings(settings)}
+              />
+            </div>
+          </SwipeableBottomSheet>
+        </div>
         <LocationSearchBox onLocationSelect={this.setViewport} />
         <DeckGL
           layers={layers}

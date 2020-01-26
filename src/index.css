@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
-
 body {
   font-family: 'Roboto Mono', cursive;
   margin: 0;
@@ -34,4 +33,144 @@ code {
   line-height: 14px;
   color: #FFFFFF;
   padding-top: 6px;
+}
+
+.dn {
+  display: none;
+}
+
+.md-1 {
+  margin-bottom: 1rem;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-14 {
+  font-size: 14px;
+}
+
+.rc-slider-handle-2 {
+  transition: all 0.2s;
+}
+
+.rc-slider-handle {
+  transition: all 0.2s;
+}
+
+.lds-ripple {
+  display: inline-block;
+  position: absolute;
+  top: 20vh;
+  left: calc(50vw - 36px);
+  width: 72px;
+  height: 80px;
+  z-index: 9;
+}
+
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
+
+.i-tooltip {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-block;
+  z-index: 5;
+  color: white;
+}
+
+.i-tooltip .i-tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #282828;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.5rem;
+
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 105%;
+}
+
+.i-tooltip:hover .i-tooltiptext {
+  visibility: visible;
+}
+
+@media screen and (max-width: 700px) {
+  .dm-none {
+    display: none !important;
+  }
+  .m-show {
+    display: block !important;
+  }
+  .m-pb-3 {
+    padding-bottom: 3rem;
+  }
+  .m-nav {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+  }
+  .w-80 {
+    width: 80% !important;
+  }
+  .ReactSwipeableBottomSheet--open {
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+  }
+  .ReactSwipeableBottomSheet--closed {
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+  }
+  .m-text-center {
+    text-align: center;
+  }
+  .pull-out {
+    height: 20px;
+    width: 20px;
+    margin-left: 47%;
+    margin-top: -15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    transition: all 0.5s;
+  }
+  .rotate-arrow-180 {
+    transform: rotate(180deg);
+  }
+  .rotate-arrow-0 {
+    transform: none;
+  }
+  .i-tooltip .i-tooltiptext {
+    top: 400% !important;
+    left: -1250% !important;
+  }
 }

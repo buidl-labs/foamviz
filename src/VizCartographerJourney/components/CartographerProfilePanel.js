@@ -33,12 +33,14 @@ const CartographerProfilePanel = (props) => {
 
   return (
     <div className="abs-container">
-      <FoamNavbar
-        title="VizCartographerJourney"
-        info="Part of FOAMviz project"
-      />
+      <div className="dm-none">
+        <FoamNavbar
+          title="VizCartographerJourney"
+          info="Part of FOAMviz project"
+        />
+      </div>
       <div className="main-container profile-container">
-        <div className="profile-panel">
+        <div className="profile-panel m-ml1">
           <Img
             className="cartographer-profile-pic"
             src={cartographerProfilePic}
@@ -57,49 +59,50 @@ const CartographerProfilePanel = (props) => {
                 <div />
                 <div />
               </div>
-)}
+            )}
             unloader={<img alt="img" className="placeholder-img" src={placeholder} />}
           />
           <h2>{cartographer.name}</h2>
         </div>
         <hr className="divider" />
-        <p className="mapview-title">MAP VIEW</p>
-        <div className="profile-panel">
-          <div className="toggleButton">
-            <button
-              type="submit"
-              className="view-btn"
-              style={{
-                background: displayMode2D ? '#2e2d2c' : 'black',
-                borderRadius: '3.5px 0px 0px 3.5px',
-              }}
-              onClick={() => changeMapView('2d')}
-            >
-              2D
+        <div className="m-flx">
+          <p className="mapview-title">MAP VIEW</p>
+          <div className="profile-panel">
+            <div className="toggleButton">
+              <button
+                type="submit"
+                className="view-btn"
+                style={{
+                  background: displayMode2D ? '#2e2d2c' : 'black',
+                  borderRadius: '3.5px 0px 0px 3.5px',
+                }}
+                onClick={() => changeMapView('2d')}
+              >
+                2D
             </button>
-            <button
-              type="submit"
-              className="view-btn"
-              style={{
-                background: !displayMode2D ? '#2e2d2c' : 'black',
-                borderRadius: '0px 3.5px 3.5px 0px',
-              }}
-              onClick={() => changeMapView('3d')}
-            >
-              3D
+              <button
+                type="submit"
+                className="view-btn"
+                style={{
+                  background: !displayMode2D ? '#2e2d2c' : 'black',
+                  borderRadius: '0px 3.5px 3.5px 0px',
+                }}
+                onClick={() => changeMapView('3d')}
+              >
+                3D
             </button>
+            </div>
           </div>
+
         </div>
         <div className="cartographer-analytics">
-          <p className="analytic-title">ANALYTICS</p>
-          <br />
+          <p className="analytic-title dm-none">ANALYTICS</p>
           <div className="analytic-title">
-            <span className="big-int">{profileAnalytics.pointsAdded}</span>
+            <span className="big-int m-big-int">{profileAnalytics.pointsAdded}</span>
             <p className="analytic-value-title">points added</p>
           </div>
-          <br />
           <div className="analytic-title">
-            <span className="big-int">{profileAnalytics.pointsChallenged}</span>
+            <span className="big-int m-big-int">{profileAnalytics.pointsChallenged}</span>
             <p className="analytic-value-title">points challenged</p>
           </div>
         </div>

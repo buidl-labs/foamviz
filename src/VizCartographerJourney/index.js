@@ -11,6 +11,8 @@ import TopCartographersDetail from './components/TopCartographersDetail';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import ErrorDialogueBox from './components/ErrorDialogueBox';
 import Loading from './components/Loading';
+import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
+import FoamNavbar from '../common-utils/components/FoamNavbar';
 
 import {
   fetchCartographerDetailsFromFOAMAPI,
@@ -61,6 +63,7 @@ class VizCartographerJourney extends React.Component {
       pitchFor3d: 50,
       disableReset: true,
       topCartographers: [],
+      arrowUp: true,
     };
   }
 
@@ -249,6 +252,7 @@ class VizCartographerJourney extends React.Component {
       disableReset,
       showTopCartographers,
       topCartographers,
+      arrowUp
     } = this.state;
 
     const [min, max] = [0, data.length - 1];
@@ -268,37 +272,87 @@ class VizCartographerJourney extends React.Component {
           display={showInputBox}
           getCartographerDetails={this.getCartographerDetails}
         />
-        <TopCartographersDetail
-          display={showTopCartographers}
-          topCartographers={this.getTopCartographersDetails}
-          getCartographerDetails={this.getCartographerDetails}
-        />
+        <div className="dm-none">
+          <TopCartographersDetail
+            display={showTopCartographers}
+            topCartographers={this.getTopCartographersDetails}
+            getCartographerDetails={this.getCartographerDetails}
+          />
+        </div>
+        {!loading && <div className="dn m-show">
+          <SwipeableBottomSheet
+            overflowHeight={200}
+            marginTop={128}
+            style={{ zIndex: 5 }}
+            onChange={() => this.setState({ arrowUp: !arrowUp })}
+          >
+            <div style={{ height: '400px', backgroundColor: '#000' }}>
+              <FoamNavbar
+                title="VizCartographerJourney"
+                info="Part of FOAMviz project"
+                arrowUp={arrowUp}
+              />
+              <TimeSeriesSlider
+                display={showProfilePanel}
+                count={2}
+                length={data.length || 0}
+                minRange={min}
+                maxRange={max}
+                curMinVal={timelineMin}
+                curMaxVal={timelineMax}
+                curMinDate={data[timelineMin] && data[timelineMin].dateOfMarking}
+                curMaxDate={data[timelineMax] && data[timelineMax].dateOfMarking}
+                initialMinValue={min}
+                initialMaxValue={max}
+                filterData={this.filterData}
+                play={this.toggle}
+                reset={this.reset}
+                isPlayButton={isPlayButton}
+                disableReset={disableReset}
+              />
+              <TopCartographersDetail
+                display={showTopCartographers}
+                topCartographers={this.getTopCartographersDetails}
+                getCartographerDetails={this.getCartographerDetails}
+              />
+              <CartographerProfilePanel
+                display={showProfilePanel}
+                cartographerAddress={cartographerAddress}
+                profileAnalytics={profileAnalytics}
+                displayMode2D={viewport.pitch === 0}
+                changeMapView={this.updateViewport}
+              />
+            </div>
+          </SwipeableBottomSheet>
+        </div>}
         <CartographerJourneyTooltip hoveredObjectDetails={hover} />
-        <TimeSeriesSlider
-          display={showProfilePanel}
-          count={2}
-          length={data.length || 0}
-          minRange={min}
-          maxRange={max}
-          curMinVal={timelineMin}
-          curMaxVal={timelineMax}
-          curMinDate={data[timelineMin] && data[timelineMin].dateOfMarking}
-          curMaxDate={data[timelineMax] && data[timelineMax].dateOfMarking}
-          initialMinValue={min}
-          initialMaxValue={max}
-          filterData={this.filterData}
-          play={this.toggle}
-          reset={this.reset}
-          isPlayButton={isPlayButton}
-          disableReset={disableReset}
-        />
-        <CartographerProfilePanel
-          display={showProfilePanel}
-          cartographerAddress={cartographerAddress}
-          profileAnalytics={profileAnalytics}
-          displayMode2D={viewport.pitch === 0}
-          changeMapView={this.updateViewport}
-        />
+        <div className="dm-none">
+          <TimeSeriesSlider
+            display={showProfilePanel}
+            count={2}
+            length={data.length || 0}
+            minRange={min}
+            maxRange={max}
+            curMinVal={timelineMin}
+            curMaxVal={timelineMax}
+            curMinDate={data[timelineMin] && data[timelineMin].dateOfMarking}
+            curMaxDate={data[timelineMax] && data[timelineMax].dateOfMarking}
+            initialMinValue={min}
+            initialMaxValue={max}
+            filterData={this.filterData}
+            play={this.toggle}
+            reset={this.reset}
+            isPlayButton={isPlayButton}
+            disableReset={disableReset}
+          />
+          <CartographerProfilePanel
+            display={showProfilePanel}
+            cartographerAddress={cartographerAddress}
+            profileAnalytics={profileAnalytics}
+            displayMode2D={viewport.pitch === 0}
+            changeMapView={this.updateViewport}
+          />
+        </div>
         <DeckGL
           layers={CartographerJourneyRenderLayers({
             data: filteredData,

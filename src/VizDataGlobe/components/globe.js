@@ -19,7 +19,7 @@ const tooltipInfo = (d) => {
   return (
     `
       <div
-        class="tooltipStyle"
+        class="tooltipStyle m-tooltip-globe"
         style="position: 'absolute'; z-index: 1;"
       >
         <div class="tooltip-key">

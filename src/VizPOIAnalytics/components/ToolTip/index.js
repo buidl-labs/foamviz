@@ -14,13 +14,13 @@ const Tooltip = props => {
         transform: `translate(${allHoveredPOIDetails.x}px, ${allHoveredPOIDetails.y}px)`
       }}
     >
-      <div className="tooltip-key">Latitude
+      <div className="tooltip-key dm-none">Latitude
         {' '}
         <span className="tooltip-value">
           {allHoveredPOIDetails.details.latitude}
         </span>
       </div>
-      <div className="tooltip-key">Longitude
+      <div className="tooltip-key dm-none">Longitude
         {' '}
         <span className="tooltip-value">
           {allHoveredPOIDetails.details.longitude}
