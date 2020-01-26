@@ -53,7 +53,7 @@
 .abs-container-top {
   z-index: 7;
   position: absolute;
-  top: 5vh;
+  top: 2.5vh;
   left: 2vw;
   background: black !important;
 }

@@ -98,6 +98,34 @@ code {
   }
 }
 
+.i-tooltip {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-block;
+  z-index: 5;
+  color: white;
+}
+
+.i-tooltip .i-tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #282828;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.5rem;
+
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 105%;
+}
+
+.i-tooltip:hover .i-tooltiptext {
+  visibility: visible;
+}
+
 @media screen and (max-width: 700px) {
   .dm-none {
     display: none !important;
@@ -140,5 +168,9 @@ code {
   }
   .rotate-arrow-0 {
     transform: none;
+  }
+  .i-tooltip .i-tooltiptext {
+    top: 400% !important;
+    left: -1250% !important;
   }
 }

@@ -10,6 +10,7 @@ import Loader from './components/Loader';
 import './index.css';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import CountUp from 'react-countup';
+import quesMark from '../assets/imgs/question.svg';
 
 const transformData = (data) => data
   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
@@ -56,10 +57,10 @@ class VizDataGlobe extends React.Component {
   }
 
   async componentDidMount() {
-    // window.onresize = () => {
-    //   if (window.RT) clearTimeout(window.RT);
-    //   window.RT = setTimeout(() => window.location.reload(false), 10);
-    // };
+    window.onresize = () => {
+      if (window.RT) clearTimeout(window.RT);
+      window.RT = setTimeout(() => window.location.reload(false), 100);
+    };
 
     const response = await this.getData();
     this.initComponent(response);
@@ -246,6 +247,9 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
+        <div class="i-tooltip"><img src={quesMark} width="20px" />
+          <span class="i-tooltiptext">Shows all POIs since inception of FOAM on a globe for a bird eye's view</span>
+        </div>
         <div className="m-top-info dn m-show">
           {!displayValueMobile ? (<div className="m-foam-token">
             <CountUp
