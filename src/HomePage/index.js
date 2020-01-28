@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+// import AOS from 'aos';
+// import 'aos/dist/aos.css';
 
 import Card from './components/Card';
 import './index.css';
@@ -16,11 +16,11 @@ import vizCartoJourneyGif from '../assets/gifs/two.gif';
 import vizPOIImage from '../assets/imgs/viz-one.png';
 import vizPOIGif from '../assets/gifs/one.gif';
 import neonWorldBG from '../assets/imgs/background.png';
+import neonWorldBGWebP from '../assets/imgs/backgroundWebP.webp';
 
 const HomePage = () => {
   useEffect(() => {
-    console.log('state0');
-    AOS.init();
+    // AOS.init();
     store.loading = true;
     fetchViz3Data().then((data) => {
       store.loading = false;
@@ -39,13 +39,18 @@ const HomePage = () => {
           <p className="main-title">FOAMVIZ</p>
           <p className="below-main-title">PROJECT</p>
         </div>
-        <img alt="bg" src={neonWorldBG} width="100%" height="100vh" />
+        {/* <img alt="bg" src={neonWorldBG} width="100%" height="100vh" /> */}
+        <picture>
+          <source sizes="100%" srcSet={neonWorldBGWebP} type="image/webp" />
+          <source sizes="100%" srcSet={neonWorldBG} type="image/jpeg" />
+          <img alt="bg" src={neonWorldBG} width="100%" height="100vh" />
+        </picture>
       </div>
       <section className="hero is-success is-fullheight bg-one">
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
-              <div data-aos="fade-right" className="column is-4">
+              <div className="column is-4">
                 <h1 className="title">
         VizPOIAnalytics
                 </h1>
@@ -69,7 +74,7 @@ const HomePage = () => {
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
-              <div data-aos="fade-right" className="column is-4">
+              <div className="column is-4">
                 <h1 className="title">
         VizCartoJourney
                 </h1>
@@ -93,7 +98,7 @@ const HomePage = () => {
         <div className="hero-body">
           <div className="container">
             <div className="columns move-up">
-              <div data-aos="fade-right" className="column is-4">
+              <div className="column is-4">
                 <h1 className="title">
         VizDataGlobe
                 </h1>
