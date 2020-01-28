@@ -3,24 +3,32 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
-// import AOS from 'aos';
-// import 'aos/dist/aos.css';
 
 import Card from './components/Card';
 import './index.css';
 
-import vizGlobeImage from '../assets/imgs/viz-globe.png';
-import vizGlobeGIF from '../assets/gifs/three.gif';
-import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
-import vizCartoJourneyGif from '../assets/gifs/two.gif';
-import vizPOIImage from '../assets/imgs/viz-one.png';
-import vizPOIGif from '../assets/gifs/one.gif';
+// background cover
 import neonWorldBG from '../assets/imgs/background.png';
 import neonWorldBGWebP from '../assets/imgs/backgroundWebP.webp';
 
+// viz images and movies
+import vizPOIImage from '../assets/imgs/viz-one.png';
+import vizPOIWebP from '../assets/imgs/oneWebP.webp';
+import vizPOIWebM from '../assets/gifs/a1.webm';
+import vizPOIMp4 from '../assets/gifs/a2.mp4';
+
+import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
+import vizCartoJourneyWebP from '../assets/imgs/twoWebP.webp';
+import vizCartoJourneyWebM from '../assets/gifs/b1.webm';
+import vizCartoJourneyMp4 from '../assets/gifs/b2.mp4';
+
+import vizGlobeImage from '../assets/imgs/viz-globe.png';
+import vizGlobeWebP from '../assets/imgs/threeWebP.webp';
+import vizGlobeWebM from '../assets/gifs/c1.webm';
+import vizGlobeMp4 from '../assets/gifs/c2.mp4';
+
 const HomePage = () => {
   useEffect(() => {
-    // AOS.init();
     store.loading = true;
     fetchViz3Data().then((data) => {
       store.loading = false;
@@ -39,7 +47,6 @@ const HomePage = () => {
           <p className="main-title">FOAMVIZ</p>
           <p className="below-main-title">PROJECT</p>
         </div>
-        {/* <img alt="bg" src={neonWorldBG} width="100%" height="100vh" /> */}
         <picture>
           <source sizes="100%" srcSet={neonWorldBGWebP} type="image/webp" />
           <source sizes="100%" srcSet={neonWorldBG} type="image/jpeg" />
@@ -62,7 +69,9 @@ const HomePage = () => {
                 <Link to="/poi-analytics" className="card-link">
                   <Card
                     imageSrc={vizPOIImage}
-                    gifSrc={vizPOIGif}
+                    webpSrc={vizPOIWebP}
+                    mp4Src={vizPOIMp4}
+                    webmSrc={vizPOIWebM}
                   />
                 </Link>
               </div>
@@ -86,7 +95,9 @@ const HomePage = () => {
                 <Link to="/cartographer-journey" className="card-link">
                   <Card
                     imageSrc={vizCartoJourneyImage}
-                    gifSrc={vizCartoJourneyGif}
+                    webpSrc={vizCartoJourneyWebP}
+                    mp4Src={vizCartoJourneyMp4}
+                    webmSrc={vizCartoJourneyWebM}
                   />
                 </Link>
               </div>
@@ -110,7 +121,9 @@ const HomePage = () => {
                 <Link to="/data-globe" className="card-link">
                   <Card
                     imageSrc={vizGlobeImage}
-                    gifSrc={vizGlobeGIF}
+                    webpSrc={vizGlobeWebP}
+                    mp4Src={vizGlobeMp4}
+                    webmSrc={vizGlobeWebM}
                   />
                 </Link>
               </div>
