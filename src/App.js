@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
+import Loading from './VizCartographerJourney/components/Loading';
 
 // Pages
 const HomePage = lazy(() => import('./HomePage'));
@@ -9,7 +10,7 @@ const VizDataGlobe = lazy(() => import('./VizDataGlobe'));
 
 const App = () => (
   <Router>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loading />}>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/poi-analytics" component={VizPOIAnalytics} />
       <Route

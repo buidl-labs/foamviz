@@ -82,6 +82,10 @@ code {
   animation-delay: -0.5s;
 }
 
+.txt-ctr {
+  text-align: center;
+}
+
 @keyframes lds-ripple {
   0% {
     top: 36px;

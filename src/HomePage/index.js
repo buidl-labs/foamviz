@@ -6,6 +6,7 @@ import fetchViz3Data from '../utils/helper';
 
 import Card from './components/Card';
 import './index.css';
+import 'bulma/css/bulma.css';
 
 // background cover
 import neonWorldBG from '../assets/imgs/background.png';
@@ -65,7 +66,7 @@ const HomePage = () => {
                 Shows aggreagated POIs according to density or staked value
                 </h2>
               </div>
-              <div className="column is-8">
+              <div className="column is-8 txt-ctr">
                 <Link to="/poi-analytics" className="card-link">
                   <Card
                     imageSrc={vizPOIImage}
@@ -91,7 +92,7 @@ const HomePage = () => {
                 Shows journey of a cartographer in terms of their plotting on the map
                 </h2>
               </div>
-              <div className="column is-8">
+              <div className="column is-8 txt-ctr">
                 <Link to="/cartographer-journey" className="card-link">
                   <Card
                     imageSrc={vizCartoJourneyImage}
@@ -117,7 +118,7 @@ const HomePage = () => {
                 Shows all POIs since inception of FOAM on a globe for a bird eye's view
                 </h2>
               </div>
-              <div className="column is-8">
+              <div className="column is-8 txt-ctr">
                 <Link to="/data-globe" className="card-link">
                   <Card
                     imageSrc={vizGlobeImage}

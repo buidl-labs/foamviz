@@ -110,9 +110,9 @@ class VizCartographerJourney extends React.Component {
   async getTopCartographersDetails() {
     try {
       const allCartographers = await axios.get(
-        'https://api.blocklytics.org/foam/v0/cartographers?sort=points_on_map&key=AIzaSyAz1sT-EtRPbRlTpNAw3OHNYz463vyA-I0',
+        'https://foamviz-api.herokuapp.com/top-cartographer-details',
       );
-      return allCartographers.data.slice(0, 5);
+      return allCartographers.data;
     } catch (e) { console.log(e); }
   }
 
