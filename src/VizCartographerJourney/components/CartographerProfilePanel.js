@@ -33,10 +33,11 @@ const CartographerProfilePanel = (props) => {
 
   return (
     <div className="abs-container">
-      <div className="dm-none">
+      <div className="dm-none get-w-100">
         <FoamNavbar
           title="VizCartographerJourney"
           info="Part of FOAMviz project"
+          width="100%"
         />
       </div>
       <div className="main-container profile-container">

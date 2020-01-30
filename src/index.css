@@ -1,23 +1,23 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
 body {
-  font-family: 'Roboto Mono', cursive;
+  font-family: 'Roboto Mono', monospace;
   margin: 0;
-  overflow-y: scroll;
   scroll-behavior: smooth;
   background: #191a1a !important;
 }
 
 code {
-  font-family: 'Roboto Mono', cursive;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .nav-container {
   background: #282828;
-  padding: 25px 15px;
+  padding: 1.5rem;
 }
 
 .nav-heading {
-  font-family: Roboto Mono;
+  font-family: 'Roboto Mono';
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
@@ -26,7 +26,7 @@ code {
 }
 
 .nav-subheading {
-  font-family: Roboto Mono;
+  font-family: 'Roboto Mono';
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
@@ -81,6 +81,14 @@ code {
   animation-delay: -0.5s;
 }
 
+.txt-ctr {
+  text-align: center;
+}
+
+.rc-slider-track {
+  background: rgba(101, 105, 237, 250) !important;
+}
+
 @keyframes lds-ripple {
   0% {
     top: 36px;
@@ -115,7 +123,6 @@ code {
   text-align: center;
   border-radius: 6px;
   padding: 0.5rem;
-
   position: absolute;
   z-index: 5;
   top: 0;

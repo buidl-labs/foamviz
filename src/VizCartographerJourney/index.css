@@ -39,6 +39,10 @@
   height: calc(100vh - 13rem);
 }
 
+.get-w-100 > .nav-container {
+  width: 100% !important;
+}
+
 .divider {
   position: absolute;
   width: 100%;
@@ -187,10 +191,6 @@
 
 .rc-slider-handle {
   background-color: white !important;
-}
-
-.rc-slider-track {
-  background: rgba(101, 105, 237, 250) !important;
 }
 
 .toggleButton {
