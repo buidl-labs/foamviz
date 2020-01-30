@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { store } from '../global-store';
@@ -11,6 +11,8 @@ import 'bulma/css/bulma.css';
 // background cover
 import neonWorldBG from '../assets/imgs/background.png';
 import neonWorldBGWebP from '../assets/imgs/backgroundWebP.webp';
+import mainTitle from '../assets/imgs/mainlogo2.svg';
+import arrow from '../assets/imgs/down-arrow.svg';
 
 // viz images and movies
 import vizPOIImage from '../assets/imgs/viz-one.png';
@@ -29,6 +31,7 @@ import vizGlobeWebM from '../assets/gifs/c1.webm';
 import vizGlobeMp4 from '../assets/gifs/c2.mp4';
 
 const HomePage = () => {
+  const [anime, setCount] = useState(true);
   useEffect(() => {
     store.loading = true;
     fetchViz3Data().then((data) => {
@@ -36,6 +39,9 @@ const HomePage = () => {
       localStorage.setItem('viz3data', JSON.stringify(data));
     });
   }, []);
+  setInterval(() => {
+    setCount(!anime)
+  }, 1000)
 
   return (
     <div className="home-page">
@@ -44,9 +50,8 @@ const HomePage = () => {
       </Helmet>
       <div className="head-container mb-7">
         <div className="main-title-container">
-          <p className="above-main-title">THE</p>
-          <p className="main-title">FOAMVIZ</p>
-          <p className="below-main-title">PROJECT</p>
+          <img alt="The Foamviz Project" src={mainTitle} />
+          <img className={anime ? "home-arrow dm-none" : "home-arrow translateY dm-none"} alt="The Foamviz Project" src={arrow} />
         </div>
         <picture>
           <source sizes="100%" srcSet={neonWorldBGWebP} type="image/webp" />
@@ -60,10 +65,10 @@ const HomePage = () => {
             <div className="columns move-up">
               <div className="column is-4">
                 <h1 className="title">
-        VizPOIAnalytics
+                  VizPOIAnalytics
                 </h1>
                 <h2 className="subtitle subinfo">
-                Shows aggreagated POIs according to density or staked value
+                  Shows aggreagated POIs according to density or staked value
                 </h2>
               </div>
               <div className="column is-8 txt-ctr">
@@ -86,10 +91,10 @@ const HomePage = () => {
             <div className="columns move-up">
               <div className="column is-4">
                 <h1 className="title">
-        VizCartoJourney
+                  VizCartoJourney
                 </h1>
                 <h2 className="subtitle subinfo">
-                Shows journey of a cartographer in terms of their plotting on the map
+                  Shows journey of a cartographer in terms of their plotting on the map
                 </h2>
               </div>
               <div className="column is-8 txt-ctr">
@@ -112,10 +117,10 @@ const HomePage = () => {
             <div className="columns move-up">
               <div className="column is-4">
                 <h1 className="title">
-        VizDataGlobe
+                  VizDataGlobe
                 </h1>
                 <h2 className="subtitle subinfo">
-                Shows all POIs since inception of FOAM on a globe for a bird eye's view
+                  Shows all POIs since inception of FOAM on a globe for a bird eye's view
                 </h2>
               </div>
               <div className="column is-8 txt-ctr">

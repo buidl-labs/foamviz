@@ -3,7 +3,6 @@
 body {
   font-family: 'Roboto Mono', monospace;
   margin: 0;
-  overflow-y: scroll;
   scroll-behavior: smooth;
   background: #191a1a !important;
 }
@@ -14,7 +13,7 @@ code {
 
 .nav-container {
   background: #282828;
-  padding: 25px 15px;
+  padding: 1.5rem;
 }
 
 .nav-heading {
@@ -84,6 +83,10 @@ code {
 
 .txt-ctr {
   text-align: center;
+}
+
+.rc-slider-track {
+  background: rgba(101, 105, 237, 250) !important;
 }
 
 @keyframes lds-ripple {

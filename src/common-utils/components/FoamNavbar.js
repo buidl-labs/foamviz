@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import arrow from '../../assets/imgs/down-arrow.svg';
 
 const FoamNavbar = (props) => {
-  const { title, info, arrowUp } = props;
+  const { title, info, arrowUp, width } = props;
 
   return (
-    <div className="nav-container m-nav">
-      {/* <span className="dn m-show pull-out"></span> */}
+    <div className="nav-container m-nav" width={width}>
       <img src={arrow} 
       className={arrowUp ? "dn m-show pull-out rotate-arrow-180" : "dn m-show pull-out rotate-arrow-0"} />
       <div className="nav-heading m-text-center">
