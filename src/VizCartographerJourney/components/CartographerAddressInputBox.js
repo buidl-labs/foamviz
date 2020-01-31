@@ -23,7 +23,7 @@ const CartographerAddressInputBox = (props) => {
       <div className="dm-none get-w-100">
         <FoamNavbar
           title="VizCartographerJourney"
-          info="Part of FOAMviz project"
+          info="Part of FOAMViz project"
         />
       </div>
       <div className="" />
