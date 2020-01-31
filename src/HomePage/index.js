@@ -15,18 +15,12 @@ import mainTitle from '../assets/imgs/mainlogo2.svg';
 import arrow from '../assets/imgs/down-arrow.svg';
 
 // viz images and movies
-import vizPOIImage from '../assets/imgs/viz-one.png';
-import vizPOIWebP from '../assets/imgs/oneWebP.webp';
 import vizPOIWebM from '../assets/gifs/a1.webm';
 import vizPOIMp4 from '../assets/gifs/a2.mp4';
 
-import vizCartoJourneyImage from '../assets/imgs/viz-journey.png';
-import vizCartoJourneyWebP from '../assets/imgs/twoWebP.webp';
 import vizCartoJourneyWebM from '../assets/gifs/b1.webm';
 import vizCartoJourneyMp4 from '../assets/gifs/b2.mp4';
 
-import vizGlobeImage from '../assets/imgs/viz-globe.png';
-import vizGlobeWebP from '../assets/imgs/threeWebP.webp';
 import vizGlobeWebM from '../assets/gifs/c1.webm';
 import vizGlobeMp4 from '../assets/gifs/c2.mp4';
 
@@ -74,8 +68,6 @@ const HomePage = () => {
               <div className="column is-8 txt-ctr">
                 <Link to="/poi-analytics" className="card-link">
                   <Card
-                    imageSrc={vizPOIImage}
-                    webpSrc={vizPOIWebP}
                     mp4Src={vizPOIMp4}
                     webmSrc={vizPOIWebM}
                   />
@@ -100,8 +92,6 @@ const HomePage = () => {
               <div className="column is-8 txt-ctr">
                 <Link to="/cartographer-journey" className="card-link">
                   <Card
-                    imageSrc={vizCartoJourneyImage}
-                    webpSrc={vizCartoJourneyWebP}
                     mp4Src={vizCartoJourneyMp4}
                     webmSrc={vizCartoJourneyWebM}
                   />
@@ -126,8 +116,6 @@ const HomePage = () => {
               <div className="column is-8 txt-ctr">
                 <Link to="/data-globe" className="card-link">
                   <Card
-                    imageSrc={vizGlobeImage}
-                    webpSrc={vizGlobeWebP}
                     mp4Src={vizGlobeMp4}
                     webmSrc={vizGlobeWebM}
                   />

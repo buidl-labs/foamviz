@@ -6,12 +6,12 @@ const Card = (props) => {
   return (
     <div className="card-body">
       <div className="card-img-container">
-        <div className="hide-hover upper-img dm-none">
+        {/* <div className="hide-hover upper-img dm-none">
         <picture>
           <source srcSet={webpSrc} type="image/webp" />
           <img alt="bg" src={imageSrc} className="card-img" />
         </picture>
-        </div>
+        </div> */}
         <div className="video-container">
         <video preload="true" autoPlay loop muted playsInline width="600px">  
           <source src={webmSrc} type="video/webm" />  
