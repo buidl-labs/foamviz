@@ -125,7 +125,7 @@ const HomePage = () => {
                   <br />
                   <h2 className="subtitle subinfo">
                   This interactive tool will provide an overview of the amount staked in POI’s all over the globe from the inception of FOAM to now. 
-                  <br /> <br /> Questions that will FOAM users answer: 
+                  <br /> <br /> Questions that will help FOAM users answer: 
                   <br /> <br /> 1. Which geography has the most activity? 
                   <br /> 2. Staking patterns across geography?
                   </h2>
