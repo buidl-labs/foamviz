@@ -44,8 +44,8 @@ const HomePage = () => {
       </Helmet>
       <div className="head-container mb-7">
         <div className="main-title-container">
-          <img alt="The Foamviz Project" src={mainTitle} />
-          <img className={anime ? "home-arrow dm-none" : "home-arrow translateY dm-none"} alt="The Foamviz Project" src={arrow} />
+          <img alt="The FOAMViz Project" src={mainTitle} />
+          <img className={anime ? "home-arrow dm-none" : "home-arrow translateY dm-none"} alt="The FOAMViz Project" src={arrow} />
         </div>
         <picture>
           <source sizes="100%" srcSet={neonWorldBGWebP} type="image/webp" />
@@ -56,16 +56,22 @@ const HomePage = () => {
       <section className="hero is-success is-fullheight bg-one">
         <div className="hero-body">
           <div className="container">
-            <div className="columns move-up">
-              <div className="column is-4">
-                <h1 className="title">
-                  VizPOIAnalytics
-                </h1>
-                <h2 className="subtitle subinfo">
-                  Shows aggreagated POIs according to density or staked value
-                </h2>
+            <div className="columns move-up is-desktop">
+              <div className="column is-5">
+                <div className="make-it-center">
+                  <h1 className="viz-title">
+                    Analyze <br /> POI Activity by <br /> density
+                  </h1>
+                  <br />
+                  <h2 className="subtitle subinfo">
+                  For the curious lot amongst the FOAM users this interactive tool will help answer the following questions: <br />
+                  <br /> 1. What are the low-density and high-density areas near me? Around the planet? 
+                  <br /> 2. What is the distribution of staked POI’s across these points? 
+                  <br /> 3. Do low-density areas have higher staked value of FOAM tokens?
+                  </h2>
+                </div>
               </div>
-              <div className="column is-8 txt-ctr">
+              <div className="column is-7 txt-ctr">
                 <Link to="/poi-analytics" className="card-link">
                   <Card
                     mp4Src={vizPOIMp4}
@@ -80,16 +86,22 @@ const HomePage = () => {
       <section className="hero is-info is-fullheight bg-two">
         <div className="hero-body">
           <div className="container">
-            <div className="columns move-up">
-              <div className="column is-4">
-                <h1 className="title">
-                  VizCartoJourney
-                </h1>
-                <h2 className="subtitle subinfo">
-                  Shows journey of a cartographer in terms of their plotting on the map
-                </h2>
+            <div className="columns move-up is-desktop">
+              <div className="column is-5">
+                <div className="make-it-center">
+                  <h1 className="viz-title">
+                  Visualize <br /> Cartographer’s <br /> Journey
+                  </h1>
+                  <br />
+                  <h2 className="subtitle subinfo">
+                  Cartographers are an integral part of the FOAM ecosystem. This interactive tool allows you to view their journey in a time machine manner.
+                  <br /> <br />Whiz through their journey flying through various countries and plotting points. 
+                  <br />Find out the attributes of places the cartographer is most passionate about.
+                  <br />Or just sit back and hit play watching a small simulation of their journey!
+                  </h2>
+                </div>
               </div>
-              <div className="column is-8 txt-ctr">
+              <div className="column is-7 txt-ctr">
                 <Link to="/cartographer-journey" className="card-link">
                   <Card
                     mp4Src={vizCartoJourneyMp4}
@@ -104,16 +116,22 @@ const HomePage = () => {
       <section className="hero is-link is-fullheight bg-three">
         <div className="hero-body">
           <div className="container">
-            <div className="columns move-up">
-              <div className="column is-4">
-                <h1 className="title">
-                  VizDataGlobe
-                </h1>
-                <h2 className="subtitle subinfo">
-                  Shows all POIs since inception of FOAM on a globe for a bird eye's view
-                </h2>
+            <div className="columns move-up is-desktop">
+              <div className="column is-5">
+                <div className="make-it-center">
+                  <h1 className="viz-title">
+                  Visualize <br /> evolution of <br /> FOAM Ecosystem <br /> on planetary scale
+                  </h1>
+                  <br />
+                  <h2 className="subtitle subinfo">
+                  This interactive tool will provide an overview of the amount staked in POI’s all over the globe from the inception of FOAM to now. 
+                  <br /> <br /> Questions that will FOAM users answer: 
+                  <br /> <br /> 1. Which geography has the most activity? 
+                  <br /> 2. Staking patterns across geography?
+                  </h2>
+                </div>
               </div>
-              <div className="column is-8 txt-ctr">
+              <div className="column is-7 txt-ctr">
                 <Link to="/data-globe" className="card-link">
                   <Card
                     mp4Src={vizGlobeMp4}

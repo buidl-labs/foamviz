@@ -15,7 +15,7 @@ export default ({
       <div className="analytics-panel abs-container-top m-abs-container-top">
         <FoamNavbar
           title="VizDataGlobe"
-          info="Part of FOAMviz project"
+          info="Part of FOAMViz project"
           arrowUp={arrowUp}
         />
         <div className="main-container-top m-main-container-top">
