@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { store } from '../global-store';
 import fetchViz3Data from '../utils/helper';
+import Img from 'react-image';
 
 import Card from './components/Card';
 import './index.css';
@@ -10,6 +11,7 @@ import 'bulma/css/bulma.css';
 
 // background cover
 import neonWorldBG from '../assets/imgs/background.png';
+import neonWorldBlur from '../assets/imgs/background_blur.jpg';
 import neonWorldBGWebP from '../assets/imgs/backgroundWebP.webp';
 import mainTitle from '../assets/imgs/mainlogo2.svg';
 import arrow from '../assets/imgs/down-arrow.svg';
@@ -47,11 +49,13 @@ const HomePage = () => {
           <img alt="The FOAMViz Project" src={mainTitle} />
           <img className={anime ? "home-arrow dm-none" : "home-arrow translateY dm-none"} alt="The FOAMViz Project" src={arrow} />
         </div>
-        <picture>
-          <source sizes="100%" srcSet={neonWorldBGWebP} type="image/webp" />
-          <source sizes="100%" srcSet={neonWorldBG} type="image/jpeg" />
-          <img alt="bg" src={neonWorldBG} width="100%" height="100vh" />
-        </picture>
+        <Img
+          container={children => {
+            return <div className="transition">{children}</div>
+          }}
+          src={[neonWorldBGWebP, neonWorldBG]}
+          loader={<img alt="bg" src={neonWorldBlur} width="100%" />}
+        />
       </div>
       <section className="hero is-success is-fullheight bg-one">
         <div className="hero-body">

@@ -7,6 +7,14 @@
   min-height: 100vh;
 }
 
+.full-height {
+  height: 100vh;
+}
+
+.transition {
+  transition: all 1s;
+}
+
 .body-container {
   width: 100vw;
 }
