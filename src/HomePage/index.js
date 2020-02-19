@@ -30,14 +30,14 @@ const HomePage = () => {
   const [anime, setCount] = useState(true);
   useEffect(() => {
     store.loading = true;
-    fetchViz3Data().then((data) => {
+    fetchViz3Data().then(data => {
       store.loading = false;
       localStorage.setItem('viz3data', JSON.stringify(data));
     });
   }, []);
   setInterval(() => {
-    setCount(!anime)
-  }, 1000)
+    setCount(!anime);
+  }, 1000);
 
   return (
     <div className="home-page">
@@ -46,12 +46,18 @@ const HomePage = () => {
       </Helmet>
       <div className="head-container mb-7">
         <div className="main-title-container">
-          <img alt="The FOAMViz Project" src={mainTitle} />
-          <img className={anime ? "home-arrow dm-none" : "home-arrow translateY dm-none"} alt="The FOAMViz Project" src={arrow} />
+          <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} />
+          <img
+            className={
+              anime ? 'home-arrow dm-none' : 'home-arrow translateY dm-none'
+            }
+            alt="The FOAMViz Project"
+            src={arrow}
+          />
         </div>
         <Img
           container={children => {
-            return <div className="transition">{children}</div>
+            return <div className="transition fadeIn">{children}</div>;
           }}
           src={[neonWorldBGWebP, neonWorldBG]}
           loader={<img alt="bg" src={neonWorldBlur} width="100%" />}
@@ -64,23 +70,35 @@ const HomePage = () => {
               <div className="column is-5">
                 <div className="make-it-center">
                   <h1 className="viz-title">
-                    Analyze <br /> POI Activity by <br /> density
+                    <Link to="/poi-analytics" className="card-link">
+                      Analyze <br /> POI Activity by <br /> density
+                    </Link>
                   </h1>
                   <br />
                   <h2 className="subtitle subinfo">
-                  For the curious lot amongst the FOAM users this interactive tool will help answer the following questions: <br />
-                  <br /> 1. What are the low-density and high-density areas near me? Around the planet? 
-                  <br /> 2. What is the distribution of staked POI’s across these points? 
-                  <br /> 3. Do low-density areas have higher staked value of FOAM tokens?
+                    For the curious lot amongst the FOAM users this interactive
+                    tool will help answer the following questions: <br />
+                    <br />
+                    <ul>
+                      <li>
+                        What are the low-density and high-density areas near me?
+                        Around the planet?
+                      </li>
+                      <li>
+                        What is the distribution of staked POI’s across these
+                        points?
+                      </li>
+                      <li>
+                        Do low-density areas have higher staked value of FOAM
+                        tokens?
+                      </li>
+                    </ul>
                   </h2>
                 </div>
               </div>
               <div className="column is-7 txt-ctr">
                 <Link to="/poi-analytics" className="card-link">
-                  <Card
-                    mp4Src={vizPOIMp4}
-                    webmSrc={vizPOIWebM}
-                  />
+                  <Card mp4Src={vizPOIMp4} webmSrc={vizPOIWebM} />
                 </Link>
               </div>
             </div>
@@ -94,14 +112,31 @@ const HomePage = () => {
               <div className="column is-5">
                 <div className="make-it-center">
                   <h1 className="viz-title">
-                  Visualize <br /> Cartographer’s <br /> Journey
+                    <Link to="/cartographer-journey" className="card-link">
+                      Visualize <br /> Cartographer’s <br /> Journey
+                    </Link>
                   </h1>
                   <br />
                   <h2 className="subtitle subinfo">
-                  Cartographers are an integral part of the FOAM ecosystem. This interactive tool allows you to view their journey in a time machine manner.
-                  <br /> <br />Whiz through their journey flying through various countries and plotting points. 
-                  <br />Find out the attributes of places the cartographer is most passionate about.
-                  <br />Or just sit back and hit play watching a small simulation of their journey!
+                    Cartographers are an integral part of the FOAM ecosystem.
+                    This interactive tool allows you to view their journey in a
+                    time machine manner.
+                    <br /> <br />
+                    <ul>
+                      <li>
+                        Whiz through their journey flying through various
+                        countries and plotting points.
+                      </li>
+                      <li>
+                        Find out the attributes of places the cartographer is
+                        most passionate about.
+                      </li>
+                      <li>
+                        {' '}
+                        Or just sit back and hit play watching a small
+                        simulation of their journey!
+                      </li>
+                    </ul>
                   </h2>
                 </div>
               </div>
@@ -124,23 +159,28 @@ const HomePage = () => {
               <div className="column is-5">
                 <div className="make-it-center">
                   <h1 className="viz-title">
-                  Visualize <br /> evolution of <br /> FOAM Ecosystem <br /> on planetary scale
+                    <Link to="/data-globe" className="card-link">
+                      Visualize <br /> evolution of <br /> FOAM Ecosystem <br />{' '}
+                      on planetary scale
+                    </Link>
                   </h1>
                   <br />
                   <h2 className="subtitle subinfo">
-                  This interactive tool will provide an overview of the amount staked in POI’s all over the globe from the inception of FOAM to now. 
-                  <br /> <br /> Questions that will help FOAM users answer: 
-                  <br /> <br /> 1. Which geography has the most activity? 
-                  <br /> 2. Staking patterns across geography?
+                    This interactive tool will provide an overview of the amount
+                    staked in POI’s all over the globe from the inception of
+                    FOAM to now.
+                    <br /> <br /> Questions that will help FOAM users answer:{' '}
+                    <br /> <br />
+                    <ul>
+                      <li>1. Which geography has the most activity?</li>
+                      <li>2. Staking patterns across geography?</li>
+                    </ul>
                   </h2>
                 </div>
               </div>
               <div className="column is-7 txt-ctr">
                 <Link to="/data-globe" className="card-link">
-                  <Card
-                    mp4Src={vizGlobeMp4}
-                    webmSrc={vizGlobeWebM}
-                  />
+                  <Card mp4Src={vizGlobeMp4} webmSrc={vizGlobeWebM} />
                 </Link>
               </div>
             </div>

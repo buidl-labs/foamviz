@@ -7,12 +7,36 @@
   min-height: 100vh;
 }
 
+@-webkit-keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+ul > li {
+  margin-left: 10px;
+  list-style-type: disc;
+}
+
 .full-height {
   height: 100vh;
 }
 
 .transition {
-  transition: all 1s;
+  /* transition: all 1s; */
+  -webkit-animation-duration: 5s;
+  animation-duration: 5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 .body-container {
@@ -28,6 +52,7 @@
   font-size: 2rem;
   font-weight: 600;
   line-height: 1.125;
+  color: #ffffff;
 }
 
 .make-it-center {
@@ -58,6 +83,7 @@
   left: calc(50% - 11rem);
   top: 10%;
   text-align: center;
+  z-index: 1;
 }
 
 .mb-7 {
@@ -68,11 +94,6 @@
 
 .viz-container {
   margin: 20px;
-}
-
-.card-container {
-  /* display: flex;
-  justify-content: space-evenly; */
 }
 
 .card-body {
@@ -126,6 +147,12 @@
 
 .card-link {
   text-decoration: none;
+  color: #ffffff;
+}
+
+.card-link:hover {
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .move-up {
@@ -153,6 +180,7 @@
   }
   .viz-title {
     font-size: 1.5rem;
+    color: #ffffff;
   }
   .subinfo {
     font-size: 1rem !important;
@@ -193,5 +221,6 @@
   }
   .viz-title {
     font-size: 1.5rem;
+    color: #ffffff;
   }
 }
