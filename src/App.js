@@ -8,9 +8,11 @@ const VizPOIAnalytics = lazy(() => import('./VizPOIAnalytics'));
 const VizCartographerJourney = lazy(() => import('./VizCartographerJourney'));
 const VizDataGlobe = lazy(() => import('./VizDataGlobe'));
 
+const renderLoader = () => <Loading display />;
+
 const App = () => (
   <Router>
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={renderLoader()}>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/poi-analytics" component={VizPOIAnalytics} />
       <Route
