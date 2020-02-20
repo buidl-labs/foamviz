@@ -25,8 +25,9 @@ code {
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
-  line-height: 23px;
-  color: white
+  line-height: 25px;
+  color: white;
+  margin-bottom: 0.25rem;
 }
 
 .nav-subheading {

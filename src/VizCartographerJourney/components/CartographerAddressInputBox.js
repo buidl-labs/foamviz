@@ -19,10 +19,10 @@ const CartographerAddressInputBox = (props) => {
   if (display === false) return null;
 
   return (
-    <div className="abs-container input-container">
+    <div className="abs-container input-container max-width-any">
       <div className="dm-none get-w-100">
         <FoamNavbar
-          title="VizCartographerJourney"
+          title="Cartographer's journey"
           info="Part of FOAMViz project"
         />
       </div>

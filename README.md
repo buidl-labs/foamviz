@@ -13,9 +13,9 @@ These tools + visualizations would help all users - including power users - to g
 
 ### Repo constains these three visualizations
 
-1. VizPOIAnalytics
-2. VizCartographerJourney
-3. VizDataOverGlobe
+1. Statistics around POI's
+2. Cartographer's Journey
+3. Evolution of FOAM on planetary scale
 
 **Steps to run the project locally in development mode are:**
 

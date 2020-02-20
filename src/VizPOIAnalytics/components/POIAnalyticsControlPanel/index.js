@@ -52,7 +52,7 @@ const POIAnalyticsControlPanel = (props) => {
   return (
     <div className="layercontrol">
       <FoamNavbar
-        title="VizPOIAnalytics"
+        title="Statistics around POI's"
         info="Part of FOAMViz project"
         arrowUp={arrowUp}
       />

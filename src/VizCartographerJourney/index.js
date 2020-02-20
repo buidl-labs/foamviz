@@ -288,7 +288,7 @@ class VizCartographerJourney extends React.Component {
           >
             <div style={{ height: '400px', backgroundColor: '#000' }}>
               <FoamNavbar
-                title="VizCartographerJourney"
+                title="Cartographer's journey"
                 info="Part of FOAMViz project"
                 arrowUp={arrowUp}
               />

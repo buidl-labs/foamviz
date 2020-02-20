@@ -12,9 +12,9 @@ export default ({
 
   return (
     <div>
-      <div className="analytics-panel abs-container-top m-abs-container-top">
+      <div className="abs-container-top m-abs-container-top">
         <FoamNavbar
-          title="VizDataGlobe"
+          title="Evolution of FOAM on planetary scale"
           info="Part of FOAMViz project"
           arrowUp={arrowUp}
         />
