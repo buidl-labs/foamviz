@@ -184,7 +184,7 @@ input:checked+.rotation-slider:before {
 
 .tooltipStyle {
   position: absolute;
-  min-width: 180px;
+  min-width: 190px;
   padding: 14px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
@@ -214,6 +214,17 @@ input:checked+.rotation-slider:before {
 
 .mt-0 {
   margin-top: 0;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.count-bottom-num {
+  margin-bottom: 0;
+}
+.count-bottom {
+  margin-top: 0.5rem;
 }
 
 @media screen and (max-width: 700px) {

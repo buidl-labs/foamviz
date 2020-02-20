@@ -23,13 +23,13 @@ const tooltipInfo = (d) => {
         style="position: 'absolute'; z-index: 1;"
       >
         <div class="tooltip-key">
-          Staked Value <span class="tooltip-value"> ${k} </span>
+          Total FOAM tokens staked:
+          <span class="tooltip-value">
+            ${' ' + d.points.length}
+          </span>
         </div>
         <div class="tooltip-key">
-          Points
-          <span class="tooltip-value">
-            ${d.points.length}
-          </span>
+          Net value of FOAM tokens staked: <span class="tooltip-value"> ${'' + k} </span>
         </div>
       </div>
     `
