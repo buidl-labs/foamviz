@@ -52,19 +52,19 @@ const POIAnalyticsControlPanel = (props) => {
   return (
     <div className="layercontrol">
       <FoamNavbar
-        title="VizPOIAnalytics"
+        title="Statistics around POI's"
         info="Part of FOAMViz project"
         arrowUp={arrowUp}
       />
       <div id="viz-one-cp" className="show m-pb-3">
         <div className="control-panel-top">
-          <p>SELECTED</p>
-          <h2>
+          <p className="no-margin">SELECTED</p>
+          <h2 className="no-margin">
             {settings.showDensityOfPoints === true
               ? 'Density of Points'
               : 'Staked Tokens'}
           </h2>
-          <p>OPTIONS</p>
+          <p className="upper-breathing-space">OPTIONS</p>
           {Object.keys(settings).map(
             (key) => controls[key].type === 'boolean' && (
               <div key={key} className="dflex-sbtw cursor-pointer m-2">

@@ -35,7 +35,7 @@ const CartographerProfilePanel = (props) => {
     <div className="abs-container">
       <div className="dm-none get-w-100">
         <FoamNavbar
-          title="VizCartographerJourney"
+          title="Cartographer's journey"
           info="Part of FOAMViz project"
           width="100%"
         />

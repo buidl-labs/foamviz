@@ -302,7 +302,7 @@ class VizDataGlobe extends React.Component {
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '360px' }}>
+            <div style={{ height: '380px' }}>
               <Analytics
                 display
                 arrowUp={arrowUp}
