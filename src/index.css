@@ -11,6 +11,10 @@ code {
   font-family: 'Roboto Mono', monospace;
 }
 
+.card-link {
+  text-decoration: none;
+}
+
 .nav-container {
   background: #282828;
   padding: 1.5rem;
