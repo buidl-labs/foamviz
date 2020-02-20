@@ -14,6 +14,15 @@ label {
   color: #fff;
 }
 
+.no-margin {
+  margin: 0;
+}
+
+.upper-breathing-space {
+  margin-top: 1.2rem;
+  margin-bottom: 0;
+}
+
 .slider {
   -webkit-appearance: none;
   width: 100%;

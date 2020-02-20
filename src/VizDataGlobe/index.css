@@ -56,6 +56,7 @@
   top: 2.5vh;
   left: 2vw;
   background: black !important;
+  max-width: 280px;
 }
 
 .main-container-top {
@@ -184,7 +185,7 @@ input:checked+.rotation-slider:before {
 
 .tooltipStyle {
   position: absolute;
-  min-width: 180px;
+  min-width: 190px;
   padding: 14px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
@@ -216,6 +217,17 @@ input:checked+.rotation-slider:before {
   margin-top: 0;
 }
 
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.count-bottom-num {
+  margin-bottom: 0;
+}
+.count-bottom {
+  margin-top: 0.5rem;
+}
+
 @media screen and (max-width: 700px) {
   .m-abs-container-top {
     z-index: 7 !important;
@@ -224,6 +236,7 @@ input:checked+.rotation-slider:before {
     left: 0 !important;
     background: black !important;
     width: 100% !important;
+    max-width: 100% !important;
   }
   .m-abs-container-bottom-viz3 {
     z-index: 7 !important;
