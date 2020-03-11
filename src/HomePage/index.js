@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { store } from '../global-store';
@@ -27,7 +27,6 @@ import vizGlobeWebM from '../assets/gifs/c1.webm';
 import vizGlobeMp4 from '../assets/gifs/c2.mp4';
 
 const HomePage = () => {
-  const [anime, setCount] = useState(true);
   useEffect(() => {
     store.loading = true;
     fetchViz3Data().then(data => {
@@ -35,9 +34,6 @@ const HomePage = () => {
       localStorage.setItem('viz3data', JSON.stringify(data));
     });
   }, []);
-  setInterval(() => {
-    setCount(!anime);
-  }, 1000);
 
   return (
     <div className="home-page">
@@ -48,9 +44,7 @@ const HomePage = () => {
         <div className="main-title-container">
           <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} />
           <img
-            className={
-              anime ? 'home-arrow dm-none' : 'home-arrow translateY dm-none'
-            }
+            className="home-arrow dm-none"
             alt="The FOAMViz Project"
             src={arrow}
           />
