@@ -383,7 +383,7 @@ class VizPOIAnalytics extends React.Component {
             }
           }}
           controller
-          onDragEnd={this.fetchPointsInCurrentViewPort}
+          // onDragEnd={this.fetchPointsInCurrentViewPort}
         >
           <StaticMap
             ref={(map) => {
