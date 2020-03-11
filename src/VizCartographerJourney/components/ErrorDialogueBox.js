@@ -10,7 +10,7 @@ const ErrorDialogueBox = (props) => {
     return () => {
       document.removeEventListener('keydown', registered);
     };
-  }, []);
+  }, [ closeErrorBox ]);
 
   return display && (
     <div className="error-background">

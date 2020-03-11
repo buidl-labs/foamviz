@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import FoamNavbar from '../../common-utils/components/FoamNavbar';
 
@@ -12,9 +12,9 @@ const CartographerAddressInputBox = (props) => {
     if (code === 13 && history) history.push(`/cartographer-journey/${value}`);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (display) cartographerAddressInput.focus();
-  }, []);
+  }, [ display, cartographerAddressInput ]);
 
   if (display === false) return null;
 
