@@ -247,8 +247,8 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
-        <div class="i-tooltip"><img src={quesMark} width="20px" />
-          <span class="i-tooltiptext">Shows all POIs since inception of FOAM on a globe for a bird eye's view</span>
+        <div className="i-tooltip"><img alt="help" src={quesMark} width="20px" />
+          <span className="i-tooltiptext">Shows all POIs since inception of FOAM on a globe for a bird eye's view</span>
         </div>
         <div className="m-top-info dn m-show">
           {!displayValueMobile ? (<div className="m-foam-token">
@@ -260,7 +260,7 @@ class VizDataGlobe extends React.Component {
               decimals={2}
               formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
             >
-              {({ countUpRef }) => (<h1 className="mt-0 m-num-title" ref={countUpRef} />)}
+              {({ countUpRef }) => (<h1 className="mt-0 m-num-title" ref={countUpRef}>123</h1>)}
             </CountUp>
             <h2 className="m-num-sub">FOAM Tokens Staked</h2>
           </div>) :
@@ -274,7 +274,7 @@ class VizDataGlobe extends React.Component {
                 decimals={2}
                 formattingFn={(value) => (value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))}
               >
-                {({ countUpRef }) => (<h1 className="m-num-title" ref={countUpRef} />)}
+                {({ countUpRef }) => (<h1 className="m-num-title" ref={countUpRef}>123</h1>)}
               </CountUp>
               <h2 className="m-num-sub">Net Value Staked</h2>
             </div>)}

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import '../../index.css';
 import { fetchLocationFromMapboxAPI } from '../../utils/helper';
 
@@ -29,12 +29,12 @@ const LocationSearchBox = ({ onLocationSelect = () => {} }) => {
       return;
     }
 
-    if (keyCode ==  38 && key == "ArrowUp") {
+    if (keyCode ===  38 && key === "ArrowUp") {
       e.preventDefault();
       return setCurrentKey(Math.max(0, curSelected - 1));
-    } else if (keyCode == 40) {
+    } else if (keyCode === 40) {
       return setCurrentKey(Math.min(searchedPlaces.length - 1, curSelected + 1));
-    } else if (keyCode == 13) {
+    } else if (keyCode === 13) {
       return navigateMap(searchedPlaces[curSelected]);
     }
 

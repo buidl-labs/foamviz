@@ -1,5 +1,5 @@
 import React from 'react';
-import DeckGL, { FlyToInterpolator } from 'deck.gl';
+import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
@@ -17,7 +17,7 @@ import FoamNavbar from '../common-utils/components/FoamNavbar';
 import {
   fetchCartographerDetailsFromFOAMAPI,
   getProfileAnalytics,
-  getTopCartographers,
+  // getTopCartographers,
 } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
@@ -251,7 +251,7 @@ class VizCartographerJourney extends React.Component {
       loading,
       disableReset,
       showTopCartographers,
-      topCartographers,
+      // topCartographers,
       arrowUp
     } = this.state;
 

@@ -7,7 +7,8 @@ const FoamNavbar = (props) => {
 
   return (
     <div className="nav-container m-nav" width={width}>
-      <img src={arrow} 
+      <img src={arrow}
+      alt="go down"
       className={arrowUp ? "dn m-show pull-out rotate-arrow-180" : "dn m-show pull-out rotate-arrow-0"} />
       <div className="nav-heading m-text-center">
         {title}
