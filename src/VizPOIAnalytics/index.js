@@ -16,7 +16,7 @@ import Tooltip from './components/ToolTip';
 // import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 
 // Loaders
-import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
+// import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
 
 // Constants
 import * as CONSTANTS from './utils/constants';
@@ -29,7 +29,7 @@ import {
 } from './utils/layerProperties';
 
 import {
-  getValInUSD,
+  // getValInUSD,
   getInitialControlPanelSettings,
   getTooltipFormattedDetails,
   getBoundingBoxDetailsFromCurrentViewport,
@@ -120,7 +120,7 @@ class VizPOIAnalytics extends React.Component {
 
   onHover({ x, y, object }) {
     const allHoveredPOIDetails = object;
-    const { FOAMTokenInUSD, hover: { details } } = this.state;
+    const { FOAMTokenInUSD } = this.state;
     this.updateViewport().then(() => {
       this.setState({
         hover: {
@@ -316,8 +316,8 @@ class VizPOIAnalytics extends React.Component {
     const {
       hover,
       settings,
-      points,
-      checkingPoints,
+      // points,
+      // checkingPoints,
       viewport,
       fetchingData,
       arrowUp,

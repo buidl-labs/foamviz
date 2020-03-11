@@ -247,7 +247,7 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
-        <div class="i-tooltip"><img src={quesMark} width="20px" />
+        <div class="i-tooltip"><img alt="help" src={quesMark} width="20px" />
           <span class="i-tooltiptext">Shows all POIs since inception of FOAM on a globe for a bird eye's view</span>
         </div>
         <div className="m-top-info dn m-show">

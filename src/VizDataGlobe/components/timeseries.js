@@ -17,11 +17,11 @@ const TimeSeriesSlider = (props) => {
     initialMaxValue,
     curMinVal,
     curMaxVal,
-    curMinDate,
-    curMaxDate,
+    // curMinDate,
+    // curMaxDate,
     count,
     filterData,
-    length,
+    // length,
     play,
     isPlayButton,
     reset,
@@ -33,16 +33,16 @@ const TimeSeriesSlider = (props) => {
     filterData(event[0], event[1]);
   };
 
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return (
-      <div className="text-white">
-        <div>{months[date.getMonth()]}</div>
-        <div>{date.getFullYear()}</div>
-      </div>
-    );
-  };
+  // const formatDate = (dateStr) => {
+  //   const date = new Date(dateStr);
+  //   const months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  //   return (
+  //     <div className="text-white">
+  //       <div>{months[date.getMonth()]}</div>
+  //       <div>{date.getFullYear()}</div>
+  //     </div>
+  //   );
+  // };
 
   return (
     <div className="abs-container-bottom-viz3 main-container-bottom-viz3 m-abs-container-bottom-viz3">
