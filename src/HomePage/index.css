@@ -1,20 +1,25 @@
 /* home-page */
 
-.home-page {}
-
 .head-container {
   width: 100vw;
-  min-height: 100vh;
 }
 
 @-webkit-keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .fadeIn {
@@ -48,8 +53,19 @@ ul > li {
   transition: all 0.5s ease;
 }
 
+.the-foamviz-project {
+  font-size: 3rem !important;
+}
+
 .viz-title {
   font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.125;
+  color: #ffffff;
+}
+
+.viz-move {
+  font-size: 1.2rem;
   font-weight: 600;
   line-height: 1.125;
   color: #ffffff;
@@ -79,8 +95,8 @@ ul > li {
 
 .main-title-container {
   position: absolute;
-  width: 22rem;
-  left: calc(50% - 11rem);
+  width: 32rem;
+  left: calc(50% - 16rem);
   top: 10%;
   text-align: center;
   z-index: 1;
@@ -162,12 +178,14 @@ ul > li {
 @media only screen and (max-width: 1000px) {
   .head-container {
     width: 100vw;
-    min-height: 0;
+  }
+  .the-foamviz-project {
+    font-size: 1.5rem !important;
   }
   .main-title-container {
     position: absolute;
-    width: 16rem;
-    left: calc(50% - 8rem);
+    width: 22rem;
+    left: calc(50% - 11rem);
     top: 8%;
     text-align: center;
   }
@@ -182,8 +200,18 @@ ul > li {
     font-size: 1.5rem;
     color: #ffffff;
   }
+  .viz-move {
+    font-size: 0.75rem;
+    color: #ffffff;
+  }
   .subinfo {
     font-size: 1rem !important;
+  }
+  .video-container {
+    position: absolute;
+    right: 0;
+    z-index: 5;
+    /* width: 50%; */
   }
 }
 
@@ -194,7 +222,9 @@ ul > li {
 @media only screen and (max-width: 700px) {
   .head-container {
     width: 100vw;
-    min-height: 0;
+  }
+  .the-foamviz-project {
+    font-size: 1rem !important;
   }
   .make-it-center {
     width: 100%;
@@ -205,8 +235,8 @@ ul > li {
   }
   .main-title-container {
     position: absolute;
-    width: 10rem;
-    left: calc(50% - 5rem);
+    width: 14rem;
+    left: calc(50% - 7rem);
     top: 2.5%;
     text-align: center;
   }
@@ -221,6 +251,10 @@ ul > li {
   }
   .viz-title {
     font-size: 1.5rem;
+    color: #ffffff;
+  }
+  .viz-move {
+    font-size: 0.75rem;
     color: #ffffff;
   }
 }

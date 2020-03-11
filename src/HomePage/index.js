@@ -66,7 +66,7 @@ const HomePage = () => {
       <section className="hero is-success is-fullheight bg-one">
         <div className="hero-body">
           <div className="container">
-            <div className="columns move-up is-desktop">
+            <div className="columns is-desktop">
               <div className="column is-5">
                 <div className="make-it-center">
                   <h1 className="viz-title">
@@ -96,7 +96,7 @@ const HomePage = () => {
                   </h2>
                 </div>
               </div>
-              <div className="column is-7 txt-ctr">
+              <div className="column is-6 txt-ctr">
                 <Link to="/poi-analytics" className="card-link">
                   <Card mp4Src={vizPOIMp4} webmSrc={vizPOIWebM} />
                 </Link>
@@ -108,7 +108,7 @@ const HomePage = () => {
       <section className="hero is-info is-fullheight bg-two">
         <div className="hero-body">
           <div className="container">
-            <div className="columns move-up is-desktop">
+            <div className="columns is-desktop">
               <div className="column is-5">
                 <div className="make-it-center">
                   <h1 className="viz-title">
@@ -140,7 +140,7 @@ const HomePage = () => {
                   </h2>
                 </div>
               </div>
-              <div className="column is-7 txt-ctr">
+              <div className="column is-6 txt-ctr">
                 <Link to="/cartographer-journey" className="card-link">
                   <Card
                     mp4Src={vizCartoJourneyMp4}
@@ -155,7 +155,7 @@ const HomePage = () => {
       <section className="hero is-link is-fullheight bg-three">
         <div className="hero-body">
           <div className="container">
-            <div className="columns move-up is-desktop">
+            <div className="columns is-desktop">
               <div className="column is-5">
                 <div className="make-it-center">
                   <h1 className="viz-title">
@@ -178,7 +178,7 @@ const HomePage = () => {
                   </h2>
                 </div>
               </div>
-              <div className="column is-7 txt-ctr">
+              <div className="column is-6 txt-ctr">
                 <Link to="/data-globe" className="card-link">
                   <Card mp4Src={vizGlobeMp4} webmSrc={vizGlobeWebM} />
                 </Link>
