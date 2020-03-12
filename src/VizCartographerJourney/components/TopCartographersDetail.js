@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import placeholder from '../../assets/imgs/person.jpeg';
 import Img from 'react-image';
 import { getCartographerProfile } from '../utils/helper';
@@ -6,9 +6,9 @@ import { getCartographerProfile } from '../utils/helper';
 const TopCartographersDetails = props => {
   const { display, topCartographers, getCartographerDetails } = props;
   
-  const [top5Cartographers, setCartographers] = React.useState([]);
+  const [top5Cartographers, setCartographers] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     topCartographers().then(data => {
       const promise = Promise.all(data.map(c => {
         return getCartographerProfile(c.user).then(details => {
