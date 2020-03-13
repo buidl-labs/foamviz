@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
 
 body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', monospace !important;
   margin: 0;
   scroll-behavior: smooth;
   background: #191a1a !important;
 }
 
 code {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', monospace !important;
 }
 
 .card-link {
@@ -21,7 +21,7 @@ code {
 }
 
 .nav-heading {
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto Mono', monospace !important;
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
@@ -31,7 +31,7 @@ code {
 }
 
 .nav-subheading {
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto Mono', monospace !important;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
