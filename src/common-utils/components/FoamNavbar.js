@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import arrow from '../../assets/imgs/down-arrow.svg';
+import backward from '../../assets/imgs/backward.svg';
 
 const FoamNavbar = (props) => {
   const { title, info, arrowUp, width } = props;
@@ -15,6 +16,7 @@ const FoamNavbar = (props) => {
       </div>
       <Link to="/" className="card-link">
         <div className="nav-subheading m-text-center">
+          <img className="backward-arrow" alt="back to home" src={backward} />
           {info}
         </div>
       </Link>

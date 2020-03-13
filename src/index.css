@@ -64,6 +64,11 @@ code {
   transition: all 0.2s;
 }
 
+.backward-arrow {
+  width: 10px;
+  margin-right: 7px;
+}
+
 .lds-ripple {
   display: inline-block;
   position: absolute;
