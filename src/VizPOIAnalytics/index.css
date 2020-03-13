@@ -86,7 +86,7 @@ label {
   padding: 14px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
-  max-width: 350px;
+  width: 330px;
   font-size: 12px;
   z-index: 7;
   pointer-events: none;
@@ -229,7 +229,6 @@ label {
     top: 65px;
     transform: none !important;
     left: 2.5%;
-    width: 95% !important;
     max-width: none !important;
     border-radius: 4px;
   }

@@ -338,6 +338,7 @@ class VizDataGlobe extends React.Component {
         </div>
         <Globe
           data={filteredData}
+          USDRate={foamUSDRate}
           pointWeight="stakedvalue"
           maxAltVal={10e3}
           interactive={!filtering}
