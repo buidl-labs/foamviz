@@ -5,8 +5,8 @@
 .abs-container {
   z-index: 7;
   position: absolute;
-  top: 5vh;
-  left: 2.5vw;
+  top: 20px;
+  left: 20px;
   /* max-width: 280px; */
 }
 
@@ -17,8 +17,8 @@
 .abs-container-bottom {
   z-index: 7;
   position: absolute;
-  top: calc(5vh + 100vh - 9rem - 2.8rem);
-  right: 2vw;
+  bottom: 20px;
+  right: 20px;
 }
 
 .main-container-bottom {
@@ -327,8 +327,8 @@
 .top-c-main-container {
   z-index: 7;
   position: absolute;
-  top: 5vh;
-  right: 2.5vw;
+  top: 20px;
+  right: 20px;
   padding: 10px;
   background: black;
   border-radius: 4px !important;

@@ -53,17 +53,16 @@
 .abs-container-top {
   z-index: 7;
   position: absolute;
-  top: 2.5vh;
-  left: 2vw;
+  top: 20px;
+  left: 20px;
   background: black !important;
-  max-width: 280px;
+  width: 280px;
 }
 
 .main-container-top {
   background: transparent;
   border: none;
   padding: 1.5rem;
-  width: 16rem;
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
@@ -92,9 +91,8 @@ h2 {
 .abs-container-bottom-viz3 {
   z-index: 7;
   position: absolute;
-  top: calc(5vh + 100vh - 9rem - 2.8rem);
-  left: 50%;
-  transform: translate(-50%, -10%);
+  bottom: 20px;
+  left: 20px;
 }
 
 .main-container-bottom-viz3 {
@@ -102,7 +100,7 @@ h2 {
   border: none;
   padding: 1.5rem;
   height: 98px;
-  width: calc(100vw - 5rem);
+  width: calc(100vw - 80px);
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
@@ -185,7 +183,7 @@ input:checked+.rotation-slider:before {
 
 .tooltipStyle {
   position: absolute;
-  width: 330px;
+  width: 350px;
   padding: 14px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
