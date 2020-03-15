@@ -12,6 +12,20 @@ export const getCartographerProfile = async cartographerAddress => {
   return Promise.resolve(profile);
 };
 
+export const getInitialViewportState = () => {
+  return {
+    longitude: -80,
+    latitude: 50,
+    zoom: 1.5,
+    maxZoom: 22,
+    minZoom: 0,
+    pitch: 50,
+    bearing: 15,
+    // transitionDuration: 1200,
+    // transitionInterpolator: new FlyToInterpolator(),
+  }
+}
+
 export const getProfileAnalytics = cartographerAddress =>
   axios
     .get(

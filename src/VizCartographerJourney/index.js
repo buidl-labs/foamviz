@@ -17,22 +17,10 @@ import FoamNavbar from '../common-utils/components/FoamNavbar';
 import {
   fetchCartographerDetailsFromFOAMAPI,
   getProfileAnalytics,
-  // getTopCartographers,
+  getInitialViewportState,
 } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
-
-const INITIAL_VIEWPORT_STATE = {
-  longitude: -80,
-  latitude: 50,
-  zoom: 1.5,
-  maxZoom: 22,
-  minZoom: 0,
-  pitch: 50,
-  bearing: 15,
-  // transitionDuration: 1200,
-  // transitionInterpolator: new FlyToInterpolator(),
-};
 
 class VizCartographerJourney extends React.Component {
   constructor(props) {
@@ -40,7 +28,7 @@ class VizCartographerJourney extends React.Component {
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
     this.state = {
-      viewport: INITIAL_VIEWPORT_STATE,
+      viewport: getInitialViewportState(),
       loading: false,
       data: [],
       showInputBox: true,
@@ -359,7 +347,7 @@ class VizCartographerJourney extends React.Component {
             onArcHover: (hover) => this.onHover(hover, 0),
             onPOIHover: (hover) => this.onHover(hover, 1),
           })}
-          initialViewState={INITIAL_VIEWPORT_STATE}
+          initialViewState={getInitialViewportState()}
           viewState={{ ...viewport }}
           onViewStateChange={() => { this.updateViewport().then(() => { }); }}
           controller
