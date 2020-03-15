@@ -68,17 +68,17 @@
 }
 
 .address-input-box::placeholder {
-  color: #ffffff;
+  color: dimgray;
   font-size: 1rem;
   font-weight: 500;
 }
 
 .address-input-box:-internal-autofill-selected {
-  background: black !important;
+  background: dimgray !important;
 }
 
 .address-input-box:-webkit-autofill {
-  -webkit-text-fill-color: white !important;
+  -webkit-text-fill-color: dimgray !important;
 }
 
 .address-input-box:-webkit-autofill, .address-input-box:-webkit-autofill:hover, .address-input-box:-webkit-autofill:focus, .address-input-box:-webkit-autofill:active {
@@ -329,9 +329,6 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  padding: 10px;
-  background: black;
-  border-radius: 4px !important;
 }
 
 .top-c-container {
@@ -349,18 +346,16 @@
   cursor: pointer;
   width: 20vw !important;
   min-width: 300px;
-  margin-bottom: 20px;
-  background: #282828 !important;
-  border-radius: 4px !important;
 }
 
 .info-container {
   display: flex;
-  justify-content: space-between
+  justify-content: start;
 }
 
 .address {
-  margin-left: 20px;
+  margin-left: 1.5rem;
+  color: dimgrey;
 }
 
 .top-c-photo-container {
@@ -368,7 +363,8 @@
 }
 
 .top-cartographer-profile-pic {
-  height: 3rem;
+  height: 48px;
+  width: 48px;
   border-radius: 2rem;
 }
 
@@ -409,6 +405,8 @@
     min-width: 250px;
   }
   .top-c-main-container {
+    height: 300px;
+    overflow-y: scroll;
     z-index: 7;
     position: relative;
     top: 0;
@@ -428,7 +426,6 @@
     cursor: pointer;
     width: 100% !important;
     min-width: 300px;
-    margin-bottom: 5px;
     background: #282828 !important;
     border-radius: 4px !important;
   }

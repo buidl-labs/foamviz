@@ -5,7 +5,7 @@ import { getCartographerProfile } from '../utils/helper';
 
 const TopCartographersDetails = props => {
   const { display, topCartographers, getCartographerDetails } = props;
-  
+
   const [top5Cartographers, setCartographers] = useState([]);
 
   useEffect(() => {
@@ -30,7 +30,14 @@ const TopCartographersDetails = props => {
     <React.Fragment>
       {top5Cartographers.length ? (
         <div className="top-c-main-container">
-          <h2 className="top-c-heading">Top 5 Cartographers</h2>
+          <div className="nav-container m-nav">
+            <div className="nav-heading m-text-center">
+              Top Cartographers
+            </div>
+            <div className="nav-subheading m-text-center">
+              Click to view their journey
+            </div>
+          </div>
           <div className="top-c-container">
             {top5Cartographers.map((c, key) => (
               <div
@@ -69,7 +76,7 @@ const TopCartographersDetails = props => {
                     />
                   </div>
                   <div className="address">
-                    <div>{c && c.user.substr(0,10) + '...'}</div>
+                    <div>{c && c.user.substr(0, 10) + '...'}</div>
                     <div>Points on map: {c.points_on_map}</div>
                   </div>
                 </div>
@@ -78,8 +85,8 @@ const TopCartographersDetails = props => {
           </div>
         </div>
       ) : (
-        <div></div>
-      )}
+          <div></div>
+        )}
     </React.Fragment>
   );
 };
