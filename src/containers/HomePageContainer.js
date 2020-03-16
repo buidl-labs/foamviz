@@ -3,7 +3,7 @@ import Loader from '../common-utils/components/Loader';
 
 const HomePage = lazy(() => import('../HomePage'));
 
-const renderLoader = () => <Loader text="Please Wait" />;
+const renderLoader = () => <Loader />;
 
 export default () => (
     <Suspense fallback={renderLoader()}>

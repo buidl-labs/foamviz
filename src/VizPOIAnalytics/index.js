@@ -17,6 +17,7 @@ import Tooltip from './components/ToolTip';
 
 // Loaders
 // import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
+import LoaderWhileFetchingLocation from './components/LoaderWhileFetchingLocation';
 
 // Constants
 import * as CONSTANTS from './utils/constants';
@@ -37,7 +38,6 @@ import {
   getCurrentLocation,
   getFOAMUSDRate,
 } from './utils/helper';
-import LoaderWhileFetchingLocation from './components/LoaderWhileFetchingLocation';
 
 // Todo: All Control panel settings need to become part of this initital state
 const INTIAL_VIEW_STATE = {
@@ -325,7 +325,7 @@ class VizPOIAnalytics extends React.Component {
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
-      return <LoaderWhileFetchingLocation />
+      return <LoaderWhileFetchingLocation text="Waiting for User to grant location permission. If denied, the project will be redirected to FOAM's HQ City - New York, USA" />
     }
 
     const layers = this.renderLayers();
