@@ -1,13 +1,11 @@
 import React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
-// import Loading from './VizCartographerJourney/components/Loading';
-// import INdex from './VizCartographerJourney/container';
 
 // Containers
 import HomePageContainer from './containers/HomePageContainer';
+import VizPOIAnalyticsContainer from './containers/VizPOIAnalyticsContainer';
 import VizCartographerJourneyContainer from './containers/VizCartographerJourneyContainer';
 import VizDataGlobeContainer from './containers/VizDataGlobeContainer';
-import VizPOIAnalyticsContainer from './containers/VizPOIAnalyticsContainer';
 
 const App = () => (
   <Router>
