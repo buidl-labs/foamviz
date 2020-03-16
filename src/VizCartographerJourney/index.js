@@ -10,7 +10,7 @@ import CartographerJourneyTooltip from './components/CartographerJourneyTooltip'
 import TopCartographersDetail from './components/TopCartographersDetail';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import ErrorDialogueBox from './components/ErrorDialogueBox';
-import Loading from './components/Loading';
+import Loader from './components/Loader';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import FoamNavbar from '../common-utils/components/FoamNavbar';
 
@@ -243,6 +243,8 @@ class VizCartographerJourney extends React.Component {
       arrowUp
     } = this.state;
 
+    if (loading) return <Loader text="Please Wait, while we are fetching your data..." />;
+
     const [min, max] = [0, data.length - 1];
 
     return (
@@ -250,7 +252,6 @@ class VizCartographerJourney extends React.Component {
         <Helmet>
           <title>FOAMViz - Cartographer Journey</title>
         </Helmet>
-        <Loading display={loading} />
         <ErrorDialogueBox
           display={hasError}
           errorMessage={errorMessage}

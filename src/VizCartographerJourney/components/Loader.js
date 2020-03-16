@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Loading = (props) => {
-  const { display } = props;
+const Loader = (props) => {
+  const { hidden, text } = props;
 
-  if (!display) return null;
+  if (hidden) return null;
 
   return (
     <div
@@ -33,10 +33,10 @@ const Loading = (props) => {
           fontSize: '1.35rem'
         }}
       >
-        Please wait, while we are fetching your data...
-    </h2>
+        {text}
+      </h2>
     </div >
   );
 };
 
-export default Loading;
+export default Loader;
