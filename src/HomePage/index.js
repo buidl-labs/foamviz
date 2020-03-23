@@ -177,8 +177,8 @@ const HomePage = () => {
                     <br /> <br /> Questions that will help FOAM users answer:{' '}
                     <br /> <br />
                     <ul>
-                      <li>1. Which geography has the most activity?</li>
-                      <li>2. Staking patterns across geography?</li>
+                      <li>Which geography has the most activity?</li>
+                      <li>Staking patterns across geography?</li>
                     </ul>
                   </h2>
                 </div>
