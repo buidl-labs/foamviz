@@ -66,7 +66,7 @@ const HomePage = () => {
           <p className="subinfo">
             A suit of
             <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://github.com/buidl-labs/foamviz">
-              open source</a> visualization tools over FOAM TCR's data to analyze ecosystem activity on
+              open source</a> visualization tools over FOAM TCR's data to analyze ecosystem activity on 
               <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://foam.space">
               FOAM's map
             </a>.
