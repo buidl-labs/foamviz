@@ -16,7 +16,7 @@ import Tooltip from './components/ToolTip';
 // import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 
 // Loaders
-// import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
+import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
 import LoaderWhileFetchingLocation from './components/LoaderWhileFetchingLocation';
 
 // Constants
@@ -342,7 +342,7 @@ class VizPOIAnalytics extends React.Component {
         <Helmet>
           <title>FOAMViz - POI Analytics</title>
         </Helmet>
-        {fetchingData}
+        {fetchingData && <LoaderWhenFetchingData />}
         <Tooltip allHoveredPOIDetails={hover} />
         <div className="dm-none">
           <POIAnalyticsControlPanel
