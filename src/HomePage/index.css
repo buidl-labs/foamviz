@@ -4,6 +4,12 @@
   width: 100vw;
 }
 
+.buidl-labs-signature {
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
