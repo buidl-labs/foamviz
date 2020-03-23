@@ -64,7 +64,12 @@ const HomePage = () => {
             </h1>
           <br />
           <p className="subinfo">
-            A suit of <a target="_blank" className="underline-link" href="https://github.com/buidl-labs/foamviz">open source</a> visualization tools over FOAM TCR's data to analyze ecosystem activity on <a target="_blank" className="underline-link" href="https://foam.space">FOAM's map</a>.
+            A suit of
+            <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://github.com/buidl-labs/foamviz">
+              open source</a> visualization tools over FOAM TCR's data to analyze ecosystem activity on
+              <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://foam.space">
+              FOAM's map
+            </a>.
             </p>
         </div>
       </section>
@@ -190,7 +195,7 @@ const HomePage = () => {
               </div>
             </div>
             <p className="buidl-labs-signature">
-              Made with <span style={{ color: 'orangered' }}>&hearts;</span> by team <a target="_blank" href="http://buidllabs.io/" className="card-link">@BUIDL Labs</a>
+              Made with <span style={{ color: 'orangered' }}>&hearts;</span> by team <a target="_blank" rel="noopener noreferrer" href="http://buidllabs.io/" className="card-link">@BUIDL Labs</a>
             </p>
           </div>
         </div>
