@@ -90,6 +90,11 @@ ul > li {
   color: #ffffff;
 }
 
+.underline-link {
+  color: white !important;
+  text-decoration: underline;
+}
+
 .viz-move {
   font-size: 1.2rem;
   font-weight: 600;
@@ -101,6 +106,18 @@ ul > li {
   width: 70%;
   margin-left: auto;
   margin-right: auto;
+}
+
+.centralised {
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+  color: white;
+  padding: 6rem 1.5rem !important;
+}
+
+.bg-about {
+  background: #0C0F1C !important;
 }
 
 .bg-one {
