@@ -51,7 +51,7 @@ const TopCartographersDetails = props => {
                       className="top-cartographer-profile-pic"
                       src={(c && c.pic) || ''}
                       loader={
-                        <div className="lds-spinner">
+                        <div className="lds-spinner sm-spinner">
                           <div />
                           <div />
                           <div />

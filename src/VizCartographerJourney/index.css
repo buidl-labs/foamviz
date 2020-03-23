@@ -230,6 +230,16 @@
   cursor: pointer;
 }
 
+.sm-spinner {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.sm-spinner div {
+  transform-origin: 20px 20px !important;
+  animation: lds-spinner 1.2s linear infinite;
+}
+
 .lds-spinner {
   color: official;
   display: inline-block;
