@@ -84,8 +84,8 @@ ul>li {
 
 .transition {
   /* transition: all 1s; */
-  -webkit-animation-duration: 5s;
-  animation-duration: 5s;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
@@ -308,8 +308,7 @@ ul>li {
     position: absolute;
     top: 65%;
     z-index: 3;
-    left: 50%;
-
+    left: 48%;
   }
 }
 
@@ -324,8 +323,7 @@ ul>li {
     position: absolute;
     top: 50%;
     z-index: 3;
-    left: 50%;
-
+    left: 48%;
   }
   .main-title-container {
     position: absolute;

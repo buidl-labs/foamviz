@@ -56,10 +56,10 @@ const HomePage = () => {
         {/* </div> */}
         <Img
           container={children => {
-            return <div className="transition fadeIn">{children}</div>;
+            return <div className="transition fadeIn" style={{background: '#04063D', zIndex: 3}}>{children}</div>;
           }}
           src={[neonWorldBGWebP, neonWorldBG]}
-          loader={<img alt="bg" src={neonWorldBlur} width="100%" />}
+          loader={<div style={{background: '#04063D', width:'100vw', height: '100vh', zIndex: 3, transition: 'all 1s'}}></div>}
         />
       </div>
       <section className="hero bg-about">
