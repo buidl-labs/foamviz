@@ -340,7 +340,7 @@ class VizPOIAnalytics extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>FOAMViz - POI Analytics</title>
+          <title>FOAMViz - Statistics around POI's</title>
         </Helmet>
         {fetchingData && <LoaderWhenFetchingData />}
         <Tooltip allHoveredPOIDetails={hover} />

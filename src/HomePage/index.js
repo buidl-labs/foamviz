@@ -11,9 +11,9 @@ import 'bulma/css/bulma.css';
 
 // background cover
 import neonWorldBG from '../assets/imgs/background.png';
-import neonWorldBlur from '../assets/imgs/background_blur.jpg';
+// import neonWorldBlur from '../assets/imgs/background_blur.jpg';
 import neonWorldBGWebP from '../assets/imgs/backgroundWebP.webp';
-import mainTitle from '../assets/imgs/mainlogo2.svg';
+// import mainTitle from '../assets/imgs/mainlogo2.svg';
 import arrow from '../assets/imgs/down-arrow.svg';
 
 // viz images and movies
@@ -81,7 +81,7 @@ const HomePage = () => {
                 <div className="make-it-center">
                   <h1 className="viz-title">
                     <Link to="/poi-analytics" className="card-link">
-                      Analyze <br /> POI Activity by <br /> density
+                      Analyze <br /> POI Activity by <br /> density & staking
                     </Link>
                   </h1>
                   <br />

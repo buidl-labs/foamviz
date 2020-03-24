@@ -250,7 +250,7 @@ class VizCartographerJourney extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>FOAMViz - Cartographer Journey</title>
+          <title>FOAMViz - Cartographer's Journey</title>
         </Helmet>
         <ErrorDialogueBox
           display={hasError}

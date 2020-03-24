@@ -1,6 +1,7 @@
 import React from 'react';
 import Geohash from 'latlon-geohash';
 import debounce from 'lodash/debounce';
+import { Helmet } from 'react-helmet';
 import Globe from './components/globe';
 import Analytics from './components/analytics';
 import TimeSeries from './components/timeseries';
@@ -247,6 +248,9 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>FOAMViz - Evolution on 🌎</title>
+        </Helmet>
         <div className="i-tooltip"><img alt="help" src={quesMark} width="20px" />
           <span className="i-tooltiptext">Shows all POIs since inception of FOAM on a globe for a bird eye's view</span>
         </div>
