@@ -41,14 +41,19 @@ const HomePage = () => {
         <title>FOAMViz Project</title>
       </Helmet>
       <div className="head-container mb-7">
-        <div className="main-title-container">
-          <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} />
-          <img
+        {/* <div className="main-title-container"> */}
+          <div className="parent-title">
+            <span className="child-the">THE</span>
+            <span className="child-foamviz">FOAMVIZ</span>
+            <span className="child-project">PROJECT</span>
+          </div>
+          {/* <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} /> */}
+          {/* <img
             className="home-arrow dm-none"
             alt="The FOAMViz Project"
             src={arrow}
-          />
-        </div>
+          /> */}
+        {/* </div> */}
         <Img
           container={children => {
             return <div className="transition fadeIn">{children}</div>;
@@ -61,7 +66,7 @@ const HomePage = () => {
         <div className="centralised">
           <h1 className="viz-title">
             About FOAMViz Project:
-            </h1>
+          </h1>
           <br />
           <p className="subinfo">
             A suit of <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://github.com/buidl-labs/foamviz"> open source</a> visualization tools over FOAM TCR's data to analyze ecosystem activity on <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://foam.space"> FOAM's map</a>.

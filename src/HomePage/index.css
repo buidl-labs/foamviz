@@ -10,6 +10,46 @@
   padding: 1.5rem 0;
 }
 
+.parent-title {
+  position: absolute;
+  z-index: 3;
+  top: 40%;
+  left: 50%;
+  width: 300px;
+  height: 200px;
+  transform: translateX(-150px);
+  color: white;
+  mix-blend-mode: hard-light;
+}
+
+.child-the {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 56px;
+}
+
+.child-foamviz {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  font-weight: 900;
+  font-size: 72px;
+  line-height: 84px;
+}
+
+.child-project {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-100px);
+  top: calc(72px + 40px);
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 56px;
+}
+
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -245,6 +285,20 @@ ul>li {
   margin-top: -20rem !important;
 }
 
+@media only screen and (max-width: 1200px) {
+  .parent-title {
+    position: absolute;
+    z-index: 3;
+    top: 30%;
+    left: 50%;
+    width: 300px;
+    height: 200px;
+    transform: translateX(-150px);
+    color: white;
+    mix-blend-mode: hard-light;
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   .head-container {
     width: 100vw;
@@ -258,6 +312,42 @@ ul>li {
     left: calc(50% - 11rem);
     top: 8%;
     text-align: center;
+  }
+  .parent-title {
+    position: absolute;
+    z-index: 3;
+    top: 25%;
+    left: 50%;
+    width: 150px;
+    height: 100px;
+    transform: translateX(-75px);
+    color: white;
+    mix-blend-mode: hard-light;
+  }
+  .child-the {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 36px;
+  }
+  .child-foamviz {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 52px;
+  }
+  .child-project {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50px);
+    top: calc(36px + 20px);
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 42px;
   }
   .make-it-center {
     width: 100%;
@@ -295,6 +385,42 @@ ul>li {
   }
   .the-foamviz-project {
     font-size: 1rem !important;
+  }
+  .parent-title {
+    position: absolute;
+    z-index: 3;
+    top: 10%;
+    left: 50%;
+    width: 150px;
+    height: 100px;
+    transform: translateX(-75px);
+    color: white;
+    mix-blend-mode: hard-light;
+  }
+  .child-the {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 36px;
+  }
+  .child-foamviz {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 42px;
+  }
+  .child-project {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50px);
+    top: calc(36px + 20px);
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 18px;
   }
   .make-it-center {
     width: 100%;
