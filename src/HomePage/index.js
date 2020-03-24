@@ -42,17 +42,17 @@ const HomePage = () => {
       </Helmet>
       <div className="head-container mb-7">
         {/* <div className="main-title-container"> */}
-          <div className="parent-title">
-            <span className="child-the">THE</span>
-            <span className="child-foamviz">FOAMVIZ</span>
-            <span className="child-project">PROJECT</span>
-          </div>
-          {/* <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} /> */}
-          {/* <img
-            className="home-arrow dm-none"
-            alt="The FOAMViz Project"
-            src={arrow}
-          /> */}
+        <div className="parent-title">
+          <span className="child-the">THE</span>
+          <span className="child-foamviz">FOAMVIZ</span>
+          <span className="child-project">PROJECT</span>
+        </div>
+        {/* <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} /> */}
+        <img
+          className="home-arrow arrow-pos dm-none"
+          alt="The FOAMViz Project"
+          src={arrow}
+        />
         {/* </div> */}
         <Img
           container={children => {

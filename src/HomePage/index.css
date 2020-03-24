@@ -102,6 +102,14 @@ ul>li {
   -o-animation: bounce 2s infinite;
 }
 
+.arrow-pos {
+  position: absolute;
+  top: 75%;
+  z-index: 3;
+  left: 50%;
+  transform: translateX(-16px);
+}
+
 @-webkit-keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     -webkit-transform: translateY(0);
@@ -297,6 +305,13 @@ ul>li {
     color: white;
     mix-blend-mode: hard-light;
   }
+  .arrow-pos {
+    position: absolute;
+    top: 65%;
+    z-index: 3;
+    left: 50%;
+    transform: translateX(-16px);
+  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -305,6 +320,13 @@ ul>li {
   }
   .the-foamviz-project {
     font-size: 1.5rem !important;
+  }
+  .arrow-pos {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    left: 50%;
+    transform: translateX(-16px);
   }
   .main-title-container {
     position: absolute;
