@@ -275,7 +275,7 @@ class VizCartographerJourney extends React.Component {
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '400px', backgroundColor: '#000' }}>
+            <div style={{ height: '440px', backgroundColor: '#000' }}>
               <FoamNavbar
                 title="Cartographer's journey"
                 info="Part of FOAMViz project"
