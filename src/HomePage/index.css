@@ -95,7 +95,7 @@ ul>li {
 }
 
 .home-arrow {
-  width: 2rem;
+  width: 32px;
   animation: bounce 2s infinite;
   -webkit-animation: bounce 2s infinite;
   -moz-animation: bounce 2s infinite;
@@ -106,8 +106,7 @@ ul>li {
   position: absolute;
   top: 75%;
   z-index: 3;
-  left: 50%;
-  transform: translateX(-16px);
+  left: 48%;
 }
 
 @-webkit-keyframes bounce {
@@ -310,7 +309,7 @@ ul>li {
     top: 65%;
     z-index: 3;
     left: 50%;
-    transform: translateX(-16px);
+
   }
 }
 
@@ -326,7 +325,7 @@ ul>li {
     top: 50%;
     z-index: 3;
     left: 50%;
-    transform: translateX(-16px);
+
   }
   .main-title-container {
     position: absolute;
