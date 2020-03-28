@@ -31,11 +31,11 @@ const TopCartographersDetails = props => {
       {top5Cartographers.length ? (
         <div className="top-c-main-container">
           <div className="nav-container m-nav">
+            <div className="nav-subheading m-text-center bg-black">
+              Click to view their journey
+            </div>
             <div className="nav-heading m-text-center">
               Top Cartographers
-            </div>
-            <div className="nav-subheading m-text-center">
-              Click to view their journey
             </div>
           </div>
           <div className="top-c-container">

@@ -87,6 +87,7 @@
 
 .cartographer-profile-pic {
   height: 8rem;
+  width: 8rem;
   border-radius: 4rem;
 }
 
@@ -502,6 +503,7 @@
   }
   .cartographer-profile-pic {
     height: 4rem !important;
+    width: 4rem;
     border-radius: 4rem;
   }
   .view-btn {

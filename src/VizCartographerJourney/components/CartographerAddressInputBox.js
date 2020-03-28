@@ -26,7 +26,6 @@ const CartographerAddressInputBox = (props) => {
           info="Part of FOAMViz project"
         />
       </div>
-      <div className="" />
       <input
         id="cartographer-address"
         ref={(input) => {
