@@ -233,7 +233,7 @@ class VizDataGlobe extends React.Component {
       arrowUp,
     } = this.state;
 
-    if (loading) return <Loader text="Please Wait, while we are fetching data for the enitre world..." />;
+    if (loading) return <Loader text={["Please Wait,", <br /> ,"while we are fetching data for the enitre world..."]} />;
 
     const [min, max] = [0, dataDateChunks.length - 1];
 
