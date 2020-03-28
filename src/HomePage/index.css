@@ -1,4 +1,7 @@
 /* home-page */
+.home-page {
+  font-family: 'Inter', sans-serif !important;
+}
 
 .head-container {
   width: 100vw;
@@ -15,9 +18,9 @@
   z-index: 3;
   top: 40%;
   left: 50%;
-  width: 300px;
+  width: 350px;
   height: 200px;
-  transform: translateX(-150px);
+  transform: translateX(-175px);
   color: white;
   mix-blend-mode: hard-light;
 }
@@ -45,7 +48,7 @@
   left: 50%;
   transform: translateX(-100px);
   top: calc(72px + 40px);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 48px;
   line-height: 56px;
 }
@@ -300,7 +303,7 @@ ul>li {
     left: 50%;
     width: 300px;
     height: 200px;
-    transform: translateX(-150px);
+    transform: translateX(-175px);
     color: white;
     mix-blend-mode: hard-light;
   }
@@ -321,9 +324,9 @@ ul>li {
   }
   .arrow-pos {
     position: absolute;
-    top: 50%;
+    top: 40%;
     z-index: 3;
-    left: 48%;
+    left: 45%;
   }
   .main-title-container {
     position: absolute;
@@ -339,7 +342,7 @@ ul>li {
     left: 50%;
     width: 150px;
     height: 100px;
-    transform: translateX(-75px);
+    transform: translateX(-87px);
     color: white;
     mix-blend-mode: hard-light;
   }
