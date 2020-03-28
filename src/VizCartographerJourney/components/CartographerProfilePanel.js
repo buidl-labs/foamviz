@@ -32,7 +32,7 @@ const CartographerProfilePanel = (props) => {
   if (!display) return null;
 
   return (
-    <div className="abs-container">
+    <div className="abs-container ">
       <div className="dm-none get-w-100">
         <FoamNavbar
           title="Cartographer's journey"
@@ -46,7 +46,7 @@ const CartographerProfilePanel = (props) => {
             className="cartographer-profile-pic"
             src={cartographerProfilePic}
             loader={(
-              <div className="lds-spinner">
+              <div className="lds-spinner control-panel-top">
                 <div />
                 <div />
                 <div />
@@ -65,8 +65,8 @@ const CartographerProfilePanel = (props) => {
           />
           <h2>{cartographer.name}</h2>
         </div>
-        <hr className="divider" />
-        <div className="m-flx">
+        <hr className="control-panel-divider" />
+        <div className="m-flx control-panel-bottom">
           <p className="mapview-title">MAP VIEW</p>
           <div className="profile-panel">
             <div className="toggleButton">
@@ -95,17 +95,22 @@ const CartographerProfilePanel = (props) => {
             </div>
           </div>
 
-        </div>
         <div className="cartographer-analytics">
           <p className="analytic-title dm-none">ANALYTICS</p>
           <div className="analytic-title">
-            <span className="big-int m-big-int">{profileAnalytics.pointsAdded}</span>
-            <p className="analytic-value-title">points added</p>
+            {/* <span className="big-int m-big-int">{profileAnalytics.pointsAdded}</span> */}
+            <span className="fs-22">{profileAnalytics.pointsAdded}</span>
+            {/* <p className="analytic-value-title">points added</p> */}
+            <p className="tooltip-key count-bottom">Total points added</p>
           </div>
           <div className="analytic-title">
-            <span className="big-int m-big-int">{profileAnalytics.pointsChallenged}</span>
-            <p className="analytic-value-title">points challenged</p>
+            {/* <span className="big-int m-big-int">{profileAnalytics.pointsChallenged}</span> */}
+            <span className="fs-22">{profileAnalytics.pointsChallenged}</span>
+            {/* <p className="analytic-value-title">points challenged</p> */}
+            <p className="tooltip-key count-bottom">Total points challenged</p>
           </div>
+        </div>
+
         </div>
       </div>
     </div>

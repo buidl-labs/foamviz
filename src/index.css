@@ -109,6 +109,23 @@ code {
   background: rgba(101, 105, 237, 250) !important;
 }
 
+.control-panel-top {
+  margin: 20px 20px 0 20px;
+}
+
+.control-panel-top-p {
+  padding: 20px 20px 0 20px;
+}
+
+.control-panel-bottom {
+  margin: 0 20px 20px 20px;
+}
+
+.control-panel-divider {
+  margin: 20px 0 20px 0;
+}
+
+
 @keyframes lds-ripple {
   0% {
     top: 36px;

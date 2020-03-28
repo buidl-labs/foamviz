@@ -7,16 +7,6 @@
   right: 2vw;
 }
 
-.main-container-bottom {
-  background: black;
-  border: none;
-  padding: 1.5rem;
-  width: calc(100vw - 32rem);
-  border-radius: 0.2rem;
-  outline: transparent;
-  color: #ffffff;
-}
-
 .date-row {
   margin-top: 0px;
   margin-bottom: 10px;

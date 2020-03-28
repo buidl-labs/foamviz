@@ -25,7 +25,7 @@
   background: black;
   border: none;
   padding: 1.5rem;
-  width: calc(100vw - 32rem);
+  width: calc(100vw - 80px);
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
@@ -34,14 +34,13 @@
 .main-container {
   background: black;
   border: none;
-  padding: 1.5rem;
-  width: 100%;
+  /* width: 100%; */
   outline: transparent;
   color: #ffffff;
 }
 
 .profile-container {
-  height: calc(100vh - 13rem);
+  /* height: calc(100vh - 13rem); */
 }
 
 .get-w-100 > .nav-container {
@@ -223,8 +222,8 @@
 }
 
 .placeholder-img {
-  height: 8rem;
-  width: 8rem;
+  height: 6rem;
+  width: 6rem;
   border-radius: 4rem;
 }
 
@@ -460,7 +459,7 @@
     transform: none !important;
   }
   .profile-container {
-    height: calc(100vh - 13rem);
+    /* height: calc(100vh - 13rem); */
     position: absolute !important;
     top: 200px !important;
   }

@@ -30,7 +30,7 @@ export default ({
             >
               {({ countUpRef }) => (<p className="mt-0 fs-22 count-bottom-num" ref={countUpRef} />)}
             </CountUp>
-            <p className="fs-14 tooltip-key count-bottom">Total FOAM tokens staked on the planet</p>
+            <p className="tooltip-key count-bottom">Total FOAM tokens staked on the planet</p>
             <CountUp
               delay={0}
               preserveValue
@@ -41,7 +41,7 @@ export default ({
             >
               {({ countUpRef }) => (<p className="fs-22 count-bottom-num mt-2" ref={countUpRef} />)}
             </CountUp>
-            <p className="md-1 fs-14 tooltip-key count-bottom">Net value of FOAM tokens staked</p>
+            <p className="md-1 tooltip-key count-bottom">Net value of FOAM tokens staked</p>
           </div>
           <div className="rotation-container">
             <div className="rotation">Rotation:</div>
