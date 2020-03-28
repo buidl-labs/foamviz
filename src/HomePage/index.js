@@ -56,10 +56,10 @@ const HomePage = () => {
         {/* </div> */}
         <Img
           container={children => {
-            return <div className="transition fadeIn" style={{background: '#04063D', zIndex: 3}}>{children}</div>;
+            return <div className="transition fadeIn" style={{ background: '#04063D', zIndex: 3 }}>{children}</div>;
           }}
           src={[neonWorldBGWebP, neonWorldBG]}
-          loader={<div style={{background: '#04063D', width:'100vw', height: '100vh', zIndex: 3, transition: 'all 1s'}}></div>}
+          loader={<div style={{ background: '#04063D', width: '100vw', height: '100vh', zIndex: 3, transition: 'all 1s' }}></div>}
         />
       </div>
       <section className="hero bg-about">
@@ -194,11 +194,13 @@ const HomePage = () => {
                 </Link>
               </div>
             </div>
-            <p className="buidl-labs-signature">
-              Made with <span style={{ color: 'orangered' }}>&hearts;</span> by team <a target="_blank" rel="noopener noreferrer" href="http://buidllabs.io/" className="card-link">@BUIDL Labs</a>
-            </p>
           </div>
         </div>
+      </section>
+      <section style={{ background: 'black' }}>
+        <p className="buidl-labs-signature">
+          Made with <span style={{ color: 'orangered' }}>&hearts;</span> by <a target="_blank" rel="noopener noreferrer" href="http://buidllabs.io/" className="card-link">BUIDL Labs</a>
+        </p>
       </section>
     </div>
   );
