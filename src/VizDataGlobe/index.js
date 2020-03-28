@@ -309,12 +309,12 @@ class VizDataGlobe extends React.Component {
         </div>
         <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={220}
+            overflowHeight={180}
             marginTop={128}
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '380px' }}>
+            <div style={{ height: '450px' }}>
               <Analytics
                 display
                 arrowUp={arrowUp}

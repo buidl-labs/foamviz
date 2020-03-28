@@ -231,10 +231,10 @@ input:checked+.rotation-slider:before {
   .m-abs-container-bottom-viz3 {
     z-index: 7 !important;
     position: absolute !important;
-    top: 13vh !important;
+    top: 180px;
     left: 0 !important;
     transform: none !important;
-    width: 100% !important;
+    width: calc(100% - 3.2rem);
   }
   .mob-mtop5 {
     margin-top: 7rem;
@@ -243,7 +243,7 @@ input:checked+.rotation-slider:before {
     margin-top: 2rem;
   }
   .m-main-container-top {
-    width: 100% !important;
+    width: calc(100% - 3rem);
   }
   .m-dflex {
     display: flex;
