@@ -243,7 +243,10 @@ class VizCartographerJourney extends React.Component {
       arrowUp
     } = this.state;
 
-    if (loading) return <Loader text="Please Wait, while we are fetching your data..." />;
+    const { match } = this.props;
+    if (loading && match && match.params && match.params.id) return <Loader text={`Please Wait, while we are fetching  data of cartographer ${match.params.id.substring(0, 20)}...`} />;
+
+    if (loading) return <Loader text="Please Wait, while we are fetching cartographer's data..." />;
 
     const [min, max] = [0, data.length - 1];
 

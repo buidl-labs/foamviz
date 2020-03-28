@@ -325,7 +325,7 @@ class VizPOIAnalytics extends React.Component {
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
-      return <LoaderWhileFetchingLocation text="Waiting for User to grant location permission. If denied, the project will be redirected to FOAM's HQ City - New York, USA" />
+      return <LoaderWhileFetchingLocation text="Waiting for you to grant location permission. If denied, the you will be redirected to New York, USA (FOAM's HQ City)" />
     }
 
     const layers = this.renderLayers();
