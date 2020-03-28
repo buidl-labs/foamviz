@@ -185,8 +185,7 @@ code {
     height: 20px;
     width: 20px;
     margin-left: 47%;
-    margin-top: -15px;
-    margin-bottom: 10px;
+    margin-top: 15px;
     border-radius: 10px;
     transition: all 0.5s;
   }
@@ -199,5 +198,8 @@ code {
   .i-tooltip .i-tooltiptext {
     top: 400% !important;
     left: -1250% !important;
+  }
+  .m-p-nav {
+    padding: 2rem 0;
   }
 }

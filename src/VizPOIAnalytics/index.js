@@ -358,7 +358,7 @@ class VizPOIAnalytics extends React.Component {
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp})}
           >
-            <div style={{ height: '480px' }}>
+            <div style={{ height: '550px' }}>
               <POIAnalyticsControlPanel
                 arrowUp={arrowUp}
                 settings={settings}

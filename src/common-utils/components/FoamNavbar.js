@@ -23,7 +23,7 @@ const FoamNavbar = props => {
             : 'dn m-show pull-out rotate-arrow-0'
         }
       />
-      <div className="nav-heading m-text-center">{title}</div>
+      <div className="nav-heading m-text-center m-p-nav">{title}</div>
     </div>
   );
 };
