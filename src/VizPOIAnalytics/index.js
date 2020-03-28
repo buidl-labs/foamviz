@@ -353,7 +353,7 @@ class VizPOIAnalytics extends React.Component {
         </div>
         <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={100}
+            overflowHeight={170}
             marginTop={128}
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp})}
