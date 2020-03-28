@@ -1,6 +1,8 @@
 /* home-page */
 .home-page {
   font-family: 'Inter', sans-serif !important;
+  line-height: 1.5;
+  letter-spacing: 0.006rem;
 }
 
 .head-container {
@@ -79,6 +81,7 @@
 ul>li {
   margin-left: 20px;
   list-style-type: disc;
+  margin-bottom: 20px;
 }
 
 .full-height {
@@ -284,6 +287,7 @@ ul>li {
 .card-link {
   text-decoration: none;
   color: #ffffff;
+  line-height: 1.2;
 }
 
 .card-link:hover {
