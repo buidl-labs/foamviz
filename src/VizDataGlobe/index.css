@@ -56,6 +56,7 @@
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
+  height: calc(100vh - 383px);
 }
 
 h1 {
@@ -90,7 +91,7 @@ h2 {
   border: none;
   padding: 1.5rem;
   height: 98px;
-  width: calc(100vw - 80px);
+  width: calc(100vw - 40px - 3rem);
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
