@@ -19,7 +19,7 @@ const CartographerJourneyTooltip = (props) => {
           <span className="tooltip-value">
             {hoveredObjectDetails.details.from.name}
           </span>
-          {' '}
+          <br />
           to
           {' '}
           <span className="tooltip-value">
