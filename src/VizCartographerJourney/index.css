@@ -120,7 +120,7 @@
 
 .cartographer-analytics {
   line-height: 15px;
-  margin-top: 1.5rem;
+  margin-top: 3rem;
 }
 
 .date-row {
@@ -372,7 +372,7 @@
 .top-c {
   /* border: grey 0.5px solid !important; */
   cursor: pointer;
-  width: 20vw !important;
+  width: 20vw;
   min-width: 300px;
 }
 
@@ -415,6 +415,11 @@
     display: flex;
     justify-content: center;
     margin-top: 12px;
+    position: fixed;
+    left: 20px;
+    bottom: 0;
+    margin-bottom: -150px;
+    width: 150px;
   }
   .abs-container {
     z-index: 7;
@@ -426,10 +431,10 @@
   }
   .m-abs-bottom {
     z-index: 7;
-    position: absolute !important;
-    top: 100px !important;
-    right: 0 !important;
-    width: 100% !important;
+    position: absolute;
+    top: 170px;
+    right: 0;
+    width: calc(100% - 3rem);
   }
   .loader-text {
     margin-top: 100px;
@@ -457,7 +462,7 @@
   }
   .top-c {
     cursor: pointer;
-    width: 100% !important;
+    width: calc(100% - 1rem);
     min-width: 300px;
     background: #282828 !important;
     border-radius: 4px !important;
@@ -477,8 +482,9 @@
   }
   .profile-container {
     /* height: calc(100vh - 13rem); */
-    position: absolute !important;
-    top: 200px !important;
+    position: absolute;
+    top: 230px;
+    width: 100%;
   }
   .analytic-title {
     margin-bottom: 0.75rem;
@@ -500,6 +506,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: -180px;
   }
   .m-big-int {
     font-weight: 500 !important;
@@ -526,5 +536,8 @@
     color: #fff;
     font-size: 12px;
     z-index: 7;
+  }
+  .address-input-box {
+    width: calc(100vw - 3rem - 20px);
   }
 }

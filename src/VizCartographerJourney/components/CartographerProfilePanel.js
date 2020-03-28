@@ -67,9 +67,9 @@ const CartographerProfilePanel = props => {
           />
           <h2>{cartographer.name}</h2>
         </div>
-        <hr className="control-panel-divider" />
+        <hr className="dm-none control-panel-divider" />
         <div className="m-flx c-profile-panel-bottom">
-          <p>MAP VIEW</p>
+          {/* <p>MAP VIEW</p> */}
           {/* <div className="profile-panel">
             
           </div> */}
@@ -99,7 +99,7 @@ const CartographerProfilePanel = props => {
           </div>
 
           <div className="cartographer-analytics">
-            <p className="dm-none">ANALYTICS</p>
+            {/* <p className="dm-none">ANALYTICS</p> */}
             <div className="mb-2">
               {/* <span className="big-int m-big-int">{profileAnalytics.pointsAdded}</span> */}
               <span className="fs-22">{profileAnalytics.pointsAdded}</span>
