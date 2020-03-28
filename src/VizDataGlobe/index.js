@@ -12,6 +12,9 @@ import './index.css';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import CountUp from 'react-countup';
 import quesMark from '../assets/imgs/question.svg';
+import {
+  getFOAMUSDRate,
+} from '../VizPOIAnalytics/utils/helper';
 
 const transformData = (data) => data
   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
@@ -119,25 +122,28 @@ class VizDataGlobe extends React.Component {
   }
 
   async initComponent(response) {
-    const data = transformData(response);
-    const dataDateChunks = Object.values(getDataDateChunks(data));
-    const foamUSDResponse = await fetch('https://poloniex.com/public?command=returnTicker').then((res) => res.json());
-    const { BTC_FOAM, USDC_BTC } = foamUSDResponse;
+    try {
+      const FOAMTokenInUSD = await getFOAMUSDRate();
+      const data = transformData(response);
+      const dataDateChunks = Object.values(getDataDateChunks(data));
 
-    this.setState({
-      loading: false,
-      data,
-      filteredData: data,
-      dataDateChunks,
-      timelineMin: 0,
-      timelineMax: dataDateChunks.length - 1,
-      globalMax: dataDateChunks.length - 1,
-      totalStakedValue: data
-        .map((d) => d.stakedvalue)
-        .reduce((a, b) => a + b, 0)
-        .toFixed(2),
-      foamUSDRate: BTC_FOAM.last * USDC_BTC.last,
-    });
+      this.setState({
+        loading: false,
+        data,
+        filteredData: data,
+        dataDateChunks,
+        timelineMin: 0,
+        timelineMax: dataDateChunks.length - 1,
+        globalMax: dataDateChunks.length - 1,
+        totalStakedValue: data
+          .map((d) => d.stakedvalue)
+          .reduce((a, b) => a + b, 0)
+          .toFixed(2),
+        foamUSDRate: FOAMTokenInUSD,
+      });
+    } catch (error) {
+      console(error);
+    }
   }
 
   updateDataOnGlobe(newMinVal, newMaxVal) {
