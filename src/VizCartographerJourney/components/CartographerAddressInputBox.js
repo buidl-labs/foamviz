@@ -19,7 +19,7 @@ const CartographerAddressInputBox = (props) => {
   if (display === false) return null;
 
   return (
-    <div className="abs-container input-container max-width-any">
+    <div className="abs-container input-container">
       <div className="dm-none get-w-100">
         <FoamNavbar
           title="Cartographer's journey"
@@ -31,7 +31,7 @@ const CartographerAddressInputBox = (props) => {
         ref={(input) => {
           cartographerAddressInput = input;
         }}
-        className="address-input-box main-container"
+        className="address-input-box main-container w-100-p-1-5"
         type="text"
         placeholder="Enter Cartographer Address"
         onKeyPress={getCartographerDetailsWhenPressedEnter}

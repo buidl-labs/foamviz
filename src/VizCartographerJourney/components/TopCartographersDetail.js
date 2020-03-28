@@ -42,7 +42,7 @@ const TopCartographersDetails = props => {
             {top5Cartographers.map((c, key) => (
               <div
                 key={key}
-                className="top-c address-input-box main-container"
+                className="top-c main-container w-100-p-1-5"
                 onClick={() => getCartographerDetails(c.user)}
               >
                 <div className="info-container">

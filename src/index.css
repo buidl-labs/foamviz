@@ -12,6 +12,13 @@ code {
   font-family: 'Roboto Mono', monospace !important;
 }
 
+.mb-2 {
+  margin-bottom: 2rem;
+}
+.mb-1{
+  margin-bottom: 1rem;
+}
+
 .card-link {
   text-decoration: none;
 }
@@ -122,7 +129,7 @@ code {
 }
 
 .control-panel-divider {
-  margin: 20px 0 20px 0;
+  margin: 20px 0;
 }
 
 

@@ -10,8 +10,17 @@
   /* max-width: 280px; */
 }
 
+.input-container {
+  width: 300px;
+}
+
 .max-width-any {
   max-width: 500px !important;
+}
+
+.w-100-p-1-5 {
+  width: calc(100% - 2rem);
+  padding: 1.5rem 1rem;
 }
 
 .abs-container-bottom {
@@ -25,7 +34,7 @@
   background: black;
   border: none;
   padding: 1.5rem;
-  width: calc(100vw - 80px);
+  width: calc(100vw - 40px - 3rem);
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
@@ -41,9 +50,12 @@
 
 .profile-container {
   /* height: calc(100vh - 13rem); */
+  height: calc(100vh - 16rem);
+  font-size: 12px;
+  line-height: 1.833;
 }
 
-.get-w-100 > .nav-container {
+.get-w-100>.nav-container {
   width: 100% !important;
 }
 
@@ -92,8 +104,13 @@
 
 .profile-panel {
   text-align: center;
-  margin-top: 8px;
-  margin-bottom: 1rem;
+}
+
+.c-profile-panel-top {
+  padding: 20px 20px 0 20px;
+}
+.c-profile-panel-bottom {
+  padding: 0 20px 20px 20px;
 }
 
 .big-int {
@@ -103,7 +120,7 @@
 
 .cartographer-analytics {
   line-height: 15px;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
 }
 
 .date-row {
@@ -463,20 +480,8 @@
     position: absolute !important;
     top: 200px !important;
   }
-  .cartographer-analytics {
-    position: absolute;
-    top: -2.65rem;
-    left: 8rem;
-    display: flex;
-    justify-content: space-evenly;
-  }
   .analytic-title {
     margin-bottom: 0.75rem;
-  }
-  .cartographer-analytics {
-    line-height: 16px;
-    margin-top: 6rem;
-    width: 65%;
   }
   .mapview-title {
     margin-top: 1rem;

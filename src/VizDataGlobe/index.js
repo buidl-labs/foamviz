@@ -74,10 +74,12 @@ class VizDataGlobe extends React.Component {
     return new Promise((resolve, reject) => {
       try {
         let refreshed = false;
-        const dataFromStorage = JSON.parse(localStorage.getItem('viz3data'));
+        const dataFromStorage = localStorage.getItem('viz3data');
+        console.log(dataFromStorage, localStorage.getItem('viz3data'))
         // const loading = localStorage.getItem('loading');
         if (dataFromStorage) {
-          resolve(dataFromStorage);
+          const parsedDataFromStorage = JSON.parse(dataFromStorage);
+          resolve(parsedDataFromStorage);
           // console.log('state1');
         } else if (store.loading) {
           // console.log('state2');
