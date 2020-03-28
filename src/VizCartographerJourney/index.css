@@ -524,8 +524,7 @@
     padding: 0.5rem !important;
   }
   .cartographerJourneyTooltipStyle {
-    width: 90% !important;
-    max-width: none !important;
+    width: calc(95% - 48px) !important;
     position: absolute !important;
     left: 5% !important;
     top: 2.5% !important;
