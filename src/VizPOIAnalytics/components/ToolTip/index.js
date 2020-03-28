@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { numberWithCommas } from '../../../VizCartographerJourney/utils/helper';
+
 const Tooltip = props => {
   const { allHoveredPOIDetails } = props || {};
 
@@ -29,21 +31,21 @@ const Tooltip = props => {
       <div className="tooltip-key">POI&apos;s:
         {' '}
         <span className="tooltip-value">
-          {allHoveredPOIDetails.details.numOfPoints}
+          {numberWithCommas(allHoveredPOIDetails.details.numOfPoints)}
         </span>
       </div>
       <div className="tooltip-key">
         Accumulated sum of FOAM tokens:
         {' '}
         <span className="tooltip-value">
-          {allHoveredPOIDetails.details.sumOfFoamTokens}
+          {numberWithCommas(allHoveredPOIDetails.details.sumOfFoamTokens)}
         </span>
       </div>
       <div className="tooltip-key">
         Accumulated value of FOAM tokens:
         {' '}
         <span className="tooltip-value">
-          {'$ ' + allHoveredPOIDetails.details.sumValInUSD}
+          {'$ ' + numberWithCommas(allHoveredPOIDetails.details.sumValInUSD)}
         </span>
       </div>
     </div>

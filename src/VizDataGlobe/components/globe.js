@@ -2,6 +2,7 @@ import React from 'react';
 import Globe from 'react-globe.gl';
 import earthNight from '../imgs/earth-night.jpg';
 import earthPlane from '../imgs/earth-plane.jpg';
+import { numberWithCommas } from '../../VizCartographerJourney/utils/helper';
 
 const getColor = ({ sumWeight }) => {
   if (sumWeight <= 2000) {
@@ -18,7 +19,7 @@ const tooltipInfo = (d, USDRate) => {
 
   const numOfStakedPOIs = d.points.length;
   const totalValueOfStakedPOIs = d.sumWeight;
-  const USDValueOfStakedPOIs = parseFloat((d.sumWeight * USDRate).toFixed(4));
+  const USDValueOfStakedPOIs = parseFloat((d.sumWeight * USDRate).toFixed(2));
 
   return (
     `
@@ -28,19 +29,19 @@ const tooltipInfo = (d, USDRate) => {
         <div class="tooltip-key">
           Number of POI's:
           <span class="tooltip-value">
-            ${'  ' + numOfStakedPOIs}
+            ${'  ' + numberWithCommas(numOfStakedPOIs)}
           </span>
         </div>
         <div class="tooltip-key">
           Accumulated sum of FOAM tokens:
           <span class="tooltip-value">
-          ${'  ' + totalValueOfStakedPOIs}
+          ${'  ' + numberWithCommas(totalValueOfStakedPOIs)}
           </span>
         </div>
         <div class="tooltip-key">
           Accumulated value of FOAM tokens:
           <span class="tooltip-value">
-          ${'$ ' + USDValueOfStakedPOIs}
+          ${'$ ' + numberWithCommas(USDValueOfStakedPOIs)}
           </span>
         </div>
       </div>

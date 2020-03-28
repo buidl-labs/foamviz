@@ -12,6 +12,8 @@ export const getCartographerProfile = async cartographerAddress => {
   return Promise.resolve(profile);
 };
 
+export const numberWithCommas = num => Number(num).toLocaleString();
+
 export const getInitialViewportState = () => {
   return {
     longitude: -80,
