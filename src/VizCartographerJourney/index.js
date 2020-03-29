@@ -246,7 +246,7 @@ class VizCartographerJourney extends React.Component {
     } = this.state;
 
     const { match } = this.props;
-    if (loading && match && match.params && match.params.id) return <Loader text={["Please Wait,", <br />," while we are fetching  data of cartographer", <br />,` ${match.params.id.substring(0, 20)}...`]} />;
+    if (loading && match && match.params && match.params.id) return <Loader text={["Please Wait,", <br />," while we are fetching", <br />,` ${match.params.id.substring(0, 20)}...`,<br />," Cartographer's data"]} />;
 
     if (loading) return <Loader text={["Please Wait,", <br />," while we are fetching cartographer's data..."]} />;
 
