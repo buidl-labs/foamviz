@@ -193,6 +193,8 @@ class VizCartographerJourney extends React.Component {
     const { viewport } = this.state;
     let { pitchFor3d } = this.state;
 
+    if (!this.mapRefVizTwo) return;
+
     const map = this.mapRefVizTwo.getMap();
     const mapPitch = map.getPitch();
 
@@ -353,7 +355,7 @@ class VizCartographerJourney extends React.Component {
           })}
           initialViewState={getInitialViewportState()}
           viewState={{ ...viewport }}
-          onViewStateChange={() => { this.updateViewport().then(() => { }); }}
+          onViewStateChange={() => { this.updateViewport() }}
           controller
         >
           <StaticMap
