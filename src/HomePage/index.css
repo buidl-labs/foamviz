@@ -409,6 +409,10 @@ ul>li {
   .head-container {
     width: 100vw;
   }
+  .centralised {
+    width: 100%;
+    color: white;
+  }
   .the-foamviz-project {
     font-size: 1rem !important;
   }
@@ -463,7 +467,7 @@ ul>li {
     text-align: center;
   }
   .subinfo {
-    width: 80vw;
+    width: 85vw;
     font-size: 1rem !important;
   }
   .video-container {

@@ -61,10 +61,10 @@ class VizDataGlobe extends React.Component {
   }
 
   async componentDidMount() {
-    // window.onresize = () => {
-    //   if (window.RT) clearTimeout(window.RT);
-    //   window.RT = setTimeout(() => window.location.reload(false), 100);
-    // };
+    window.onresize = () => {
+      if (window.RT) clearTimeout(window.RT);
+      window.RT = setTimeout(() => window.location.reload(false), 100);
+    };
 
     const response = await this.getData();
   

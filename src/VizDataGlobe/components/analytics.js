@@ -18,7 +18,7 @@ export default ({
           info="Part of FOAMViz project"
           arrowUp={arrowUp}
         />
-        <div className="main-container-top m-main-container-top">
+        <div className="main-container-top m-main-container-top" style={{ boxSizing: 'content-box' }}>
           <div className="dm-none">
             <CountUp
               delay={0}

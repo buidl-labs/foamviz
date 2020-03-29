@@ -541,6 +541,10 @@
     z-index: 7;
   }
   .address-input-box {
-    /* width: calc(100vw - 3rem - 20px); */
+    width: calc(100vw  - 20px);
+    padding: 1rem !important;
+  }
+  .top-c-container {
+    box-sizing: content-box;
   }
 }
