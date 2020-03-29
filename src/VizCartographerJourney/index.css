@@ -23,6 +23,14 @@
   padding: 1.5rem 1rem;
 }
 
+.p-1 {
+  padding: 16px;
+}
+
+.w-300px {
+  width: 300px;
+}
+
 .abs-container-bottom {
   z-index: 7;
   position: absolute;
@@ -43,7 +51,6 @@
 .main-container {
   background: black;
   border: none;
-  /* width: 100%; */
   outline: transparent;
   color: #ffffff;
 }
@@ -499,9 +506,6 @@
   .m-ml1 {
     width: 30%;
   }
-  #cartographer-address {
-    padding: 1.5rem !important;
-  }
   .m-flx {
     display: flex;
     justify-content: space-between;
@@ -537,6 +541,6 @@
     z-index: 7;
   }
   .address-input-box {
-    width: calc(100vw - 3rem - 20px);
+    /* width: calc(100vw - 3rem - 20px); */
   }
 }

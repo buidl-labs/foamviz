@@ -31,7 +31,8 @@ const CartographerAddressInputBox = (props) => {
         ref={(input) => {
           cartographerAddressInput = input;
         }}
-        className="address-input-box main-container w-100-p-1-5"
+        style={{ boxSizing: 'border-box' }}
+        className="main-container address-input-box p-1 w-300px"
         type="text"
         placeholder="Enter Cartographer Address"
         onKeyPress={getCartographerDetailsWhenPressedEnter}
