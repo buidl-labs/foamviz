@@ -31,7 +31,9 @@ const HomePage = () => {
     store.loading = true;
     fetchViz3Data().then(data => {
       store.loading = false;
-      localStorage.setItem('viz3data', JSON.stringify(data));
+      if (data) {
+        localStorage.setItem('viz3data', JSON.stringify(data));
+      }
     });
   }, []);
 

@@ -16,7 +16,7 @@ import {
   getFOAMUSDRate,
 } from '../VizPOIAnalytics/utils/helper';
 
-const transformData = (data) => data
+const transformData = (data = []) => data
   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
   .map((item) => ({
     createdAt: item.state.createdAt,
@@ -67,6 +67,7 @@ class VizDataGlobe extends React.Component {
     // };
 
     const response = await this.getData();
+  
     this.initComponent(response);
   }
 
@@ -75,9 +76,9 @@ class VizDataGlobe extends React.Component {
       try {
         let refreshed = false;
         const dataFromStorage = localStorage.getItem('viz3data');
-        console.log(dataFromStorage, localStorage.getItem('viz3data'))
+        // console.log(dataFromStorage, localStorage.getItem('viz3data'))
         // const loading = localStorage.getItem('loading');
-        if (dataFromStorage) {
+        if (dataFromStorage !== 'undefined' && dataFromStorage) {
           const parsedDataFromStorage = JSON.parse(dataFromStorage);
           resolve(parsedDataFromStorage);
           // console.log('state1');
@@ -144,7 +145,7 @@ class VizDataGlobe extends React.Component {
         foamUSDRate: FOAMTokenInUSD,
       });
     } catch (error) {
-      console(error);
+      console.error(error);
     }
   }
 
