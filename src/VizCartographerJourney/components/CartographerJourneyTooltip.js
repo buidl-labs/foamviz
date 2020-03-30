@@ -19,7 +19,7 @@ const CartographerJourneyTooltip = (props) => {
           <span className="tooltip-value">
             {hoveredObjectDetails.details.from.name}
           </span>
-          {' '}
+          <br />
           to
           {' '}
           <span className="tooltip-value">
@@ -28,14 +28,14 @@ const CartographerJourneyTooltip = (props) => {
         </div>
         <br />
         <div className="tooltip-key">
-                Source Status
+                Source Status:
           {' '}
           <span className="tooltip-value">
             {hoveredObjectDetails.details.sourceStatus}
           </span>
         </div>
         <div className="tooltip-key">
-                Destination Status
+                Destination Status:
           {' '}
           <span className="tooltip-value">
             {hoveredObjectDetails.details.destinationStatus}
@@ -54,14 +54,14 @@ const CartographerJourneyTooltip = (props) => {
         }}
       >
         <div className="tooltip-key">
-                Place
+                Place:
           {' '}
           <span className="tooltip-value">
             {hoveredObjectDetails.details.from.name}
           </span>
         </div>
         <div className="tooltip-key">
-                Staked Value
+                Staked Value:
           {' '}
           <span className="tooltip-value">
             {hoveredObjectDetails.details.stakedValue.toFixed(2)}

@@ -5,27 +5,44 @@
 .abs-container {
   z-index: 7;
   position: absolute;
-  top: 5vh;
-  left: 2.5vw;
+  top: 20px;
+  left: 20px;
   /* max-width: 280px; */
+}
+
+.input-container {
+  width: 300px;
 }
 
 .max-width-any {
   max-width: 500px !important;
 }
 
+.w-100-p-1-5 {
+  width: calc(100% - 2rem);
+  padding: 1.5rem 1rem;
+}
+
+.p-1 {
+  padding: 16px;
+}
+
+.w-300px {
+  width: 300px;
+}
+
 .abs-container-bottom {
   z-index: 7;
   position: absolute;
-  top: calc(5vh + 100vh - 9rem - 2.8rem);
-  right: 2vw;
+  bottom: 20px;
+  right: 20px;
 }
 
 .main-container-bottom {
   background: black;
   border: none;
   padding: 1.5rem;
-  width: calc(100vw - 32rem);
+  width: calc(100vw - 40px - 3rem);
   border-radius: 0.2rem;
   outline: transparent;
   color: #ffffff;
@@ -34,17 +51,18 @@
 .main-container {
   background: black;
   border: none;
-  padding: 1.5rem;
-  width: 100%;
   outline: transparent;
   color: #ffffff;
 }
 
 .profile-container {
-  height: calc(100vh - 13rem);
+  /* height: calc(100vh - 13rem); */
+  height: calc(100vh - 16rem);
+  font-size: 12px;
+  line-height: 1.833;
 }
 
-.get-w-100 > .nav-container {
+.get-w-100>.nav-container {
   width: 100% !important;
 }
 
@@ -68,17 +86,17 @@
 }
 
 .address-input-box::placeholder {
-  color: #ffffff;
+  color: dimgray;
   font-size: 1rem;
   font-weight: 500;
 }
 
 .address-input-box:-internal-autofill-selected {
-  background: black !important;
+  background: dimgray !important;
 }
 
 .address-input-box:-webkit-autofill {
-  -webkit-text-fill-color: white !important;
+  -webkit-text-fill-color: dimgray !important;
 }
 
 .address-input-box:-webkit-autofill, .address-input-box:-webkit-autofill:hover, .address-input-box:-webkit-autofill:focus, .address-input-box:-webkit-autofill:active {
@@ -87,13 +105,19 @@
 
 .cartographer-profile-pic {
   height: 8rem;
+  width: 8rem;
   border-radius: 4rem;
 }
 
 .profile-panel {
   text-align: center;
-  margin-top: 8px;
-  margin-bottom: 1rem;
+}
+
+.c-profile-panel-top {
+  padding: 20px 20px 0 20px;
+}
+.c-profile-panel-bottom {
+  padding: 0 20px 20px 20px;
 }
 
 .big-int {
@@ -222,12 +246,23 @@
 }
 
 .placeholder-img {
-  height: 8rem;
+  height: 6rem;
+  width: 6rem;
   border-radius: 4rem;
 }
 
 .close-button {
   cursor: pointer;
+}
+
+.sm-spinner {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.sm-spinner div {
+  transform-origin: 20px 20px !important;
+  animation: lds-spinner 1.2s linear infinite;
 }
 
 .lds-spinner {
@@ -327,11 +362,8 @@
 .top-c-main-container {
   z-index: 7;
   position: absolute;
-  top: 5vh;
-  right: 2.5vw;
-  padding: 10px;
-  background: black;
-  border-radius: 4px !important;
+  top: 20px;
+  right: 20px;
 }
 
 .top-c-container {
@@ -347,20 +379,18 @@
 .top-c {
   /* border: grey 0.5px solid !important; */
   cursor: pointer;
-  width: 20vw !important;
+  width: 20vw;
   min-width: 300px;
-  margin-bottom: 20px;
-  background: #282828 !important;
-  border-radius: 4px !important;
 }
 
 .info-container {
   display: flex;
-  justify-content: space-between
+  justify-content: flex-start;
 }
 
 .address {
-  margin-left: 20px;
+  margin-left: 1.5rem;
+  color: dimgrey;
 }
 
 .top-c-photo-container {
@@ -368,13 +398,19 @@
 }
 
 .top-cartographer-profile-pic {
-  height: 3rem;
+  height: 48px;
+  width: 48px;
   border-radius: 2rem;
 }
 
 @media screen and (max-width: 700px) {
   .main-container {
     padding: 0.5rem !important;
+  }
+  .placeholder-img {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 4rem;
   }
   .profile-panel {
     width: 60%;
@@ -386,6 +422,11 @@
     display: flex;
     justify-content: center;
     margin-top: 12px;
+    position: fixed;
+    left: 20px;
+    bottom: 0;
+    margin-bottom: -150px;
+    width: 150px;
   }
   .abs-container {
     z-index: 7;
@@ -397,10 +438,10 @@
   }
   .m-abs-bottom {
     z-index: 7;
-    position: absolute !important;
-    top: 100px !important;
-    right: 0 !important;
-    width: 100% !important;
+    position: absolute;
+    top: 170px;
+    right: 0;
+    width: calc(100% - 3rem);
   }
   .loader-text {
     margin-top: 100px;
@@ -409,6 +450,8 @@
     min-width: 250px;
   }
   .top-c-main-container {
+    height: 300px;
+    overflow-y: scroll;
     z-index: 7;
     position: relative;
     top: 0;
@@ -426,9 +469,8 @@
   }
   .top-c {
     cursor: pointer;
-    width: 100% !important;
+    width: calc(100% - 1rem);
     min-width: 300px;
-    margin-bottom: 5px;
     background: #282828 !important;
     border-radius: 4px !important;
   }
@@ -446,24 +488,13 @@
     transform: none !important;
   }
   .profile-container {
-    height: calc(100vh - 13rem);
-    position: absolute !important;
-    top: 200px !important;
-  }
-  .cartographer-analytics {
+    /* height: calc(100vh - 13rem); */
     position: absolute;
-    top: -2.65rem;
-    left: 8rem;
-    display: flex;
-    justify-content: space-evenly;
+    top: 230px;
+    width: 100%;
   }
   .analytic-title {
     margin-bottom: 0.75rem;
-  }
-  .cartographer-analytics {
-    line-height: 16px;
-    margin-top: 6rem;
-    width: 65%;
   }
   .mapview-title {
     margin-top: 1rem;
@@ -475,13 +506,14 @@
   .m-ml1 {
     width: 30%;
   }
-  #cartographer-address {
-    padding: 1.5rem !important;
-  }
   .m-flx {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: -180px;
   }
   .m-big-int {
     font-weight: 500 !important;
@@ -489,14 +521,14 @@
   }
   .cartographer-profile-pic {
     height: 4rem !important;
+    width: 4rem;
     border-radius: 4rem;
   }
   .view-btn {
     padding: 0.5rem !important;
   }
   .cartographerJourneyTooltipStyle {
-    width: 90% !important;
-    max-width: none !important;
+    width: calc(95% - 48px) !important;
     position: absolute !important;
     left: 5% !important;
     top: 2.5% !important;
@@ -507,5 +539,12 @@
     color: #fff;
     font-size: 12px;
     z-index: 7;
+  }
+  .address-input-box {
+    width: calc(100vw  - 20px);
+    padding: 1rem !important;
+  }
+  .top-c-container {
+    box-sizing: content-box;
   }
 }

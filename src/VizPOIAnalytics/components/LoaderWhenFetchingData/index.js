@@ -15,7 +15,17 @@ const LoaderWhenFetchingData = () => (
     <div className="lds-ripple">
       <div />
       <div />
-      <h2 className="text-white loader-text">Fetching POI's...</h2>
+      <h2
+        style={{
+          width: '250px',
+          color: 'white',
+          textAlign: 'center',
+          marginTop: '12vh',
+          fontWeight: 'bold',
+          fontSize: '1.35rem',
+          marginLeft: '-75px'
+        }}
+      >Fetching POI's...</h2>
     </div>
   </div>
 );

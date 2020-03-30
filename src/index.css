@@ -1,14 +1,26 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Inter:300,400,600,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700&display=swap');
 
 body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', monospace !important;
   margin: 0;
   scroll-behavior: smooth;
   background: #191a1a !important;
 }
 
 code {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', monospace !important;
+}
+
+.h-100vh-d {
+  height: 100vh
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
+.mb-1{
+  margin-bottom: 1rem;
 }
 
 .card-link {
@@ -17,27 +29,36 @@ code {
 
 .nav-container {
   background: #282828;
-  padding: 1.5rem;
 }
 
 .nav-heading {
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto Mono', monospace !important;
   font-style: normal;
   font-weight: bold;
   font-size: 20px;
   line-height: 25px;
   color: white;
-  margin-bottom: 0.25rem;
+  padding: 1rem;
 }
 
 .nav-subheading {
-  font-family: 'Roboto Mono';
+  font-family: 'Roboto Mono', monospace !important;
   font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
+  font-weight: 300;
+  font-size: 13px;
   line-height: 14px;
   color: #FFFFFF;
-  padding-top: 6px;
+  padding: 1rem;
+}
+
+.bg-black {
+  background: #000000;
+}
+
+.d-flex-s-c {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .dn {
@@ -62,6 +83,11 @@ code {
 
 .rc-slider-handle {
   transition: all 0.2s;
+}
+
+.backward-arrow {
+  width: 15px;
+  margin-right: 15px;
 }
 
 .lds-ripple {
@@ -93,6 +119,23 @@ code {
 .rc-slider-track {
   background: rgba(101, 105, 237, 250) !important;
 }
+
+.control-panel-top {
+  margin: 20px 20px 0 20px;
+}
+
+.control-panel-top-p {
+  padding: 20px 20px 0 20px;
+}
+
+.control-panel-bottom {
+  margin: 0 20px 20px 20px;
+}
+
+.control-panel-divider {
+  margin: 20px 0;
+}
+
 
 @keyframes lds-ripple {
   0% {
@@ -170,8 +213,7 @@ code {
     height: 20px;
     width: 20px;
     margin-left: 47%;
-    margin-top: -15px;
-    margin-bottom: 10px;
+    margin-top: 15px;
     border-radius: 10px;
     transition: all 0.5s;
   }
@@ -184,5 +226,8 @@ code {
   .i-tooltip .i-tooltiptext {
     top: 400% !important;
     left: -1250% !important;
+  }
+  .m-p-nav {
+    padding: 2rem 0;
   }
 }

@@ -10,29 +10,17 @@ import CartographerJourneyTooltip from './components/CartographerJourneyTooltip'
 import TopCartographersDetail from './components/TopCartographersDetail';
 import TimeSeriesSlider from './components/TimeSeriesSlider';
 import ErrorDialogueBox from './components/ErrorDialogueBox';
-import Loading from './components/Loading';
+import Loader from './components/Loader';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import FoamNavbar from '../common-utils/components/FoamNavbar';
 
 import {
   fetchCartographerDetailsFromFOAMAPI,
   getProfileAnalytics,
-  // getTopCartographers,
+  getInitialViewportState,
 } from './utils/helper';
 import * as GLOBAL_CONSTANTS from '../common-utils/constants';
 import './index.css';
-
-const INITIAL_VIEWPORT_STATE = {
-  longitude: -80,
-  latitude: 50,
-  zoom: 1.5,
-  maxZoom: 22,
-  minZoom: 0,
-  pitch: 50,
-  bearing: 15,
-  // transitionDuration: 1200,
-  // transitionInterpolator: new FlyToInterpolator(),
-};
 
 class VizCartographerJourney extends React.Component {
   constructor(props) {
@@ -40,7 +28,7 @@ class VizCartographerJourney extends React.Component {
     this.getCartographerDetails = this.getCartographerDetails.bind(this);
     this.updateViewport = this.updateViewport.bind(this);
     this.state = {
-      viewport: INITIAL_VIEWPORT_STATE,
+      viewport: getInitialViewportState(),
       loading: false,
       data: [],
       showInputBox: true,
@@ -205,6 +193,8 @@ class VizCartographerJourney extends React.Component {
     const { viewport } = this.state;
     let { pitchFor3d } = this.state;
 
+    if (!this.mapRefVizTwo) return;
+
     const map = this.mapRefVizTwo.getMap();
     const mapPitch = map.getPitch();
 
@@ -255,14 +245,18 @@ class VizCartographerJourney extends React.Component {
       arrowUp
     } = this.state;
 
+    const { match } = this.props;
+    if (loading && match && match.params && match.params.id) return <Loader text={["Please Wait,", <br />," while we are fetching", <br />,` ${match.params.id.substring(0, 20)}...`,<br />," Cartographer's data"]} />;
+
+    if (loading) return <Loader text={["Please Wait,", <br />," while we are fetching cartographer's data..."]} />;
+
     const [min, max] = [0, data.length - 1];
 
     return (
       <div>
         <Helmet>
-          <title>FOAMViz - Cartographer Journey</title>
+          <title>FOAMViz - Cartographer's Journey</title>
         </Helmet>
-        <Loading display={loading} />
         <ErrorDialogueBox
           display={hasError}
           errorMessage={errorMessage}
@@ -281,12 +275,12 @@ class VizCartographerJourney extends React.Component {
         </div>
         {!loading && <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={200}
+            overflowHeight={170}
             marginTop={128}
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '400px', backgroundColor: '#000' }}>
+            <div style={{ height: '440px', backgroundColor: '#000' }}>
               <FoamNavbar
                 title="Cartographer's journey"
                 info="Part of FOAMViz project"
@@ -359,9 +353,9 @@ class VizCartographerJourney extends React.Component {
             onArcHover: (hover) => this.onHover(hover, 0),
             onPOIHover: (hover) => this.onHover(hover, 1),
           })}
-          initialViewState={INITIAL_VIEWPORT_STATE}
+          initialViewState={getInitialViewportState()}
           viewState={{ ...viewport }}
-          onViewStateChange={() => { this.updateViewport().then(() => { }); }}
+          onViewStateChange={() => { this.updateViewport() }}
           controller
         >
           <StaticMap

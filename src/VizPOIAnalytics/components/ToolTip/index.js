@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { numberWithCommas } from '../../../VizCartographerJourney/utils/helper';
+
 const Tooltip = props => {
   const { allHoveredPOIDetails } = props || {};
 
@@ -14,36 +16,36 @@ const Tooltip = props => {
         transform: `translate(${allHoveredPOIDetails.x}px, ${allHoveredPOIDetails.y}px)`
       }}
     >
-      <div className="tooltip-key dm-none">Latitude
+      <div className="tooltip-key dm-none">Latitude:
         {' '}
         <span className="tooltip-value">
           {allHoveredPOIDetails.details.latitude}
         </span>
       </div>
-      <div className="tooltip-key dm-none">Longitude
+      <div className="tooltip-key dm-none">Longitude:
         {' '}
         <span className="tooltip-value">
           {allHoveredPOIDetails.details.longitude}
         </span>
       </div>
-      <div className="tooltip-key">POI&apos;s
+      <div className="tooltip-key">POI&apos;s:
         {' '}
         <span className="tooltip-value">
-          {allHoveredPOIDetails.details.numOfPoints}
+          {numberWithCommas(allHoveredPOIDetails.details.numOfPoints)}
         </span>
       </div>
       <div className="tooltip-key">
-        Accumulated sum of FOAM tokens
+        Accumulated sum of FOAM tokens:
         {' '}
         <span className="tooltip-value">
-          {allHoveredPOIDetails.details.sumOfFoamTokens}
+          {numberWithCommas(allHoveredPOIDetails.details.sumOfFoamTokens)}
         </span>
       </div>
       <div className="tooltip-key">
-        Accumulated value of FOAM tokens
+        Accumulated value of FOAM tokens:
         {' '}
         <span className="tooltip-value">
-          ${allHoveredPOIDetails.details.sumValInUSD}
+          {'$ ' + numberWithCommas(allHoveredPOIDetails.details.sumValInUSD)}
         </span>
       </div>
     </div>

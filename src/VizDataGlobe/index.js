@@ -1,6 +1,7 @@
 import React from 'react';
 import Geohash from 'latlon-geohash';
 import debounce from 'lodash/debounce';
+import { Helmet } from 'react-helmet';
 import Globe from './components/globe';
 import Analytics from './components/analytics';
 import TimeSeries from './components/timeseries';
@@ -11,8 +12,11 @@ import './index.css';
 import SwipeableBottomSheet from 'react-swipeable-bottom-sheet';
 import CountUp from 'react-countup';
 import quesMark from '../assets/imgs/question.svg';
+import {
+  getFOAMUSDRate,
+} from '../VizPOIAnalytics/utils/helper';
 
-const transformData = (data) => data
+const transformData = (data = []) => data
   .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
   .map((item) => ({
     createdAt: item.state.createdAt,
@@ -63,6 +67,7 @@ class VizDataGlobe extends React.Component {
     };
 
     const response = await this.getData();
+  
     this.initComponent(response);
   }
 
@@ -70,10 +75,12 @@ class VizDataGlobe extends React.Component {
     return new Promise((resolve, reject) => {
       try {
         let refreshed = false;
-        const dataFromStorage = JSON.parse(localStorage.getItem('viz3data'));
+        const dataFromStorage = localStorage.getItem('viz3data');
+        // console.log(dataFromStorage, localStorage.getItem('viz3data'))
         // const loading = localStorage.getItem('loading');
-        if (dataFromStorage) {
-          resolve(dataFromStorage);
+        if (dataFromStorage !== 'undefined' && dataFromStorage) {
+          const parsedDataFromStorage = JSON.parse(dataFromStorage);
+          resolve(parsedDataFromStorage);
           // console.log('state1');
         } else if (store.loading) {
           // console.log('state2');
@@ -118,25 +125,28 @@ class VizDataGlobe extends React.Component {
   }
 
   async initComponent(response) {
-    const data = transformData(response);
-    const dataDateChunks = Object.values(getDataDateChunks(data));
-    const foamUSDResponse = await fetch('https://poloniex.com/public?command=returnTicker').then((res) => res.json());
-    const { BTC_FOAM, USDC_BTC } = foamUSDResponse;
+    try {
+      const FOAMTokenInUSD = await getFOAMUSDRate();
+      const data = transformData(response);
+      const dataDateChunks = Object.values(getDataDateChunks(data));
 
-    this.setState({
-      loading: false,
-      data,
-      filteredData: data,
-      dataDateChunks,
-      timelineMin: 0,
-      timelineMax: dataDateChunks.length - 1,
-      globalMax: dataDateChunks.length - 1,
-      totalStakedValue: data
-        .map((d) => d.stakedvalue)
-        .reduce((a, b) => a + b, 0)
-        .toFixed(2),
-      foamUSDRate: BTC_FOAM.last * USDC_BTC.last,
-    });
+      this.setState({
+        loading: false,
+        data,
+        filteredData: data,
+        dataDateChunks,
+        timelineMin: 0,
+        timelineMax: dataDateChunks.length - 1,
+        globalMax: dataDateChunks.length - 1,
+        totalStakedValue: data
+          .map((d) => d.stakedvalue)
+          .reduce((a, b) => a + b, 0)
+          .toFixed(2),
+        foamUSDRate: FOAMTokenInUSD,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   updateDataOnGlobe(newMinVal, newMaxVal) {
@@ -224,7 +234,7 @@ class VizDataGlobe extends React.Component {
       arrowUp,
     } = this.state;
 
-    if (loading) return <Loader display={loading} />;
+    if (loading) return <Loader text={["Please Wait,", <br /> ,"while we are fetching data for the enitre world..."]} />;
 
     const [min, max] = [0, dataDateChunks.length - 1];
 
@@ -247,6 +257,9 @@ class VizDataGlobe extends React.Component {
 
     return (
       <div>
+        <Helmet>
+          <title>FOAMViz - Evolution on 🌎</title>
+        </Helmet>
         <div className="i-tooltip"><img alt="help" src={quesMark} width="20px" />
           <span className="i-tooltiptext">Shows all POIs since inception of FOAM on a globe for a bird eye's view</span>
         </div>
@@ -297,12 +310,12 @@ class VizDataGlobe extends React.Component {
         </div>
         <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={220}
+            overflowHeight={180}
             marginTop={128}
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp })}
           >
-            <div style={{ height: '380px' }}>
+            <div style={{ height: '450px' }}>
               <Analytics
                 display
                 arrowUp={arrowUp}
@@ -338,6 +351,7 @@ class VizDataGlobe extends React.Component {
         </div>
         <Globe
           data={filteredData}
+          USDRate={foamUSDRate}
           pointWeight="stakedvalue"
           maxAltVal={10e3}
           interactive={!filtering}

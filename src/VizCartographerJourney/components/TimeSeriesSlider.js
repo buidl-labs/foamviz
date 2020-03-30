@@ -34,7 +34,7 @@ const TimeSeriesSlider = (props) => {
   };
 
   return (
-    <div className="abs-container-bottom main-container-bottom m-abs-bottom">
+    <div className="abs-container-bottom main-container-bottom m-abs-bottom" style={{ boxSizing: 'content-box' }}>
       <div className="date-row">
         <div>
           <div className="play">

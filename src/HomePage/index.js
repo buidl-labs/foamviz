@@ -11,9 +11,9 @@ import 'bulma/css/bulma.css';
 
 // background cover
 import neonWorldBG from '../assets/imgs/background.png';
-import neonWorldBlur from '../assets/imgs/background_blur.jpg';
+// import neonWorldBlur from '../assets/imgs/background_blur.jpg';
 import neonWorldBGWebP from '../assets/imgs/backgroundWebP.webp';
-import mainTitle from '../assets/imgs/mainlogo2.svg';
+// import mainTitle from '../assets/imgs/mainlogo2.svg';
 import arrow from '../assets/imgs/down-arrow.svg';
 
 // viz images and movies
@@ -31,7 +31,9 @@ const HomePage = () => {
     store.loading = true;
     fetchViz3Data().then(data => {
       store.loading = false;
-      localStorage.setItem('viz3data', JSON.stringify(data));
+      if (data) {
+        localStorage.setItem('viz3data', JSON.stringify(data));
+      }
     });
   }, []);
 
@@ -40,23 +42,39 @@ const HomePage = () => {
       <Helmet>
         <title>FOAMViz Project</title>
       </Helmet>
-      <div className="head-container mb-7">
-        <div className="main-title-container">
-          <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} />
-          <img
-            className="home-arrow dm-none"
-            alt="The FOAMViz Project"
-            src={arrow}
-          />
+      <div className="head-container">
+        {/* <div className="main-title-container"> */}
+        <div className="parent-title">
+          <span className="child-the">THE</span>
+          <span className="child-foamviz">FOAMVIZ</span>
+          <span className="child-project">PROJECT</span>
         </div>
+        {/* <Img loader={<p className="card-link viz-title">The FOAMViz Project</p>} src={[mainTitle]} /> */}
+        <img
+          className="home-arrow arrow-pos dm-none"
+          alt="The FOAMViz Project"
+          src={arrow}
+        />
+        {/* </div> */}
         <Img
           container={children => {
-            return <div className="transition fadeIn">{children}</div>;
+            return <div className="transition fadeIn txt-ctr h-100vh-d" style={{ background: '#04063D', zIndex: 3 }}>{children}</div>;
           }}
           src={[neonWorldBGWebP, neonWorldBG]}
-          loader={<img alt="bg" src={neonWorldBlur} width="100%" />}
+          loader={<div style={{ background: '#04063D', width: '100vw', height: '100vh', zIndex: 3, transition: 'all 1s' }}></div>}
         />
       </div>
+      <section className="hero bg-about">
+        <div className="centralised">
+          <h1 className="viz-title">
+            About FOAMViz Project:
+          </h1>
+          <br />
+          <p className="subinfo">
+            A suit of <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://github.com/buidl-labs/foamviz"> open source</a> visualization tools over FOAM TCR's data to analyze ecosystem activity on <a rel="noopener noreferrer" target="_blank" className="underline-link" href="https://foam.space"> FOAM's map</a>.
+          </p>
+        </div>
+      </section>
       <section className="hero is-success is-fullheight bg-one">
         <div className="hero-body">
           <div className="container">
@@ -65,7 +83,7 @@ const HomePage = () => {
                 <div className="make-it-center">
                   <h1 className="viz-title">
                     <Link to="/poi-analytics" className="card-link">
-                      Analyze <br /> POI Activity by <br /> density
+                      Analyze <br /> POI Activity by <br /> density & staking
                     </Link>
                   </h1>
                   <br />
@@ -166,8 +184,8 @@ const HomePage = () => {
                     <br /> <br /> Questions that will help FOAM users answer:{' '}
                     <br /> <br />
                     <ul>
-                      <li>1. Which geography has the most activity?</li>
-                      <li>2. Staking patterns across geography?</li>
+                      <li>Which geography has the most activity?</li>
+                      <li>Staking patterns across geography?</li>
                     </ul>
                   </h2>
                 </div>
@@ -180,6 +198,11 @@ const HomePage = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section style={{ background: 'black' }}>
+        <p className="buidl-labs-signature">
+          Made with <span style={{ color: 'orangered' }}>&hearts;</span> by <a target="_blank" rel="noopener noreferrer" href="http://buidllabs.io/" className="card-link">BUIDL Labs</a>
+        </p>
       </section>
     </div>
   );

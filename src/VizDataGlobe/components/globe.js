@@ -2,6 +2,7 @@ import React from 'react';
 import Globe from 'react-globe.gl';
 import earthNight from '../imgs/earth-night.jpg';
 import earthPlane from '../imgs/earth-plane.jpg';
+import { numberWithCommas } from '../../VizCartographerJourney/utils/helper';
 
 const getColor = ({ sumWeight }) => {
   if (sumWeight <= 2000) {
@@ -14,22 +15,34 @@ const getColor = ({ sumWeight }) => {
   return '#E50538';
 };
 
-const tooltipInfo = (d) => {
-  const k = d.points.reduce((acc, val) => acc + val.stakedvalue, 0);
+const tooltipInfo = (d, USDRate) => {
+
+  const numOfStakedPOIs = d.points.length;
+  const totalValueOfStakedPOIs = d.sumWeight;
+  const USDValueOfStakedPOIs = parseFloat((d.sumWeight * USDRate).toFixed(2));
+
   return (
     `
       <div
-        class="tooltipStyle m-tooltip-globe"
-        style="position: 'absolute'; z-index: 1;"
+        class="tooltipStyle"
       >
         <div class="tooltip-key">
-          Total FOAM tokens staked:
+          Number of POI's:
           <span class="tooltip-value">
-            ${' ' + d.points.length}
+            ${'  ' + numberWithCommas(numOfStakedPOIs)}
           </span>
         </div>
         <div class="tooltip-key">
-          Net value of FOAM tokens staked: <span class="tooltip-value"> ${'' + k} </span>
+          Accumulated sum of FOAM tokens:
+          <span class="tooltip-value">
+          ${'  ' + numberWithCommas(totalValueOfStakedPOIs)}
+          </span>
+        </div>
+        <div class="tooltip-key">
+          Accumulated value of FOAM tokens:
+          <span class="tooltip-value">
+          ${'$ ' + numberWithCommas(USDValueOfStakedPOIs)}
+          </span>
         </div>
       </div>
     `
@@ -43,6 +56,7 @@ export default ({
   interactive,
   rotationStatus,
   resolution = 4,
+  USDRate,
 }) => {
   const globeEl = React.useRef();
 
@@ -76,7 +90,7 @@ export default ({
         antialias: false,
         powerPreference: 'high-performance',
       }}
-      hexLabel={(d) => tooltipInfo(d)}
+      hexLabel={(d) => tooltipInfo(d, USDRate)}
     />
   );
 };

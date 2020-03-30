@@ -16,7 +16,8 @@ import Tooltip from './components/ToolTip';
 // import POIAnalyticsRenderLayers from './POIAnalyticsRenderLayers';
 
 // Loaders
-// import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
+import LoaderWhenFetchingData from './components/LoaderWhenFetchingData';
+import LoaderWhileFetchingLocation from './components/LoaderWhileFetchingLocation';
 
 // Constants
 import * as CONSTANTS from './utils/constants';
@@ -37,7 +38,6 @@ import {
   getCurrentLocation,
   getFOAMUSDRate,
 } from './utils/helper';
-import LoaderWhileFetchingLocation from './components/LoaderWhileFetchingLocation';
 
 // Todo: All Control panel settings need to become part of this initital state
 const INTIAL_VIEW_STATE = {
@@ -325,7 +325,7 @@ class VizPOIAnalytics extends React.Component {
 
     // Todo: Move this to seperate component and design a good loading state.
     if (viewport.latitude === null && viewport.longitude === null) {
-      return <LoaderWhileFetchingLocation />
+      return <LoaderWhileFetchingLocation text={["Waiting for you to grant location permission.", <br /> ," If denied, then you will be redirected to New York, USA (FOAM's HQ City)"]} />
     }
 
     const layers = this.renderLayers();
@@ -340,9 +340,9 @@ class VizPOIAnalytics extends React.Component {
     return (
       <div>
         <Helmet>
-          <title>FOAMViz - POI Analytics</title>
+          <title>FOAMViz - Statistics around POI's</title>
         </Helmet>
-        {fetchingData}
+        {fetchingData && <LoaderWhenFetchingData />}
         <Tooltip allHoveredPOIDetails={hover} />
         <div className="dm-none">
           <POIAnalyticsControlPanel
@@ -353,12 +353,12 @@ class VizPOIAnalytics extends React.Component {
         </div>
         <div className="dn m-show">
           <SwipeableBottomSheet
-            overflowHeight={100}
+            overflowHeight={170}
             marginTop={128}
             style={{ zIndex: 5 }}
             onChange={() => this.setState({ arrowUp: !arrowUp})}
           >
-            <div style={{ height: '480px' }}>
+            <div style={{ height: '550px' }}>
               <POIAnalyticsControlPanel
                 arrowUp={arrowUp}
                 settings={settings}
