@@ -317,6 +317,9 @@ ul>li {
     z-index: 3;
     left: 48%;
   }
+  .h-100vh-d {
+    height: 100vh
+  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -398,6 +401,9 @@ ul>li {
     right: 0;
     z-index: 5;
     /* width: 50%; */
+  }
+  .h-100vh-d {
+    height: auto;
   }
 }
 
@@ -482,5 +488,8 @@ ul>li {
   .viz-move {
     font-size: 0.75rem;
     color: #ffffff;
+  }
+  .h-100vh-d {
+    height: auto
   }
 }

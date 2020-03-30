@@ -12,6 +12,10 @@ code {
   font-family: 'Roboto Mono', monospace !important;
 }
 
+.h-100vh-d {
+  height: 100vh
+}
+
 .mb-2 {
   margin-bottom: 2rem;
 }
