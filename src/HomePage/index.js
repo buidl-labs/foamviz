@@ -58,7 +58,7 @@ const HomePage = () => {
         {/* </div> */}
         <Img
           container={children => {
-            return <div className="transition fadeIn txt-ctr" style={{ background: '#04063D', zIndex: 3 }}>{children}</div>;
+            return <div id="bg-img" className="transition fadeIn txt-ctr" style={{ background: '#04063D', zIndex: 3 }}>{children}</div>;
           }}
           src={[neonWorldBGWebP, neonWorldBG]}
           loader={<div style={{ background: '#04063D', width: '100vw', height: '100vh', zIndex: 3, transition: 'all 1s' }}></div>}

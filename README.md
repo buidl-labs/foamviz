@@ -88,7 +88,7 @@ Questions that will help FOAM users answer:
 -   [React Globe GL](https://vasturiano.github.io/react-globe.gl/) - Globe Data Visualization using ThreeJS/WebGL
 -   [Surge](https://surge.sh/) - CLI for web publishing
 
-## ✍️ Authors <a name = "author"></a>
+## ✍️ Authors <a name = "authors"></a>
 
 -   [@prastut](https://github.com/prastut/)
 -   [@dhruv10](https://github.com/dhruv10)
