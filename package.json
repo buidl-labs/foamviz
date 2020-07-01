@@ -15,7 +15,7 @@
     "react-countup": "^4.2.3",
     "react-dom": "^16.10.2",
     "react-globe.gl": "^2.4.4",
-    "react-helmet": "^5.2.1",
+    "react-helmet": "^6.1.0",
     "react-image": "^2.2.1",
     "react-jss": "^10.0.0",
     "react-map-gl": "^5.0.11",
