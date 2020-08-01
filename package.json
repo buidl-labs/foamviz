@@ -9,7 +9,7 @@
     "deck.gl": "^7.3.2",
     "latlon-geohash": "^2.0.0",
     "lodash": "^4.17.15",
-    "ramda": "^0.26.1",
+    "ramda": "^0.27.1",
     "rc-slider": "^8.7.1",
     "react": "^16.10.2",
     "react-countup": "^4.2.3",
