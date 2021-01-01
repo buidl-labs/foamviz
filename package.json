@@ -10,7 +10,7 @@
     "latlon-geohash": "^2.0.0",
     "lodash": "^4.17.15",
     "ramda": "^0.26.1",
-    "rc-slider": "^8.7.1",
+    "rc-slider": "^9.7.1",
     "react": "^16.10.2",
     "react-countup": "^4.2.3",
     "react-dom": "^16.10.2",
