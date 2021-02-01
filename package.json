@@ -5,7 +5,7 @@
   "dependencies": {
     "3box": "^1.13.1",
     "axios": "^0.19.0",
-    "bulma": "^0.8.0",
+    "bulma": "^0.9.2",
     "deck.gl": "^7.3.2",
     "latlon-geohash": "^2.0.0",
     "lodash": "^4.17.15",
