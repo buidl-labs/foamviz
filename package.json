@@ -21,7 +21,7 @@
     "react-map-gl": "^5.0.11",
     "react-mapbox-gl": "^4.6.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0",
+    "react-scripts": "4.0.3",
     "react-swipeable-bottom-sheet": "^1.1.1"
   },
   "scripts": {
